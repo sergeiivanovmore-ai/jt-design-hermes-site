@@ -326,7 +326,9 @@ ul, ol { margin: 0; padding: 0; }
    6. Hero
    -------------------------------------------------------------------------- */
 .hero {
-  padding-block: clamp(3rem, 10vw, 7rem) var(--section-y);
+  /* Компактный hero: верхний отступ уменьшен на 2rem, чтобы следующая секция
+     попадала в первый экран. Нижний отступ оставлен базовым (--section-y). */
+  padding-block: calc(clamp(3rem, 10vw, 7rem) - 2rem) var(--section-y);
 }
 .hero__inner { display: grid; gap: var(--space-lg); }
 .hero__eyebrow {
@@ -637,6 +639,11 @@ textarea.form__control { min-height: 9rem; resize: vertical; }
   .form__row { grid-template-columns: 1fr 1fr; }
   .site-footer__grid { grid-template-columns: 1.4fr 1fr 1fr; }
   .hero__inner { grid-template-columns: 1.15fr 1fr; align-items: end; }
+
+  /* Компактный hero: в две колонки картинка 4/5 (≈640px в высоту) раздувала секцию
+     выше экрана. На планшете и шире переводим её в 4/3 — «Избранные проекты»
+     видны без скролла. На мобильном hero в одну колонку, там 4/5 остаётся. */
+  .hero .media--4x5 svg { aspect-ratio: 4 / 3; }
 
   /* Сетка проектов на планшете: 2 колонки */
   .section__head--split { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-md); max-width: none; }
