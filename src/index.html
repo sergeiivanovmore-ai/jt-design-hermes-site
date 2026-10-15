@@ -3,18 +3,255 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>JT Design — staging</title>
-  <style>
-    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 4rem auto; padding: 0 1.5rem; color: #222; }
-    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-    .badge { display: inline-block; padding: 0.25rem 0.75rem; background: #e8f5e9; color: #1b5e20; border-radius: 1rem; font-size: 0.875rem; }
-    code { background: #f5f5f5; padding: 0.2rem 0.4rem; border-radius: 0.25rem; }
-  </style>
+  <title>JT Design — студия дизайна интерьеров</title>
+  <meta name="description" content="JT Design — студия дизайна интерьеров. Проектируем квартиры, загородные дома и коммерческие пространства: планировка, визуализация, авторский надзор.">
+  <meta name="theme-color" content="#FAFAF7">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="JT Design — студия дизайна интерьеров">
+  <meta property="og:description" content="Проектируем спокойные, продуманные интерьеры: от планировочного решения до авторского надзора.">
+  <meta property="og:locale" content="ru_RU">
+
+  <!-- Заголовки: Playfair Display с graceful fallback на Georgia (см. --font-serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
 </head>
 <body>
-  <span class="badge">STAGING</span>
-  <h1>JT Design — сайт в разработке</h1>
-  <p>Это staging-окружение. Сюда автоматически попадают изменения из репозитория <code>jt-design-hermes-site</code>.</p>
-  <p>Дальше здесь будет сайт дизайнера интерьеров, который сгенерирует Hermes.</p>
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+
+  <!-- ===== Шапка (общая для всех страниц) ===== -->
+  <header class="site-header" data-header>
+    <div class="container site-header__inner">
+      <a class="logo" href="index.html">JT<span class="logo__mark">·</span>Design</a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" data-nav-toggle>
+        <span class="visually-hidden">Меню</span>
+        <span class="nav-toggle__bar" aria-hidden="true"></span>
+        <span class="nav-toggle__bar" aria-hidden="true"></span>
+        <span class="nav-toggle__bar" aria-hidden="true"></span>
+      </button>
+
+      <nav class="site-nav" id="primary-nav" aria-label="Основная навигация" data-nav>
+        <ul class="site-nav__list">
+          <li><a class="site-nav__link" href="index.html" aria-current="page">Главная</a></li>
+          <li><a class="site-nav__link" href="portfolio.html">Портфолио</a></li>
+          <li><a class="site-nav__link" href="services.html">Услуги</a></li>
+          <li><a class="site-nav__link" href="contacts.html">Контакты</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn btn--ghost header__cta" href="contacts.html">Обсудить проект</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="container hero__inner">
+        <div>
+          <p class="hero__eyebrow">Дизайн интерьеров · Москва</p>
+          <h1 class="hero__title">Пространство, в котором хочется <em>жить</em></h1>
+          <p class="hero__subtitle">
+            Проектируем спокойные интерьеры с честными материалами и точной геометрией.
+            От первой планировки до расстановки последнего предмета.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="portfolio.html">Смотреть проекты</a>
+            <a class="btn btn--ghost" href="services.html">Услуги и этапы</a>
+          </div>
+          <dl class="hero__meta">
+            <div>
+              <dt>12 лет</dt>
+              <dd>в дизайне интерьеров</dd>
+            </div>
+            <div>
+              <dt>84</dt>
+              <dd>реализованных проекта</dd>
+            </div>
+            <div>
+              <dt>9</dt>
+              <dd>наград и публикаций</dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- Заглушка-изображение: inline SVG с градиентом -->
+        <figure class="media media--4x5">
+          <svg viewBox="0 0 480 600" role="img" aria-label="Заглушка визуализации: светлая гостиная с диваном у окна" preserveAspectRatio="xMidYMid slice">
+            <title>Визуализация интерьера (заглушка)</title>
+            <defs>
+              <linearGradient id="heroGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#F5F0E8"/>
+                <stop offset="0.55" stop-color="#E8DCCB"/>
+                <stop offset="1" stop-color="#C9A182"/>
+              </linearGradient>
+              <linearGradient id="heroWall" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#FAFAF7"/>
+                <stop offset="1" stop-color="#EDE5D8"/>
+              </linearGradient>
+            </defs>
+            <rect width="480" height="600" fill="url(#heroGrad)"/>
+            <rect x="40" y="60" width="250" height="300" fill="url(#heroWall)" opacity="0.85"/>
+            <rect x="60" y="80" width="210" height="260" fill="#F5F0E8" opacity="0.6"/>
+            <rect x="330" y="150" width="110" height="360" rx="4" fill="#D8C3AC" opacity="0.75"/>
+            <rect x="70" y="420" width="330" height="120" rx="6" fill="#B8764F" opacity="0.5"/>
+            <rect x="70" y="400" width="330" height="24" rx="6" fill="#8A5433" opacity="0.45"/>
+            <circle cx="400" cy="90" r="46" fill="#B8764F" opacity="0.28"/>
+            <rect x="40" y="560" width="400" height="2" fill="#2A2A2A" opacity="0.12"/>
+          </svg>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===== Избранные проекты ===== -->
+    <section class="section section--surface" aria-labelledby="featured-title">
+      <div class="container">
+        <div class="section__head section__head--split">
+          <div>
+            <span class="section__eyebrow">Портфолио</span>
+            <h2 id="featured-title">Избранные проекты</h2>
+          </div>
+          <a class="link-arrow" href="portfolio.html">Все проекты</a>
+        </div>
+
+        <ul class="projects-grid">
+          <li class="project-card">
+            <figure class="media media--4x3 project-card__media">
+              <svg viewBox="0 0 640 480" role="img" aria-label="Заглушка визуализации: квартира на Патриарших, гостиная в тёплых тонах">
+                <title>Квартира на Патриарших (заглушка)</title>
+                <defs>
+                  <linearGradient id="p1Grad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#F5F0E8"/><stop offset="1" stop-color="#C9A182"/>
+                  </linearGradient>
+                </defs>
+                <rect width="640" height="480" fill="url(#p1Grad)"/>
+                <rect x="60" y="120" width="240" height="240" fill="#FAFAF7" opacity="0.75"/>
+                <rect x="360" y="200" width="200" height="180" rx="6" fill="#B8764F" opacity="0.4"/>
+                <circle cx="130" cy="90" r="34" fill="#8A5433" opacity="0.25"/>
+              </svg>
+            </figure>
+            <h3 class="project-card__title">Квартира на Патриарших</h3>
+            <p class="project-card__meta">118 м² · 2025 · Жилой</p>
+            <p class="project-card__text">Тихая классика: дуб, лён, брашированный камень.</p>
+          </li>
+
+          <li class="project-card">
+            <figure class="media media--4x3 project-card__media">
+              <svg viewBox="0 0 640 480" role="img" aria-label="Заглушка визуализации: загородный дом в Сосновке, кухня-гостиная">
+                <title>Загородный дом в Сосновке (заглушка)</title>
+                <defs>
+                  <linearGradient id="p2Grad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#EDE5D8"/><stop offset="1" stop-color="#B8764F"/>
+                  </linearGradient>
+                </defs>
+                <rect width="640" height="480" fill="url(#p2Grad)"/>
+                <rect x="80" y="160" width="300" height="200" fill="#FAFAF7" opacity="0.7"/>
+                <rect x="420" y="100" width="140" height="260" rx="6" fill="#8A5433" opacity="0.35"/>
+                <rect x="80" y="380" width="480" height="10" fill="#2A2A2A" opacity="0.12"/>
+              </svg>
+            </figure>
+            <h3 class="project-card__title">Дом в Сосновке</h3>
+            <p class="project-card__meta">264 м² · 2024 · Загородный</p>
+            <p class="project-card__text">Кухня-гостиная с панорамой на сосны и керамикой ручной работы.</p>
+          </li>
+
+          <li class="project-card">
+            <figure class="media media--4x3 project-card__media">
+              <svg viewBox="0 0 640 480" role="img" aria-label="Заглушка визуализации: студия йоги в Хамовниках, светлое пространство">
+                <title>Студия йоги в Хамовниках (заглушка)</title>
+                <defs>
+                  <linearGradient id="p3Grad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#FAFAF7"/><stop offset="1" stop-color="#D8C3AC"/>
+                  </linearGradient>
+                </defs>
+                <rect width="640" height="480" fill="url(#p3Grad)"/>
+                <rect x="120" y="80" width="400" height="300" fill="#F5F0E8" opacity="0.85"/>
+                <rect x="170" y="140" width="300" height="180" fill="#B8764F" opacity="0.25"/>
+                <circle cx="520" cy="400" r="50" fill="#8A5433" opacity="0.25"/>
+              </svg>
+            </figure>
+            <h3 class="project-card__title">Студия йоги в Хамовниках</h3>
+            <p class="project-card__meta">96 м² · 2025 · Коммерческий</p>
+            <p class="project-card__text">Акустика, мягкий свет и тактильные поверхности.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== О студии ===== -->
+    <section class="section" aria-labelledby="about-title" data-reveal>
+      <div class="container about">
+        <div class="about__text">
+          <span class="section__eyebrow">О студии</span>
+          <h2 id="about-title">Небольшая команда, много внимания</h2>
+          <p>
+            JT Design — студия из пяти человек: два дизайнера, архитектор, визуализатор и менеджер проекта.
+            Мы берём не больше четырёх проектов одновременно, чтобы каждый вёл лично автор.
+          </p>
+          <p>
+            Начинаем с вопросов о привычках, а не о стилях. Затем — планировка, свет, материалы,
+            комплектация и надзор на площадке: один и тот же человек отвечает за идею и за результат.
+          </p>
+          <a class="link-arrow" href="services.html">Как мы работаем</a>
+        </div>
+
+        <ul class="about__facts">
+          <li><strong>Подход</strong> Пространство под ваш сценарий жизни, а не под тренды сезона.</li>
+          <li><strong>Материалы</strong> Натуральное дерево, камень, лён, штукатурка — тактильно честные поверхности.</li>
+          <li><strong>Комплектация</strong> Российские мастерские и проверенные европейские бренды.</li>
+          <li><strong>Сроки</strong> Проект — от 6 недель, реализация — от 6 месяцев.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="section cta" aria-labelledby="cta-title">
+      <div class="container cta__inner">
+        <h2 class="cta__title" id="cta-title">Расскажите о вашем пространстве</h2>
+        <p class="cta__text">
+          Пришлите планировку и пару слов о том, как вы живёте. Ответим в течение одного рабочего дня
+          и предложим формат сотрудничества.
+        </p>
+        <a class="btn btn--accent" href="contacts.html">Обсудить проект</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Подвал (общий для всех страниц) ===== -->
+  <footer class="site-footer">
+    <div class="container site-footer__grid">
+      <div>
+        <p class="site-footer__title">JT Design</p>
+        <p class="text-muted">Студия дизайна интерьеров. Квартиры, загородные дома, коммерческие пространства.</p>
+      </div>
+
+      <nav class="site-footer__nav" aria-label="Меню в подвале">
+        <p class="site-footer__title">Разделы</p>
+        <ul>
+          <li><a href="index.html">Главная</a></li>
+          <li><a href="portfolio.html">Портфолио</a></li>
+          <li><a href="services.html">Услуги</a></li>
+          <li><a href="contacts.html">Контакты</a></li>
+        </ul>
+      </nav>
+
+      <div>
+        <p class="site-footer__title">Связь</p>
+        <ul>
+          <!-- TODO: заменить на реальные контакты студии -->
+          <li><a href="tel:+70000000000">+7 (000) 000-00-00</a></li>
+          <li><a href="mailto:hello@jt-design.ru">hello@jt-design.ru</a></li>
+          <li><a href="https://t.me/jtdesign" rel="noopener">Telegram</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container site-footer__bottom">
+      <span>© <span data-year>2026</span> JT Design. Все права защищены.</span>
+      <span>Дизайн-проект · Реализация · Авторский надзор</span>
+    </div>
+  </footer>
 </body>
 </html>
