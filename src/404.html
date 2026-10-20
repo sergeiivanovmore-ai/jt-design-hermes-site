@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Страница не найдена — JT Design</title>
+  <meta name="description" content="Страница не найдена. Вернитесь на главную или посмотрите проекты студии JT Design.">
+  <meta name="theme-color" content="#FAFAF7">
+  <meta name="robots" content="noindex, follow">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+
+  <header class="site-header" data-header>
+    <div class="container site-header__inner">
+      <a class="logo" href="index.html">JT<span class="logo__mark">·</span>Design</a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" data-nav-toggle>
+        <span class="visually-hidden">Меню</span>
+        <span class="nav-toggle__bar" aria-hidden="true"></span>
+        <span class="nav-toggle__bar" aria-hidden="true"></span>
+        <span class="nav-toggle__bar" aria-hidden="true"></span>
+      </button>
+
+      <nav class="site-nav" id="primary-nav" aria-label="Основная навигация" data-nav>
+        <ul class="site-nav__list">
+          <li><a class="site-nav__link" href="index.html" aria-current="page">Главная</a></li>
+          <li><a class="site-nav__link" href="portfolio.html">Портфолио</a></li>
+          <li><a class="site-nav__link" href="services.html">Услуги</a></li>
+          <li><a class="site-nav__link" href="contacts.html">Контакты</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn btn--ghost header__cta" href="contacts.html">Обсудить проект</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="notfound">
+      <div class="container">
+        <p class="notfound__code">404</p>
+        <h1>Такой страницы нет</h1>
+        <p class="notfound__text">
+          Возможно, ссылка устарела или в адресе опечатка. Посмотрите проекты —
+          там есть чем заняться.
+        </p>
+        <a class="btn btn--primary" href="index.html">На главную</a>
+        <a class="btn btn--ghost" href="portfolio.html">В портфолио</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__grid">
+      <div>
+        <p class="site-footer__title">JT Design</p>
+        <p class="text-muted">Студия дизайна интерьеров. Квартиры, загородные дома, коммерческие пространства.</p>
+      </div>
+
+      <nav class="site-footer__nav" aria-label="Меню в подвале">
+        <p class="site-footer__title">Разделы</p>
+        <ul>
+          <li><a href="index.html">Главная</a></li>
+          <li><a href="portfolio.html">Портфолио</a></li>
+          <li><a href="services.html">Услуги</a></li>
+          <li><a href="contacts.html">Контакты</a></li>
+        </ul>
+      </nav>
+
+      <div>
+        <p class="site-footer__title">Связь</p>
+        <ul>
+          <!-- TODO: заменить на реальные контакты студии -->
+          <li><a href="tel:+70000000000">+7 (000) 000-00-00</a></li>
+          <li><a href="mailto:hello@jt-design.ru">hello@jt-design.ru</a></li>
+          <li><a href="https://t.me/jtdesign" rel="noopener">Telegram</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container site-footer__bottom">
+      <span>© <span data-year>2026</span> JT Design. Все права защищены.</span>
+      <span>Дизайн-проект · Реализация · Авторский надзор</span>
+    </div>
+  </footer>
+
+</body>
+</html>
