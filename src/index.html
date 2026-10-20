@@ -10,13 +10,52 @@
   <meta property="og:title" content="JT Design — студия дизайна интерьеров">
   <meta property="og:description" content="Проектируем спокойные, продуманные интерьеры: от планировочного решения до авторского надзора.">
   <meta property="og:locale" content="ru_RU">
+  <meta property="og:url" content="https://jt-design.ru/index.html">
+  <meta property="og:image" content="https://jt-design.ru/assets/img/og-cover.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://jt-design.ru/index.html">
 
   <!-- Заголовки: Playfair Display с graceful fallback на Georgia (см. --font-serif) -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap">
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/main.js" defer></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "JT Design",
+  "description": "Студия дизайна интерьеров: квартиры, загородные дома и коммерческие пространства.",
+  "url": "https://jt-design.ru/",
+  "logo": "https://jt-design.ru/assets/img/og-cover.webp",
+  "image": "https://jt-design.ru/assets/img/og-cover.webp",
+  "email": "hello@jt-design.ru",
+  "priceRange": "$$",
+  "areaServed": "Москва и Московская область",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Москва",
+    "addressCountry": "RU"
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "opens": "10:00",
+    "closes": "19:00"
+  }
+}
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main">Перейти к содержимому</a>
@@ -77,30 +116,20 @@
           </dl>
         </div>
 
-        <!-- Заглушка-изображение: inline SVG с градиентом -->
+        <!-- Обложка hero: реальное фото, eager — это LCP-элемент.
+             <picture> отдаёт вертикальный кадр на мобильном и горизонтальный
+             на планшете/десктопе — при 4/5 широкий кадр обрезался бы впритык. -->
         <figure class="media media--4x5">
-          <svg viewBox="0 0 480 600" role="img" aria-label="Заглушка визуализации: светлая гостиная с диваном у окна" preserveAspectRatio="xMidYMid slice">
-            <title>Визуализация интерьера (заглушка)</title>
-            <defs>
-              <linearGradient id="heroGrad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#F5F0E8"/>
-                <stop offset="0.55" stop-color="#E8DCCB"/>
-                <stop offset="1" stop-color="#C9A182"/>
-              </linearGradient>
-              <linearGradient id="heroWall" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#FAFAF7"/>
-                <stop offset="1" stop-color="#EDE5D8"/>
-              </linearGradient>
-            </defs>
-            <rect width="480" height="600" fill="url(#heroGrad)"/>
-            <rect x="40" y="60" width="250" height="300" fill="url(#heroWall)" opacity="0.85"/>
-            <rect x="60" y="80" width="210" height="260" fill="#F5F0E8" opacity="0.6"/>
-            <rect x="330" y="150" width="110" height="360" rx="4" fill="#D8C3AC" opacity="0.75"/>
-            <rect x="70" y="420" width="330" height="120" rx="6" fill="#B8764F" opacity="0.5"/>
-            <rect x="70" y="400" width="330" height="24" rx="6" fill="#8A5433" opacity="0.45"/>
-            <circle cx="400" cy="90" r="46" fill="#B8764F" opacity="0.28"/>
-            <rect x="40" y="560" width="400" height="2" fill="#2A2A2A" opacity="0.12"/>
-          </svg>
+          <picture>
+            <source media="(min-width: 768px)" type="image/webp"
+                    srcset="assets/img/hero-wide-800.webp 800w, assets/img/hero-wide.webp 1600w"
+                    sizes="(min-width: 1024px) 42vw, 45vw" width="1600" height="1067">
+            <img src="assets/img/hero-4x5.webp"
+                 srcset="assets/img/hero-4x5-800.webp 800w, assets/img/hero-4x5.webp 1200w"
+                 sizes="100vw" width="1200" height="1500"
+                 alt="Светлая гостиная с дубовой мебелью и панорамным окном"
+                 loading="eager" fetchpriority="high" decoding="async">
+          </picture>
         </figure>
       </div>
     </section>
@@ -118,61 +147,47 @@
 
         <ul class="projects-grid">
           <li class="project-card">
-            <figure class="media media--4x3 project-card__media">
-              <svg viewBox="0 0 640 480" role="img" aria-label="Заглушка визуализации: квартира на Патриарших, гостиная в тёплых тонах">
-                <title>Квартира на Патриарших (заглушка)</title>
-                <defs>
-                  <linearGradient id="p1Grad" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0" stop-color="#F5F0E8"/><stop offset="1" stop-color="#C9A182"/>
-                  </linearGradient>
-                </defs>
-                <rect width="640" height="480" fill="url(#p1Grad)"/>
-                <rect x="60" y="120" width="240" height="240" fill="#FAFAF7" opacity="0.75"/>
-                <rect x="360" y="200" width="200" height="180" rx="6" fill="#B8764F" opacity="0.4"/>
-                <circle cx="130" cy="90" r="34" fill="#8A5433" opacity="0.25"/>
-              </svg>
-            </figure>
-            <h3 class="project-card__title">Квартира на Патриарших</h3>
+            <a class="project-card__link" href="project-patriarhi.html">
+              <figure class="media media--4x3 project-card__media">
+                <img src="assets/img/project-patriarhi.webp"
+             srcset="assets/img/project-patriarhi-800.webp 800w, assets/img/project-patriarhi.webp 1600w"
+             sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+             width="1600" height="1200"
+             alt="Гостиная квартиры на Патриарших: дубовая мебель и тёплый естественный свет"
+             loading="lazy" decoding="async">
+              </figure>
+              <h3 class="project-card__title">Квартира на Патриарших</h3>
+            </a>
             <p class="project-card__meta">118 м² · 2025 · Жилой</p>
             <p class="project-card__text">Тихая классика: дуб, лён, брашированный камень.</p>
           </li>
-
           <li class="project-card">
-            <figure class="media media--4x3 project-card__media">
-              <svg viewBox="0 0 640 480" role="img" aria-label="Заглушка визуализации: загородный дом в Сосновке, кухня-гостиная">
-                <title>Загородный дом в Сосновке (заглушка)</title>
-                <defs>
-                  <linearGradient id="p2Grad" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0" stop-color="#EDE5D8"/><stop offset="1" stop-color="#B8764F"/>
-                  </linearGradient>
-                </defs>
-                <rect width="640" height="480" fill="url(#p2Grad)"/>
-                <rect x="80" y="160" width="300" height="200" fill="#FAFAF7" opacity="0.7"/>
-                <rect x="420" y="100" width="140" height="260" rx="6" fill="#8A5433" opacity="0.35"/>
-                <rect x="80" y="380" width="480" height="10" fill="#2A2A2A" opacity="0.12"/>
-              </svg>
-            </figure>
-            <h3 class="project-card__title">Дом в Сосновке</h3>
+            <a class="project-card__link" href="project-sosnovka.html">
+              <figure class="media media--4x3 project-card__media">
+                <img src="assets/img/project-sosnovka.webp"
+             srcset="assets/img/project-sosnovka-800.webp 800w, assets/img/project-sosnovka.webp 1600w"
+             sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+             width="1600" height="1200"
+             alt="Кухня-гостиная загородного дома с панорамным остеклением на сосны"
+             loading="lazy" decoding="async">
+              </figure>
+              <h3 class="project-card__title">Дом в Сосновке</h3>
+            </a>
             <p class="project-card__meta">264 м² · 2024 · Загородный</p>
             <p class="project-card__text">Кухня-гостиная с панорамой на сосны и керамикой ручной работы.</p>
           </li>
-
           <li class="project-card">
-            <figure class="media media--4x3 project-card__media">
-              <svg viewBox="0 0 640 480" role="img" aria-label="Заглушка визуализации: студия йоги в Хамовниках, светлое пространство">
-                <title>Студия йоги в Хамовниках (заглушка)</title>
-                <defs>
-                  <linearGradient id="p3Grad" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0" stop-color="#FAFAF7"/><stop offset="1" stop-color="#D8C3AC"/>
-                  </linearGradient>
-                </defs>
-                <rect width="640" height="480" fill="url(#p3Grad)"/>
-                <rect x="120" y="80" width="400" height="300" fill="#F5F0E8" opacity="0.85"/>
-                <rect x="170" y="140" width="300" height="180" fill="#B8764F" opacity="0.25"/>
-                <circle cx="520" cy="400" r="50" fill="#8A5433" opacity="0.25"/>
-              </svg>
-            </figure>
-            <h3 class="project-card__title">Студия йоги в Хамовниках</h3>
+            <a class="project-card__link" href="project-hamovniki.html">
+              <figure class="media media--4x3 project-card__media">
+                <img src="assets/img/project-hamovniki.webp"
+             srcset="assets/img/project-hamovniki-800.webp 800w, assets/img/project-hamovniki.webp 1600w"
+             sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+             width="1600" height="1200"
+             alt="Светлое пространство студии йоги с акустическими панелями"
+             loading="lazy" decoding="async">
+              </figure>
+              <h3 class="project-card__title">Студия йоги в Хамовниках</h3>
+            </a>
             <p class="project-card__meta">96 м² · 2025 · Коммерческий</p>
             <p class="project-card__text">Акустика, мягкий свет и тактильные поверхности.</p>
           </li>

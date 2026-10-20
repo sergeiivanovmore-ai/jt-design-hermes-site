@@ -376,7 +376,7 @@ ul, ol { margin: 0; padding: 0; }
 }
 
 /* --------------------------------------------------------------------------
-   7. Медиа-заглушки (inline SVG внутри .media)
+   7. Медиа (реальные фото в .media)
    -------------------------------------------------------------------------- */
 .media {
   position: relative;
@@ -385,10 +385,26 @@ ul, ol { margin: 0; padding: 0; }
   background-color: var(--color-surface);
   border-radius: var(--radius);
 }
-.media svg { width: 100%; height: auto; }
-.media--4x5 svg { aspect-ratio: 4 / 5; }
-.media--4x3 svg { aspect-ratio: 4 / 3; }
-.media--16x9 svg { aspect-ratio: 16 / 9; }
+/* Фото всегда заполняет бокс и кадрируется по центру — так высота секции
+   не «прыгает» независимо от пропорций исходника. */
+.media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+/* <picture> внутри .media должен занимать весь бокс, иначе высота изображения
+   схлопнется и aspect-ratio перестанет работать. */
+.media picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.media--4x5 { aspect-ratio: 4 / 5; }
+.media--4x3 { aspect-ratio: 4 / 3; }
+.media--16x9 { aspect-ratio: 16 / 9; }
+.media--3x2 { aspect-ratio: 3 / 2; }
 
 /* --------------------------------------------------------------------------
    8. Проекты
@@ -402,14 +418,35 @@ ul, ol { margin: 0; padding: 0; }
 
 .project-card { display: flex; flex-direction: column; }
 .project-card__media { margin-bottom: var(--space-sm); }
-.project-card__media svg {
+.project-card__media img {
   transition: transform 600ms cubic-bezier(.2, .7, .3, 1);
 }
-.project-card:hover .project-card__media svg { transform: scale(1.03); }
+.project-card:hover .project-card__media img { transform: scale(1.03); }
+
+/* Ссылка на детальную страницу: карточка целиком кликабельна,
+   но подчёркивается только заголовок — так текст остаётся читаемым. */
+.project-card__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.project-card__link:hover { color: inherit; }
+.project-card__link:hover .project-card__title {
+  color: var(--color-accent-strong);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+/* Фокус с клавиатуры виден на всей карточке, а не только на заголовке */
+.project-card__link:focus-visible {
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: 3px;
+}
 
 .project-card__title {
   font-size: var(--step-1);
   margin-bottom: 0.25rem;
+  transition: color var(--transition);
 }
 .project-card__meta {
   font-size: var(--step--1);
@@ -589,7 +626,141 @@ textarea.form__control { min-height: 9rem; resize: vertical; }
 }
 
 /* --------------------------------------------------------------------------
-   13. Подвал
+   13. Детальная страница проекта
+   -------------------------------------------------------------------------- */
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: var(--space-md);
+  font-size: var(--step--1);
+  color: var(--color-text-muted);
+}
+.breadcrumbs a { color: var(--color-text-muted); text-decoration: none; }
+.breadcrumbs a:hover { color: var(--color-accent-strong); text-decoration: underline; }
+.breadcrumbs li { display: flex; gap: 0.5rem; align-items: center; }
+.breadcrumbs li + li::before { content: "/"; color: var(--color-border); }
+
+.project-hero { padding-top: var(--space-lg); }
+.project-hero__inner { display: grid; gap: var(--space-lg); }
+.project-hero__title { margin-bottom: var(--space-sm); }
+.project-hero__lead {
+  max-width: 42rem;
+  font-size: var(--step-1);
+  color: var(--color-text-muted);
+}
+.project-hero__cover {
+  margin-top: var(--space-md);
+  aspect-ratio: 16 / 9;
+}
+
+/* Набор метрик под заголовком */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.chip {
+  padding: 0.3rem 0.8rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  font-size: var(--step--1);
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+.chip strong {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+/* Две колонки: текст + карточка фактов */
+.project-body { display: grid; gap: var(--space-xl); }
+.project-body__text p + p { margin-top: var(--space-sm); }
+
+.spec {
+  padding: var(--space-md);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+.spec__title {
+  font-size: var(--step-1);
+  margin-bottom: var(--space-sm);
+}
+.spec__list { display: grid; gap: var(--space-xs); margin: 0; }
+.spec__row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--step--1);
+}
+.spec__row:last-child { border-bottom: 0; padding-bottom: 0; }
+.spec__row dt { color: var(--color-text-muted); }
+.spec__row dd { margin: 0; text-align: right; color: var(--color-text); }
+
+/* Галерея */
+.gallery {
+  display: grid;
+  gap: var(--space-md);
+  list-style: none;
+}
+.gallery__item { margin: 0; }
+.gallery figcaption {
+  margin-top: 0.5rem;
+  font-size: var(--step--1);
+  color: var(--color-text-muted);
+}
+
+/* Навигация между проектами */
+.project-nav {
+  display: grid;
+  gap: var(--space-md);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+}
+.project-nav__item { display: grid; gap: 0.35rem; }
+.project-nav__label {
+  font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.project-nav__link {
+  font-family: var(--font-serif);
+  font-size: var(--step-1);
+  text-decoration: none;
+  color: var(--color-text);
+}
+.project-nav__link:hover { color: var(--color-accent-strong); }
+.project-nav__item--next { text-align: right; }
+
+/* Страница 404 */
+.notfound {
+  padding-block: var(--section-y);
+  text-align: center;
+}
+.notfound__code {
+  font-family: var(--font-serif);
+  font-size: var(--step-4);
+  line-height: 1;
+  color: var(--color-accent);
+  margin-bottom: var(--space-sm);
+}
+.notfound__text {
+  max-width: 32rem;
+  margin-inline: auto;
+  color: var(--color-text-muted);
+}
+.notfound .btn { margin-top: var(--space-md); }
+
+/* --------------------------------------------------------------------------
+   14. Подвал
    -------------------------------------------------------------------------- */
 .site-footer {
   padding-block: var(--space-xl) var(--space-lg);
@@ -640,10 +811,16 @@ textarea.form__control { min-height: 9rem; resize: vertical; }
   .site-footer__grid { grid-template-columns: 1.4fr 1fr 1fr; }
   .hero__inner { grid-template-columns: 1.15fr 1fr; align-items: end; }
 
+  /* Детальная страница проекта */
+  .project-body { grid-template-columns: 1.6fr 1fr; align-items: start; }
+  .gallery { grid-template-columns: repeat(2, 1fr); }
+  .gallery__item--wide { grid-column: 1 / -1; }
+  .project-nav { grid-template-columns: 1fr 1fr; }
+
   /* Компактный hero: в две колонки картинка 4/5 (≈640px в высоту) раздувала секцию
      выше экрана. На планшете и шире переводим её в 4/3 — «Избранные проекты»
      видны без скролла. На мобильном hero в одну колонку, там 4/5 остаётся. */
-  .hero .media--4x5 svg { aspect-ratio: 4 / 3; }
+  .hero .media--4x5 { aspect-ratio: 4 / 3; }
 
   /* Сетка проектов на планшете: 2 колонки */
   .section__head--split { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-md); max-width: none; }
