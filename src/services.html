@@ -3,26 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Услуги и этапы работы — JT Design</title>
-  <meta name="description" content="Услуги студии JT Design: планировочное решение, полный дизайн-проект, комплектация и авторский надзор. Сроки, состав работ и этапы.">
   <meta name="theme-color" content="#FAFAF7">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Услуги и этапы работы — JT Design">
-  <meta property="og:description" content="От планировочного решения до авторского надзора: четыре формата сотрудничества.">
-  <meta property="og:locale" content="ru_RU">
-
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap">
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/main.js" defer></script>
+  <title>Услуги и цены — Юлия Тара, дизайн интерьеров</title>
+  <meta name="description" content="Услуги дизайнера интерьеров Юлии Тары: планировочное решение, online-проект, комплектация и полный дизайн-проект. Цены за м², состав работ и этапы.">
+  <link rel="canonical" href="https://jt-design.ru/services.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Услуги и цены — Юлия Тара">
+  <meta property="og:description" content="От планировочного решения до полного дизайн-проекта. Цены за м² и состав работ.">
+  <meta property="og:url" content="https://jt-design.ru/services.html">
+  <meta property="og:image" content="https://jt-design.ru/assets/img/og-cover.webp">
+  <meta property="og:locale" content="ru_RU">
+  <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
   <a class="skip-link" href="#main">Перейти к содержимому</a>
 
   <header class="site-header" data-header>
     <div class="container site-header__inner">
-      <a class="logo" href="index.html">JT<span class="logo__mark">·</span>Design</a>
+      <a class="logo" href="index.html">Юлия<span class="logo__mark">·</span>Тара</a>
 
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" data-nav-toggle>
         <span class="visually-hidden">Меню</span>
@@ -34,8 +39,9 @@
       <nav class="site-nav" id="primary-nav" aria-label="Основная навигация" data-nav>
         <ul class="site-nav__list">
           <li><a class="site-nav__link" href="index.html">Главная</a></li>
-          <li><a class="site-nav__link" href="portfolio.html">Портфолио</a></li>
+          <li><a class="site-nav__link" href="portfolio.html">Проекты</a></li>
           <li><a class="site-nav__link" href="services.html" aria-current="page">Услуги</a></li>
+          <li><a class="site-nav__link" href="blog.html">Советы</a></li>
           <li><a class="site-nav__link" href="contacts.html">Контакты</a></li>
         </ul>
       </nav>
@@ -45,71 +51,78 @@
   </header>
 
   <main id="main">
-    <!-- ===== Услуги ===== -->
     <section class="section" aria-labelledby="services-title">
       <div class="container">
         <div class="section__head">
           <span class="section__eyebrow">Услуги</span>
           <h1 id="services-title">Четыре формата сотрудничества</h1>
           <p class="section__lead">
-            Можно взять проект целиком или отдельный этап. Стоимость считаем по площади и составу работ —
-            после короткого брифа и знакомства с планировкой.
+            Можно взять проект целиком или отдельный этап. Стоимость считаю по площади
+            и составу работ — после короткого брифа и знакомства с планировкой.
           </p>
         </div>
 
         <ul class="cards">
           <li class="card">
             <span class="card__index">01</span>
-            <h3 class="card__title">Планировочное решение</h3>
-            <p class="text-muted">Отправная точка: как будут работать метры.</p>
+            <h3 class="card__title">Только планировка</h3>
+            <p class="text-muted">Помогу расставить мебель с учётом эргономики, выделить функциональные зоны.</p>
             <ul class="card__list">
-              <li>2–3 варианта планировки</li>
-              <li>Зонирование и сценарии движения</li>
-              <li>Расстановка мебели и техники</li>
-              <li>Срок: 2–3 недели</li>
+              <li>Анализ объекта</li>
+              <li>Зонирование и расстановка мебели</li>
+              <li>Готовые чертежи для строителей</li>
+              <li>Соблюдение норм перепланировки</li>
             </ul>
+            <p class="card__price">от 400 ₽/м²</p>
           </li>
-
           <li class="card">
             <span class="card__index">02</span>
-            <h3 class="card__title">Дизайн-проект</h3>
-            <p class="text-muted">Полный комплект документов для стройки.</p>
+            <h3 class="card__title">Online-проект</h3>
+            <p class="text-muted">Планировка и подбор мебели — полностью онлайн, с любым городом.</p>
             <ul class="card__list">
-              <li>Обмерный план и демонтаж</li>
-              <li>Развёртки, ведомости, узлы</li>
-              <li>Схемы света и электрики</li>
-              <li>Срок: от 6 недель</li>
+              <li>Анализ объекта</li>
+              <li>Обсуждение референсов и определение бюджета</li>
+              <li>Планировка и расстановка мебели</li>
+              <li>Коллажи</li>
+              <li>Смета-подбор мебели, текстиля, освещения, декора — со ссылками</li>
+              <li>Готовый проект в PDF</li>
             </ul>
+            <p class="card__price">от 750 ₽/м²</p>
           </li>
-
           <li class="card">
             <span class="card__index">03</span>
             <h3 class="card__title">Комплектация</h3>
-            <p class="text-muted">Подбор и заказ мебели, света, отделки.</p>
+            <p class="text-muted">Всё, что входит в Online-проект, плюс работа по закупке и организации.</p>
             <ul class="card__list">
-              <li>Подбор и сравнение аналогов</li>
-              <li>Спецификация с ценами и сроками</li>
-              <li>Согласование поставок и логистика</li>
-              <li>Срок: параллельно с реализацией</li>
+              <li>Консультация по закупке мебели, текстиля, освещения</li>
+              <li>Организация мелких работ: карнизы, зеркала, освещение, полочки, клининг</li>
+              <li>Создание атмосферы объекта для продажи или аренды (хоумстейджинг)</li>
+              <li>Подготовка квартиры к фотосъёмке — съёмка в подарок</li>
+              <li>Готовый проект в PDF</li>
             </ul>
+            <p class="card__price">по запросу</p>
           </li>
-
           <li class="card">
             <span class="card__index">04</span>
-            <h3 class="card__title">Авторский надзор</h3>
-            <p class="text-muted">Чтобы замысел дошёл до объекта без потерь.</p>
+            <h3 class="card__title">Полный дизайн-проект</h3>
+            <p class="text-muted">Готовая документация для ваших строителей. Не просто идеи, а комплект работ.</p>
             <ul class="card__list">
-              <li>Выезды на площадку по графику</li>
-              <li>Проверка соответствия проекту</li>
-              <li>Комментарии подрядчику в протоколе</li>
-              <li>Срок: до сдачи объекта</li>
+              <li>Чёткий план для бригады: разводка света, розетки, перегородки</li>
+              <li>Фотореалистичные 3D-рендеры каждого помещения</li>
+              <li>Спецификация материалов — экономит нервы и бюджет</li>
             </ul>
+            <p class="card__price">от 2 000 ₽/м²</p>
           </li>
         </ul>
+
+        <p class="section__note">
+          Цены указаны за квадратный метр. Итоговая стоимость зависит от площади,
+          состояния объекта и состава работ. По промокоду <strong>JTARA</strong> —
+          скидка 5% на мебель Divan.ru и 2% на мебель «Вереск».
+        </p>
       </div>
     </section>
 
-    <!-- ===== Этапы ===== -->
     <section class="section section--surface" aria-labelledby="steps-title">
       <div class="container">
         <div class="section__head">
@@ -121,19 +134,23 @@
         <ol class="steps">
           <li class="steps__item">
             <h3 class="steps__title">Знакомство</h3>
-            <p class="text-muted">Встреча или видеозвонок на 60 минут, бриф, обмерный план. Итог — смета и график.</p>
+            <p class="text-muted">Встреча или видеозвонок, бриф, разбор планировки. Итог — смета и график.</p>
           </li>
           <li class="steps__item">
-            <h3 class="steps__title">Концепция</h3>
-            <p class="text-muted">Планировки, коллаж материалов, свет и цвет. Согласовываем направление до деталей.</p>
+            <h3 class="steps__title">Анализ</h3>
+            <p class="text-muted">Разбираю текущую планировку: почему сейчас неудобно и как это исправить.</p>
           </li>
           <li class="steps__item">
-            <h3 class="steps__title">Проект</h3>
-            <p class="text-muted">Развёртки, узлы, ведомости, схемы. Комплект, по которому можно строить без вопросов.</p>
+            <h3 class="steps__title">Планировка</h3>
+            <p class="text-muted">Зонирование, расстановка мебели, готовые чертежи для строителей.</p>
           </li>
           <li class="steps__item">
-            <h3 class="steps__title">Реализация</h3>
-            <p class="text-muted">Комплектация, выезды на площадку, финальная стилизация и съёмка объекта.</p>
+            <h3 class="steps__title">Визуализация</h3>
+            <p class="text-muted">3D-визуализации помещений — увидеть результат до начала ремонта.</p>
+          </li>
+          <li class="steps__item">
+            <h3 class="steps__title">Передача</h3>
+            <p class="text-muted">Спецификация материалов и подбор мебели со ссылками. Проект в PDF.</p>
           </li>
         </ol>
       </div>
@@ -143,7 +160,7 @@
       <div class="container cta__inner">
         <h2 class="cta__title" id="cta-title">Не уверены, какой формат нужен?</h2>
         <p class="cta__text">
-          Пришлите площадь и планировку — подскажем, с какого этапа лучше начать в вашем случае.
+          Пришлите площадь и планировку — подскажу, с какого этапа лучше начать в вашем случае.
         </p>
         <a class="btn btn--accent" href="contacts.html">Получить консультацию</a>
       </div>
@@ -153,16 +170,17 @@
   <footer class="site-footer">
     <div class="container site-footer__grid">
       <div>
-        <p class="site-footer__title">JT Design</p>
-        <p class="text-muted">Студия дизайна интерьеров. Квартиры, загородные дома, коммерческие пространства.</p>
+        <p class="site-footer__title">Юлия Тара</p>
+        <p class="text-muted">Дизайн, планировка и благоустройство квартир. Москва и онлайн по России.</p>
       </div>
 
       <nav class="site-footer__nav" aria-label="Меню в подвале">
         <p class="site-footer__title">Разделы</p>
         <ul>
           <li><a href="index.html">Главная</a></li>
-          <li><a href="portfolio.html">Портфолио</a></li>
+          <li><a href="portfolio.html">Проекты</a></li>
           <li><a href="services.html">Услуги</a></li>
+          <li><a href="blog.html">Советы</a></li>
           <li><a href="contacts.html">Контакты</a></li>
         </ul>
       </nav>
@@ -170,18 +188,18 @@
       <div>
         <p class="site-footer__title">Связь</p>
         <ul>
-          <!-- TODO: заменить на реальные контакты студии -->
-          <li><a href="tel:+70000000000">+7 (000) 000-00-00</a></li>
-          <li><a href="mailto:hello@jt-design.ru">hello@jt-design.ru</a></li>
-          <li><a href="https://t.me/jtdesign" rel="noopener">Telegram</a></li>
+          <li><a href="https://t.me/JuliayTara" rel="noopener">Telegram — @JuliayTara</a></li>
+          <li><a href="https://t.me/homest_jul" rel="noopener">Канал — @homest_jul</a></li>
+          <li><a href="https://vk.ru/wall517179030_3" rel="noopener">ВКонтакте</a></li>
         </ul>
       </div>
     </div>
 
     <div class="container site-footer__bottom">
-      <span>© <span data-year>2026</span> JT Design. Все права защищены.</span>
-      <span>Дизайн-проект · Реализация · Авторский надзор</span>
+      <span>© <span data-year>2026</span> Юлия Тара. Все права защищены.</span>
+      <span>Промокод <strong>JTARA</strong> на мебель Divan.ru — 5%</span>
     </div>
   </footer>
+
 </body>
 </html>
