@@ -298,16 +298,19 @@ ul, ol { margin: 0; padding: 0; }
   gap: 5px;
   width: 2.75rem;
   height: 2.75rem;
-  padding: 0.65rem;
-  background: none;
-  border: 1px solid var(--color-border);
+  padding: 0.6rem;
+  background-color: var(--color-bg);
+  border: 1px solid rgba(83, 93, 105, .3);
   border-radius: var(--radius);
   cursor: pointer;
+  transition: border-color var(--transition), background-color var(--transition);
 }
+.nav-toggle:hover { border-color: var(--color-accent); }
 .nav-toggle__bar {
   display: block;
   width: 100%;
-  height: 1px;
+  height: 2px;
+  border-radius: 2px;
   background: var(--color-text);
   transition: transform var(--transition), opacity var(--transition);
 }

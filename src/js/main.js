@@ -242,9 +242,14 @@
       thumbs.forEach(function (t, i) {
         t.setAttribute('aria-current', i === index ? 'true' : 'false');
       });
-      // Активную миниатюру держим в поле зрения
-      if (thumbs[index] && thumbs[index].scrollIntoView) {
-        thumbs[index].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      // Активную миниатюру держим в поле зрения, прокручивая ТОЛЬКО полосу
+      // миниатюр: scrollIntoView мог утащить вниз всю страницу при свайпе.
+      if (thumbs[index] && thumbs[index].parentElement) {
+        var strip = thumbs[index].parentElement;
+        if (strip.scrollWidth > strip.clientWidth) {
+          strip.scrollLeft = Math.max(0, thumbs[index].offsetLeft
+            - (strip.clientWidth - thumbs[index].offsetWidth) / 2);
+        }
       }
       if (status) status.textContent = 'Фото ' + (index + 1) + ' из ' + slides.length;
     }
