@@ -9,24 +9,23 @@
    1. Токены дизайна
    -------------------------------------------------------------------------- */
 :root {
-  /* Палитра — точные свотчи из референсов пользователя (без изменений):
-     референс 1 (мрамор):   #97B5C2 #F7DCE0 #DFC2C0 #2B5968 #CABAB1
-     референс 3 (море):     #FEE5C7 #A8C5D9 #DCB3A8 #738C93 #505157
-     референс 4 (ягоды):    #535D69 #85A3B1 #C4D0D9 #E4E1EB #D1B9BF */
-  --color-bg: #F7DCE0;              /* фон страницы — нежно-розовый, референс 1 */
-  --color-surface: #E4E1EB;         /* поверхность — бледно-лиловый, референс 4 */
-  --color-surface-2: #C4D0D9;       /* бледно-голубой, референс 4 */
-  --color-surface-3: #DFC2C0;       /* пыльно-розовый, референс 1 */
-  --color-text: #535D69;            /* текст — референс 4 */
-  --color-accent: #2B5968;          /* акцент — глубокий бирюзовый, референс 1 */
-  --color-accent-soft: #97B5C2;     /* мягкий акцент — пыльно-голубой, референс 1 */
-  --color-accent-strong: #2B5968;   /* ссылки и мелкий текст */
-  --color-warm: #DCB3A8;            /* тёплый пыльно-розовый, референс 3 */
-  --color-greige: #CABAB1;          /* greige — линии, точки, референс 1 */
-  --color-cream: #FEE5C7;           /* кремовый — бейджи, подсветка, референс 3 */
-  --color-muted: #738C93;           /* серо-бирюзовый — декор, референс 3 */
-  --color-text-muted: #505157;      /* вторичный текст — референс 3 */
-  --color-border: rgba(83, 93, 105, .18);
+  /* Палитра — точные свотчи референса пользователя (In Color Balance):
+     #535d69 · #85a3b1 · #c4d0d9 · #e4e1eb · #d1b9bf
+     Голубая гамма. Роли подобраны под контраст AA:
+     текст всегда на светлых поверхностях (#E4E1EB — 5.4:1),
+     #C4D0D9 — декоративные поверхности и фоны карточек,
+     #85A3B1 — декор (линии, точки, бейджи-рамки), #D1B9BF — тёплый акцент. */
+  --color-bg: #E4E1EB;              /* фон страницы — светлый из палитры */
+  --color-surface: #C4D0D9;         /* голубые секции — референс */
+  --color-surface-2: #85A3B1;       /* серо-голубой декор — референс */
+  --color-text: #535D69;            /* текст и акцент — референс */
+  --color-accent: #535D69;          /* кнопки, ссылки */
+  --color-accent-soft: #85A3B1;     /* мягкий акцент: линии, точки, рамки */
+  --color-accent-strong: #535D69;   /* ссылки и мелкий текст */
+  --color-warm: #D1B9BF;            /* пыльно-розовый — точечный декор */
+  --color-greige: #85A3B1;          /* линии, точки */
+  --color-text-muted: #535D69;      /* вторичный текст (различие — размером) */
+  --color-border: rgba(83, 93, 105, .22);
 
   /* Типографика */
   --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
@@ -202,7 +201,7 @@ ul, ol { margin: 0; padding: 0; }
   color: var(--color-bg);
 }
 .btn--primary:hover {
-  background-color: #1E4551;
+  background-color: #3F4854;
   color: var(--color-bg);
   transform: translateY(-1px);
 }
@@ -212,7 +211,7 @@ ul, ol { margin: 0; padding: 0; }
   background-color: var(--color-accent-strong);
   color: #FFFFFF;
 }
-.btn--accent:hover { background-color: #1E4551; color: #FFFFFF; transform: translateY(-1px); }
+.btn--accent:hover { background-color: #3F4854; color: #FFFFFF; transform: translateY(-1px); }
 
 .btn--ghost {
   background-color: transparent;
@@ -248,7 +247,7 @@ ul, ol { margin: 0; padding: 0; }
   position: sticky;
   top: 0;
   z-index: 50;
-  background-color: rgba(247, 220, 224, .94);
+  background-color: rgba(228, 225, 235, .94);
   backdrop-filter: saturate(140%) blur(8px);
   border-bottom: 1px solid transparent;
   transition: border-color var(--transition);

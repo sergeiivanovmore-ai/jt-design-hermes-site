@@ -83,7 +83,7 @@
   left: var(--space-sm);
   z-index: 2;
   padding: 0.25rem 0.7rem;
-  background-color: var(--color-cream);
+  background-color: var(--color-bg);
   border-radius: 999px;
   font-family: var(--font-serif);
   font-size: var(--step--1);
@@ -185,7 +185,7 @@
   top: var(--space-sm);
   left: var(--space-sm);
   padding: 0.25rem 0.7rem;
-  background-color: var(--color-cream);
+  background-color: var(--color-bg);
   border-radius: 999px;
   font-size: var(--step--1);
   letter-spacing: 0.08em;
@@ -296,3 +296,66 @@
 @media (prefers-reduced-motion: reduce) {
   .carousel__viewport, .pgal__viewport { scroll-behavior: auto; }
 }
+
+/* --------------------------------------------------------------------------
+   Светлые карточки на голубых секциях (#C4D0D9): мелкий текст на #C4D0D9
+   не проходит AA (3.99:1), поэтому живёт на светлых пластинах #E4E1EB.
+   -------------------------------------------------------------------------- */
+.section--surface .card,
+.section--surface .spec,
+.section--surface .steps__item { background-color: var(--color-bg); }
+.section--surface .steps__item { padding: var(--space-sm) var(--space-md); border-radius: var(--radius); }
+.section--surface .section__head {
+  background-color: var(--color-bg);
+  padding: var(--space-md);
+  border-radius: var(--radius);
+}
+.section--surface .article-card {
+  background-color: var(--color-bg);
+  padding: var(--space-sm);
+  border-radius: var(--radius);
+}
+
+/* --------------------------------------------------------------------------
+   Ценности в работе (3 карточки)
+   -------------------------------------------------------------------------- */
+.cards--three { grid-template-columns: 1fr; }
+@media (min-width: 768px) { .cards--three { grid-template-columns: repeat(3, 1fr); } }
+
+/* --------------------------------------------------------------------------
+   FAQ — нативные details/summary, без JS
+   -------------------------------------------------------------------------- */
+.faq { display: grid; gap: var(--space-xs); max-width: 46rem; }
+.faq details {
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+.faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: 1rem 1.25rem;
+  font-weight: 500;
+  color: var(--color-text);
+  cursor: pointer;
+  list-style: none;
+  min-height: 3rem;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+";
+  font-family: var(--font-serif);
+  font-size: var(--step-1);
+  color: var(--color-accent-soft);
+  flex: 0 0 auto;
+}
+.faq details[open] summary::after { content: "\2013"; }
+.faq summary:focus-visible { outline: 2px solid var(--color-accent-strong); outline-offset: 2px; }
+.faq details p {
+  margin: 0;
+  padding: 0 1.25rem 1rem;
+  color: var(--color-text);
+}
+.faq details p a { color: var(--color-accent-strong); }
