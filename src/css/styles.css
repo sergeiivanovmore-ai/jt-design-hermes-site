@@ -9,14 +9,21 @@
    1. Токены дизайна
    -------------------------------------------------------------------------- */
 :root {
-  /* Палитра */
-  --color-bg: #FAFAF7;              /* фон страницы */
-  --color-surface: #F5F0E8;         /* поверхность (карточки, секции) */
-  --color-text: #2A2A2A;            /* основной текст */
-  --color-accent: #B8764F;          /* акцент (декор, крупный текст, линии) */
-  --color-accent-strong: #8A5433;   /* акцент для мелкого текста: 5.9:1 на --color-bg (WCAG AA) */
-  --color-text-muted: #5C5C57;      /* вторичный текст: 6.4:1 на --color-bg (WCAG AA) */
-  --color-border: rgba(42, 42, 42, .12);
+  /* Палитра — из референсов пользователя (пудрово-голубая жемчужная):
+     #97B5C2, #F7DCE0, #DFC2C0, #2B5968, #CABAB1, #A8C5D9, #D1B9BF,
+     #E4E1EB, #535D69, #FEE5C7, #738C93, #DCB3A8, #C4D0D9, #505157 */
+  --color-bg: #FCF7F8;              /* фон страницы — осветлённый #F7DCE0 */
+  --color-surface: #F7DCE0;         /* поверхность — нежно-розовый из палитры */
+  --color-surface-2: #E4E1EB;       /* вторая поверхность — бледно-лиловый */
+  --color-surface-3: #C4D0D9;       /* третья — бледно-голубой */
+  --color-text: #535D69;            /* основной текст — серо-синий из палитры */
+  --color-accent: #2B5968;          /* акцент — глубокий бирюзовый */
+  --color-accent-soft: #97B5C2;     /* мягкий акцент — пыльно-голубой (декор, крупный текст) */
+  --color-accent-strong: #2B5968;   /* акцент для мелкого текста и ссылок */
+  --color-warm: #DCB3A8;            /* тёплый пыльно-розовый — декор */
+  --color-greige: #CABAB1;          /* greige — линии, рамки */
+  --color-text-muted: #505157;      /* вторичный текст — графит из палитры */
+  --color-border: rgba(83, 93, 105, .16);
 
   /* Типографика */
   --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
@@ -43,8 +50,8 @@
   --container-max: 75rem;     /* 1200px */
   --container-pad: 1.25rem;
   --radius: 2px;
-  --shadow-sm: 0 1px 2px rgba(42, 42, 42, .06);
-  --shadow-md: 0 16px 40px -18px rgba(42, 42, 42, .28);
+  --shadow-sm: 0 1px 2px rgba(83, 93, 105, .08);
+  --shadow-md: 0 16px 40px -18px rgba(83, 93, 105, .30);
   --transition: 240ms cubic-bezier(.2, .7, .3, 1);
 }
 
@@ -111,7 +118,7 @@ ul, ol { margin: 0; padding: 0; }
 }
 
 ::selection {
-  background: var(--color-surface);
+  background: var(--color-surface-3);
   color: var(--color-text);
 }
 
@@ -192,7 +199,7 @@ ul, ol { margin: 0; padding: 0; }
   color: var(--color-bg);
 }
 .btn--primary:hover {
-  background-color: #000;
+  background-color: #1E4551;
   color: var(--color-bg);
   transform: translateY(-1px);
 }
@@ -200,16 +207,16 @@ ul, ol { margin: 0; padding: 0; }
 /* Акцентная — 6.2:1 с тёплым белым (AA) */
 .btn--accent {
   background-color: var(--color-accent-strong);
-  color: #FFFDFA;
+  color: #FFFFFF;
 }
-.btn--accent:hover { background-color: #6F4126; color: #FFFDFA; transform: translateY(-1px); }
+.btn--accent:hover { background-color: #1E4551; color: #FFFFFF; transform: translateY(-1px); }
 
 .btn--ghost {
   background-color: transparent;
   border-color: var(--color-border);
   color: var(--color-text);
 }
-.btn--ghost:hover { border-color: var(--color-text); background-color: rgba(42, 42, 42, .04); color: var(--color-text); }
+.btn--ghost:hover { border-color: var(--color-text); background-color: rgba(43, 89, 104, .06); color: var(--color-text); }
 
 .link-arrow {
   display: inline-flex;
@@ -615,7 +622,7 @@ ul, ol { margin: 0; padding: 0; }
   font: inherit;
   transition: border-color var(--transition), box-shadow var(--transition);
 }
-.form__control:hover { border-color: rgba(42, 42, 42, .35); }
+.form__control:hover { border-color: rgba(43, 89, 104, .45); }
 .form__control:focus { border-color: var(--color-accent-strong); }
 textarea.form__control { min-height: 9rem; resize: vertical; }
 .form__hint { font-size: var(--step--1); color: var(--color-text-muted); }

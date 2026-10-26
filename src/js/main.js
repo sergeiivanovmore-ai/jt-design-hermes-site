@@ -1,8 +1,9 @@
 /* ==========================================================================
-   JT Design — main.js
+   JT Design — main.js (v2)
    Vanilla JS, без зависимостей и глобальных переменных (IIFE + 'use strict').
-   Модули: мобильное меню, тень шапки, фильтр портфолио, год в подвале,
-   появление секций при скролле, валидация формы заявки.
+   Модули: мобильное меню, тень шапки, карусель проектов с сегментами,
+   карусель галереи проекта, год в подвале, появление секций при скролле.
+   Форму убрали: связь — через Telegram (@JuliayTara), бэкенда нет.
    ========================================================================== */
 (function () {
   'use strict';
@@ -77,43 +78,192 @@
   }
 
   /* ---------------------------------------------------------------------
-     3. Фильтр портфолио
-     Без JS видны все проекты, поэтому фильтрация — прогрессивное улучшение.
+     3. Карусель проектов с сегментами.
+     Показывает 1/2/3 слайда в зависимости от ширины экрана; сегменты
+     фильтруют слайды по data-seg-values. Управление: стрелки, точки,
+     клавиатура (←/→ в фокусе карусели). Без JS видны все слайды подряд.
      --------------------------------------------------------------------- */
-  function initFilter() {
-    var group = document.querySelector('[data-filter]');
-    var list = document.querySelector('[data-projects]');
-    if (!group || !list) return;
+  function initProjectCarousel() {
+    var root = document.querySelector('[data-carousel]');
+    if (!root) return;
 
-    var buttons = Array.prototype.slice.call(group.querySelectorAll('[data-filter-value]'));
-    var cards = Array.prototype.slice.call(list.querySelectorAll('[data-category]'));
-    var status = document.querySelector('[data-filter-status]');
+    var track = root.querySelector('[data-track]');
+    var slides = Array.prototype.slice.call(root.querySelectorAll('.carousel__slide'));
+    var segs = Array.prototype.slice.call(root.querySelectorAll('[data-seg]'));
+    var prevBtn = root.querySelector('[data-prev]');
+    var nextBtn = root.querySelector('[data-next]');
+    var dotsBox = root.querySelector('[data-dots]');
+    var status = root.querySelector('[data-carousel-status]');
+    if (!track || !slides.length) return;
 
-    buttons.forEach(function (button) {
-      button.addEventListener('click', function () {
-        var value = button.getAttribute('data-filter-value');
-        var visible = 0;
+    var current = 0;
 
-        buttons.forEach(function (other) {
-          other.setAttribute('aria-pressed', other === button ? 'true' : 'false');
+    function visibleSlides() {
+      return slides.filter(function (s) { return !s.hidden; });
+    }
+
+    function measurePerView() {
+      var w = window.innerWidth;
+      if (w >= 1024) return 3;
+      if (w >= 768) return 2;
+      return 1;
+    }
+
+    function buildDots() {
+      if (!dotsBox) return;
+      var vis = visibleSlides();
+      var perView = measurePerView();
+      var pages = Math.max(1, vis.length - perView + 1);
+      dotsBox.innerHTML = '';
+      for (var i = 0; i < pages; i++) {
+        (function (idx) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'carousel__dot';
+          b.setAttribute('aria-label', 'Страница ' + (idx + 1));
+          b.dataset.page = String(idx);
+          b.addEventListener('click', function () { goTo(idx); });
+          dotsBox.appendChild(b);
+        })(i);
+      }
+    }
+
+    function update() {
+      var vis = visibleSlides();
+      var perView = measurePerView();
+      var maxIndex = Math.max(0, vis.length - perView);
+      if (current > maxIndex) current = maxIndex;
+
+      var slideW = 0;
+      if (vis.length) {
+        var rect = vis[0].getBoundingClientRect();
+        var style = window.getComputedStyle(track);
+        var gap = parseFloat(style.columnGap || style.gap || '0') || 0;
+        slideW = rect.width + gap;
+      }
+      track.style.transform = 'translateX(' + (-(current * slideW)) + 'px)';
+
+      if (dotsBox) {
+        Array.prototype.forEach.call(dotsBox.children, function (d, i) {
+          d.classList.toggle('is-active', i === current);
+          d.setAttribute('aria-current', i === current ? 'true' : 'false');
         });
+      }
+      if (prevBtn) prevBtn.disabled = current === 0;
+      if (nextBtn) nextBtn.disabled = current >= maxIndex;
+      if (status) status.textContent = 'Слайд ' + (current + 1) + ' из ' + (maxIndex + 1);
+    }
 
-        cards.forEach(function (card) {
-          var match = value === 'all' || card.getAttribute('data-category') === value;
-          card.hidden = !match;
-          if (match) visible += 1;
+    function goTo(i) {
+      current = i;
+      update();
+    }
+
+    function applySegment(value) {
+      slides.forEach(function (s) {
+        var vals = (s.getAttribute('data-seg-values') || '').split(/\s+/);
+        s.hidden = value !== 'all' && vals.indexOf(value) === -1;
+      });
+      current = 0;
+      buildDots();
+      update();
+      if (status) {
+        status.textContent = 'Показано проектов: ' + visibleSlides().length;
+      }
+    }
+
+    segs.forEach(function (seg) {
+      seg.addEventListener('click', function () {
+        segs.forEach(function (s) {
+          s.setAttribute('aria-selected', s === seg ? 'true' : 'false');
         });
-
-        // Объявляем результат скринридеру
-        if (status) {
-          status.textContent = 'Показано проектов: ' + visible;
-        }
+        applySegment(seg.getAttribute('data-seg'));
       });
     });
+
+    if (prevBtn) prevBtn.addEventListener('click', function () { goTo(Math.max(0, current - 1)); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { goTo(current + 1); });
+
+    // Клавиатура работает, пока фокус внутри карусели
+    document.addEventListener('keydown', function (event) {
+      if (!root.contains(document.activeElement)) return;
+      if (event.key === 'ArrowLeft') goTo(Math.max(0, current - 1));
+      if (event.key === 'ArrowRight') goTo(current + 1);
+    });
+
+    // Пересчёт при ресайзе (debounce 120ms)
+    var resizeT = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeT);
+      resizeT = setTimeout(update, 120);
+    });
+
+    buildDots();
+    update();
   }
 
   /* ---------------------------------------------------------------------
-     4. Текущий год в подвале
+     4. Карусель галереи проекта: стрелки, точки, миниатюры
+     --------------------------------------------------------------------- */
+  function initProjectGallery() {
+    var root = document.querySelector('[data-pgal]');
+    if (!root) return;
+    var track = root.querySelector('[data-pgal-track]');
+    var slides = Array.prototype.slice.call(root.querySelectorAll('.pgal__slide'));
+    var prevBtn = root.querySelector('[data-pgal-prev]');
+    var nextBtn = root.querySelector('[data-pgal-next]');
+    var dots = Array.prototype.slice.call(root.querySelectorAll('.pgal__dot'));
+    var thumbs = Array.prototype.slice.call(root.querySelectorAll('.pgal__thumb'));
+    var status = root.querySelector('[data-pgal-status]');
+    if (!track || !slides.length) return;
+
+    var current = 0;
+
+    function update() {
+      var slide = slides[current];
+      if (slide) {
+        track.style.transform = 'translateX(' + (-slide.offsetLeft) + 'px)';
+      }
+      dots.forEach(function (d, i) {
+        d.setAttribute('aria-current', i === current ? 'true' : 'false');
+      });
+      thumbs.forEach(function (t, i) {
+        t.setAttribute('aria-current', i === current ? 'true' : 'false');
+      });
+      if (status) status.textContent = 'Фото ' + (current + 1) + ' из ' + slides.length;
+    }
+
+    function goTo(i) {
+      current = Math.max(0, Math.min(slides.length - 1, i));
+      update();
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', function () { goTo(current - 1); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { goTo(current + 1); });
+    dots.forEach(function (d) {
+      d.addEventListener('click', function () { goTo(parseInt(d.dataset.goto, 10)); });
+    });
+    thumbs.forEach(function (t) {
+      t.addEventListener('click', function () { goTo(parseInt(t.dataset.goto, 10)); });
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (!root.contains(document.activeElement)) return;
+      if (event.key === 'ArrowLeft') goTo(current - 1);
+      if (event.key === 'ArrowRight') goTo(current + 1);
+    });
+
+    var resizeT = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeT);
+      resizeT = setTimeout(update, 120);
+    });
+
+    update();
+  }
+
+  /* ---------------------------------------------------------------------
+     5. Текущий год в подвале
      --------------------------------------------------------------------- */
   function initYear() {
     var nodes = document.querySelectorAll('[data-year]');
@@ -122,7 +272,7 @@
   }
 
   /* ---------------------------------------------------------------------
-     5. Появление секций при скролле
+     6. Появление секций при скролле
      --------------------------------------------------------------------- */
   function initReveal() {
     var items = document.querySelectorAll('[data-reveal]');
@@ -149,51 +299,15 @@
   }
 
   /* ---------------------------------------------------------------------
-     6. Форма заявки: клиентская валидация
-     TODO: подключить бэкенд — здесь будет POST на endpoint (Formspree, n8n,
-     собственный API). Пока сообщение носит демонстрационный характер.
-     --------------------------------------------------------------------- */
-  function initContactForm() {
-    var form = document.querySelector('[data-contact-form]');
-    if (!form) return;
-
-    var status = form.querySelector('[data-form-status]');
-
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
-
-      var name = form.elements.name;
-      var contact = form.elements.contact;
-      var invalid = [];
-
-      [name, contact].forEach(function (field) {
-        var ok = field.value.trim().length > 0;
-        field.setAttribute('aria-invalid', ok ? 'false' : 'true');
-        if (!ok) invalid.push(field);
-      });
-
-      if (invalid.length) {
-        status.textContent = 'Заполните, пожалуйста, поля «Имя» и «Контакт».';
-        invalid[0].focus();
-        return;
-      }
-
-      // Здесь будет реальная отправка на бэкенд
-      status.textContent = 'Спасибо, ' + name.value.trim() + '! Заявка принята — свяжемся в течение рабочего дня.';
-      form.reset();
-    });
-  }
-
-  /* ---------------------------------------------------------------------
      Инициализация
      --------------------------------------------------------------------- */
   function init() {
     initNav();
     initHeaderShadow();
-    initFilter();
+    initProjectCarousel();
+    initProjectGallery();
     initYear();
     initReveal();
-    initContactForm();
   }
 
   if (document.readyState === 'loading') {
