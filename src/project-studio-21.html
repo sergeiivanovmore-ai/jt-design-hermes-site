@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#FAFAF7">
+  <meta name="theme-color" content="#F7F2F4">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/carousel.css">
   <script src="js/main.js" defer></script>
-  <title>Студия 21,9 м² — проект Юлии Тары</title>
-  <meta name="description" content="В крошечной студии есть всё: задача — создать не «угол», а полноценный дом.">
+  <title>Студия 21,9 м² — проект Юлии Таранниковой</title>
+  <meta name="description" content="Компактная студия для аренды: максимум функциональных зон на минимальной площади.">
   <link rel="canonical" href="https://jt-design.ru/project-studio-21.html">
   <meta property="og:type" content="article">
   <meta property="og:title" content="Студия 21,9 м²">
-  <meta property="og:description" content="В крошечной студии есть всё: задача — создать не «угол», а полноценный дом.">
+  <meta property="og:description" content="Компактная студия для аренды: максимум функциональных зон на минимальной площади.">
   <meta property="og:url" content="https://jt-design.ru/project-studio-21.html">
-  <meta property="og:image" content="https://jt-design.ru/assets/img/studio-21-cover.webp">
+  <meta property="og:image" content="https://jt-design.ru/assets/img/studio-21-4.webp">
   <meta property="og:locale" content="ru_RU">
   <meta name="twitter:card" content="summary_large_image">
   <script type="application/ld+json">
@@ -26,15 +27,14 @@
   "@context": "https://schema.org",
   "@type": "CreativeWork",
   "name": "Студия 21,9 м²",
-  "headline": "Студия 21,9 м² — проект Юлии Тары",
-  "description": "В крошечной студии есть всё: задача — создать не «угол», а полноценный дом.",
-  "image": "https://jt-design.ru/assets/img/studio-21-cover.webp",
+  "headline": "Студия 21,9 м² — проект Юлии Таранниковой",
+  "description": "Компактная студия для аренды: максимум функциональных зон на минимальной площади.",
+  "image": "https://jt-design.ru/assets/img/studio-21-4.webp",
   "url": "https://jt-design.ru/project-studio-21.html",
   "creator": {
     "@type": "Person",
-    "name": "Юлия Тара"
-  },
-  "dateCreated": "2025"
+    "name": "Юлия Таранникова"
+  }
 }
   </script>
 </head>
@@ -43,7 +43,7 @@
 
   <header class="site-header" data-header>
     <div class="container site-header__inner">
-      <a class="logo" href="index.html">Юлия<span class="logo__mark">·</span>Тара</a>
+      <a class="logo" href="index.html">Юлия<span class="logo__mark">·</span>Таранникова</a>
 
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" data-nav-toggle>
         <span class="visually-hidden">Меню</span>
@@ -79,25 +79,84 @@
 
         <div class="project-hero__inner">
           <div>
-            <span class="section__eyebrow">Проект · Аренда</span>
+            <span class="section__eyebrow">Проект · Студия</span>
             <h1 class="project-hero__title">Студия 21,9 м²</h1>
-            <p class="project-hero__lead">В крошечной студии есть всё: задача — создать не «угол», а полноценный дом.</p>
-            <ul class="chips">
-        <li class="chip"><strong>21,9 м²</strong> площадь</li>
-        <li class="chip"><strong>Студия для аренды</strong> тип объекта</li>
-        <li class="chip"><strong>Проект в работе</strong> стадия</li>
-            </ul>
+            <p class="project-hero__lead">Компактная студия для аренды: максимум функциональных зон на минимальной площади.</p>
           </div>
         </div>
 
-        <figure class="media media--16x9 project-hero__cover">
-          <img src="assets/img/studio-21-cover.webp"
-             srcset="assets/img/studio-21-cover-800.webp 800w, assets/img/studio-21-cover.webp 1600w"
-             sizes="100vw"
-             width="1600" height="1200"
-             alt="Планировка студии 21,9 м²"
-             loading="eager" decoding="async">
-        </figure>
+        <!-- Карусель галереи -->
+        <div class="pgal" data-pgal>
+          <div class="pgal__viewport">
+            <ul class="pgal__track" data-pgal-track>
+          <li class="pgal__slide" data-index="0">
+            <figure class="media media--3x2">
+              <img src="assets/img/studio-21-4.webp"
+             srcset="assets/img/studio-21-4-800.webp 800w, assets/img/studio-21-4.webp 1600w"
+             sizes="(min-width: 1024px) 72vw, 100vw"
+             width="1600" height="1067"
+             alt="Кухня-гостиная студии с обеденным столом и панорамным окном"
+             loading="lazy" decoding="async">
+            </figure>
+          </li>
+          <li class="pgal__slide" hidden data-index="1">
+            <figure class="media media--3x2">
+              <img src="assets/img/studio-21-1.webp"
+             srcset="assets/img/studio-21-1-800.webp 800w, assets/img/studio-21-1.webp 1600w"
+             sizes="(min-width: 1024px) 72vw, 100vw"
+             width="1600" height="1067"
+             alt="Спальня с постельным бельём мокко и шторой в пол"
+             loading="lazy" decoding="async">
+            </figure>
+          </li>
+          <li class="pgal__slide" hidden data-index="2">
+            <figure class="media media--3x2">
+              <img src="assets/img/studio-21-2.webp"
+             srcset="assets/img/studio-21-2-800.webp 800w, assets/img/studio-21-2.webp 1600w"
+             sizes="(min-width: 1024px) 72vw, 100vw"
+             width="1600" height="1067"
+             alt="Спальня в вечернем тёплом освещении"
+             loading="lazy" decoding="async">
+            </figure>
+          </li>
+          <li class="pgal__slide" hidden data-index="3">
+            <figure class="media media--3x2">
+              <img src="assets/img/studio-21-3.webp"
+             srcset="assets/img/studio-21-3-800.webp 800w, assets/img/studio-21-3.webp 1600w"
+             sizes="(min-width: 1024px) 72vw, 100vw"
+             width="1600" height="1067"
+             alt="Кухня с мятными фасадами и обеденным столом"
+             loading="lazy" decoding="async">
+            </figure>
+          </li>
+            </ul>
+          </div>
+          <div class="pgal__controls">
+            <button class="pgal__arrow" type="button" data-pgal-prev aria-label="Предыдущее фото">←</button>
+            <div class="pgal__dots" data-pgal-dots>
+          <button class="pgal__dot" type="button" data-goto="0" aria-label="Слайд 1" aria-current="true"></button>
+          <button class="pgal__dot" type="button" data-goto="1" aria-label="Слайд 2" aria-current="false"></button>
+          <button class="pgal__dot" type="button" data-goto="2" aria-label="Слайд 3" aria-current="false"></button>
+          <button class="pgal__dot" type="button" data-goto="3" aria-label="Слайд 4" aria-current="false"></button>
+            </div>
+            <button class="pgal__arrow" type="button" data-pgal-next aria-label="Следующее фото">→</button>
+          </div>
+          <ul class="pgal__thumbs" data-pgal-thumbs>
+          <li><button class="pgal__thumb" type="button" data-goto="0" aria-label="Показать фото 1">
+            <img src="assets/img/studio-21-4-800.webp" width="800" height="533" alt="" loading="lazy" decoding="async">
+          </button></li>
+          <li><button class="pgal__thumb" type="button" data-goto="1" aria-label="Показать фото 2">
+            <img src="assets/img/studio-21-1-800.webp" width="800" height="533" alt="" loading="lazy" decoding="async">
+          </button></li>
+          <li><button class="pgal__thumb" type="button" data-goto="2" aria-label="Показать фото 3">
+            <img src="assets/img/studio-21-2-800.webp" width="800" height="533" alt="" loading="lazy" decoding="async">
+          </button></li>
+          <li><button class="pgal__thumb" type="button" data-goto="3" aria-label="Показать фото 4">
+            <img src="assets/img/studio-21-3-800.webp" width="800" height="533" alt="" loading="lazy" decoding="async">
+          </button></li>
+          </ul>
+          <p class="visually-hidden" role="status" data-pgal-status></p>
+        </div>
       </div>
     </section>
 
@@ -106,72 +165,30 @@
         <div class="project-body__text">
           <span class="section__eyebrow">Задача</span>
           <h2 id="task-title">Что хотел заказчик</h2>
-          <p>Свежий проект в работе — компактная студия для аренды площадью 21,9 м². Казалось бы, минимум метров, но задача — создать не просто «коробку», а полноценное, комфортное и стильное жильё с максимумом функциональных зон.</p>
+          <p>Создать не «коробку», а полноценное, комфортное и стильное жильё с максимум функциональных зон на 21,9 м². Квартира для сдачи в аренду — среди более чем 20 студий в ЖК её нельзя пролистать.</p>
 
           <span class="section__eyebrow section__eyebrow--spaced">Решение</span>
           <h2>Что я сделала</h2>
-          <p>Показаны планировка, подбор цветовой гаммы и 3D-визуализации будущего интерьера. Кровать с подъёмным механизмом, кресло и круглая картина — чтобы студию невозможно было пролистать среди двадцати других в объявлении.</p>
+          <p>Кровать с подъёмным механизмом, мягкое кресло и круглая картина формируют тёплую спальню-гостиную; кухня вынесена к окну с мятными фасадами. Спальня работает в двух сценариях освещения: дневной рассеянный свет и вечерний тёплый от бра и торшера.</p>
         </div>
 
         <aside class="spec" aria-labelledby="spec-title">
           <h2 class="spec__title" id="spec-title">Об объекте</h2>
           <dl class="spec__list">
           <div class="spec__row"><dt>Площадь</dt><dd>21,9 м²</dd></div>
-          <div class="spec__row"><dt>Тип объекта</dt><dd>Студия для аренды</dd></div>
-          <div class="spec__row"><dt>Стадия</dt><dd>Проект в работе</dd></div>
-          <div class="spec__row"><dt>Год</dt><dd>2025</dd></div>
+          <div class="spec__row"><dt>Тип</dt><dd>Студия</dd></div>
+          <div class="spec__row"><dt>Назначение</dt><dd>Аренда</dd></div>
           </dl>
-
-          <h2 class="spec__title spec__title--spaced" id="materials-title">Материалы и решения</h2>
-          <ul class="card__list" aria-labelledby="materials-title">
-          <li>Кровать Шерона с механизмом</li>
-          <li>Кресло Ансил</li>
-          <li>Круглая картина 70 см</li>
-          <li>Торшер и бра</li>
-          </ul>
         </aside>
-      </div>
-    </section>
-
-    <section class="section section--surface" aria-labelledby="gallery-title">
-      <div class="container">
-        <div class="section__head">
-          <span class="section__eyebrow">Галерея</span>
-          <h2 id="gallery-title">Визуализации проекта</h2>
-        </div>
-        <ul class="gallery">
-        <li class="gallery__item">
-          <figure class="media media--3x2">
-            <img src="assets/img/studio-21-1.webp"
-             srcset="assets/img/studio-21-1-800.webp 800w, assets/img/studio-21-1.webp 1600w"
-             sizes="100vw"
-             width="1600" height="1067"
-             alt="Студия с кроватью и встроенным шкафом"
-             loading="lazy" decoding="async">
-          </figure>
-          <figcaption>tg-219-00</figcaption>
-        </li>
-        <li class="gallery__item">
-          <figure class="media media--3x2">
-            <img src="assets/img/studio-21-2.webp"
-             srcset="assets/img/studio-21-2-800.webp 800w, assets/img/studio-21-2.webp 1600w"
-             sizes="100vw"
-             width="1600" height="1067"
-             alt="Планировочное решение студии"
-             loading="lazy" decoding="async">
-          </figure>
-          <figcaption>tg-215-01</figcaption>
-        </li>
-        </ul>
       </div>
     </section>
 
     <section class="section" aria-label="Другие проекты">
       <div class="container">
         <nav class="project-nav" aria-label="Другие проекты">
-          <div class="project-nav__item">
-            <span class="project-nav__label">Предыдущий проект</span>
-            <a class="project-nav__link" href="project-altufievskoe-29.html">ЖК Алтуфьевское 53 — студия 29,9 м²</a>
+          <div class="project-nav__item project-nav__item--next">
+            <span class="project-nav__label">Следующий проект</span>
+            <a class="project-nav__link" href="project-green-park-40.html">1-комнатная 40 м², ЖК Green Park</a>
           </div>
         </nav>
       </div>
@@ -181,10 +198,9 @@
       <div class="container cta__inner">
         <h2 class="cta__title" id="cta-title">Хотите так же?</h2>
         <p class="cta__text">
-          Пришлите планировку и пару слов о том, как вы живёте. Ответим в течение рабочего дня
-          и предложим формат сотрудничества.
+          Пришлите планировку и пару слов о том, как вы живёте. Отвечу в течение рабочего дня.
         </p>
-        <a class="btn btn--accent" href="contacts.html">Обсудить проект</a>
+        <a class="btn btn--accent" href="https://t.me/JuliayTara" rel="noopener">Написать в Telegram</a>
       </div>
     </section>
   </main>
@@ -192,8 +208,9 @@
   <footer class="site-footer">
     <div class="container site-footer__grid">
       <div>
-        <p class="site-footer__title">Юлия Тара</p>
-        <p class="text-muted">Дизайн, планировка и благоустройство квартир. Москва и онлайн по России.</p>
+        <p class="site-footer__title">Юлия Таранникова</p>
+        <p class="text-muted">Дизайн интерьера с инженерно-экономическим образованием.
+        Планировка, законная перепланировка, комплектация. Москва и онлайн по России.</p>
       </div>
 
       <nav class="site-footer__nav" aria-label="Меню в подвале">
@@ -212,14 +229,15 @@
         <ul>
           <li><a href="https://t.me/JuliayTara" rel="noopener">Telegram — @JuliayTara</a></li>
           <li><a href="https://t.me/homest_jul" rel="noopener">Канал — @homest_jul</a></li>
+          <li><a href="https://max.ru/channel_jt_design" rel="noopener">Канал в Max — jt_design</a></li>
           <li><a href="https://vk.ru/wall517179030_3" rel="noopener">ВКонтакте</a></li>
         </ul>
       </div>
     </div>
 
     <div class="container site-footer__bottom">
-      <span>© <span data-year>2026</span> Юлия Тара. Все права защищены.</span>
-      <span>Промокод <strong>JTARA</strong> на мебель Divan.ru — 5%</span>
+      <span>© <span data-year>2026</span> Юлия Таранникова</span>
+      <span>г. Москва · онлайн по России</span>
     </div>
   </footer>
 

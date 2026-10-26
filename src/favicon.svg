@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Юлия Тара">
-  <rect width="64" height="64" fill="#2A2A2A"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Юлия Таранникова">
+  <rect width="64" height="64" fill="#2B5968"/>
   <text x="32" y="43" text-anchor="middle" font-family="Playfair Display, Georgia, serif"
-        font-size="27" letter-spacing="0" fill="#FAFAF7">ЮТ</text>
-  <circle cx="50" cy="19" r="4" fill="#B8764F"/>
+        font-size="26" fill="#FCF7F8">ЮТ</text>
+  <circle cx="50" cy="18" r="4" fill="#DCB3A8"/>
 </svg>

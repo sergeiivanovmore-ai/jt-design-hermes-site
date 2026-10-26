@@ -3,38 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#FAFAF7">
+  <meta name="theme-color" content="#F7F2F4">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/carousel.css">
   <script src="js/main.js" defer></script>
-  <title>Объект после капитального ремонта — проект Юлии Тары</title>
-  <meta name="description" content="Черновые работы, чистовая отделка и результат — одна квартира в процессе.">
+  <title>2-комнатная 66 м²: ремонт и комплектация — проект Юлии Таранниковой</title>
+  <meta name="description" content="Старые обои и ржавая кухня — и та же квартира после ремонта под ключ.">
   <link rel="canonical" href="https://jt-design.ru/project-remont-object.html">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Объект после капитального ремонта">
-  <meta property="og:description" content="Черновые работы, чистовая отделка и результат — одна квартира в процессе.">
+  <meta property="og:title" content="2-комнатная 66 м²: ремонт и комплектация">
+  <meta property="og:description" content="Старые обои и ржавая кухня — и та же квартира после ремонта под ключ.">
   <meta property="og:url" content="https://jt-design.ru/project-remont-object.html">
-  <meta property="og:image" content="https://jt-design.ru/assets/img/remont-object-cover.webp">
+  <meta property="og:image" content="https://jt-design.ru/assets/img/remont-object-after-10.webp">
   <meta property="og:locale" content="ru_RU">
   <meta name="twitter:card" content="summary_large_image">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "CreativeWork",
-  "name": "Объект после капитального ремонта",
-  "headline": "Объект после капитального ремонта — проект Юлии Тары",
-  "description": "Черновые работы, чистовая отделка и результат — одна квартира в процессе.",
-  "image": "https://jt-design.ru/assets/img/remont-object-cover.webp",
+  "name": "2-комнатная 66 м²: ремонт и комплектация",
+  "headline": "2-комнатная 66 м²: ремонт и комплектация — проект Юлии Таранниковой",
+  "description": "Старые обои и ржавая кухня — и та же квартира после ремонта под ключ.",
+  "image": "https://jt-design.ru/assets/img/remont-object-after-10.webp",
   "url": "https://jt-design.ru/project-remont-object.html",
   "creator": {
     "@type": "Person",
-    "name": "Юлия Тара"
-  },
-  "dateCreated": "2025"
+    "name": "Юлия Таранникова"
+  }
 }
   </script>
 </head>
@@ -43,7 +43,7 @@
 
   <header class="site-header" data-header>
     <div class="container site-header__inner">
-      <a class="logo" href="index.html">Юлия<span class="logo__mark">·</span>Тара</a>
+      <a class="logo" href="index.html">Юлия<span class="logo__mark">·</span>Таранникова</a>
 
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" data-nav-toggle>
         <span class="visually-hidden">Меню</span>
@@ -73,31 +73,178 @@
           <ol class="breadcrumbs">
             <li><a href="index.html">Главная</a></li>
             <li><a href="portfolio.html">Проекты</a></li>
-            <li aria-current="page">Объект после капитального ремонта</li>
+            <li aria-current="page">2-комнатная 66 м²: ремонт и комплектация</li>
           </ol>
         </nav>
 
         <div class="project-hero__inner">
           <div>
-            <span class="section__eyebrow">Проект · Для жизни</span>
-            <h1 class="project-hero__title">Объект после капитального ремонта</h1>
-            <p class="project-hero__lead">Черновые работы, чистовая отделка и результат — одна квартира в процессе.</p>
-            <ul class="chips">
-        <li class="chip"><strong>Квартира</strong> тип объекта</li>
-        <li class="chip"><strong>Капитальный ремонт</strong> стадия</li>
-        <li class="chip"><strong>Черновые, чистовые, результат</strong> что показано</li>
-            </ul>
+            <span class="section__eyebrow">Проект · До / После</span>
+            <h1 class="project-hero__title">2-комнатная 66 м²: ремонт и комплектация</h1>
+            <p class="project-hero__lead">Старые обои и ржавая кухня — и та же квартира после ремонта под ключ.</p>
           </div>
         </div>
 
-        <figure class="media media--16x9 project-hero__cover">
-          <img src="assets/img/remont-object-cover.webp"
-             srcset="assets/img/remont-object-cover-800.webp 800w, assets/img/remont-object-cover.webp 1600w"
-             sizes="100vw"
-             width="1600" height="1200"
-             alt="Гостиная после ремонта: тёмная мебель и мягкий свет"
-             loading="eager" decoding="async">
-        </figure>
+        <!-- Карусель галереи -->
+        <div class="pgal" data-pgal>
+          <div class="pgal__viewport">
+            <ul class="pgal__track" data-pgal-track>
+          <li class="pgal__slide" data-index="0">
+            <figure class="media media--3x2">
+              <img src="assets/img/remont-object-after-10.webp"
+             srcset="assets/img/remont-object-after-10-800.webp 800w, assets/img/remont-object-after-10.webp 1600w"
+             sizes="(min-width: 1024px) 72vw, 100vw"
+             width="1600" height="1067"
+             alt="Спальня в синих тонах после ремонта"
+             loading="lazy" decoding="async">
+            </figure>
+          </li>
+          <li class="pgal__slide" hidden data-index="1">
+            <figure class="media media--3x2">
+              <img src="assets/img/remont-object-after-13.webp"
+             srcset="assets/img/remont-object-after-13-800.webp 800w, assets/img/remont-object-after-13.webp 1600w"
+             sizes="(min-width: 1024px) 72vw, 100vw"
+             width="1600" height="1067"
+             alt="Санузел в сером мраморе с подвесным унитазом"
+             loading="lazy" decoding="async">
+            </figure>
+          </li>
+          <li class="pgal__slide" hidden data-index="2">
+            <figure class="media media--3x2">
+              <img src="assets/img/remont-object-after-11.webp"
+             srcset="assets/img/remont-object-after-11-800.webp 800w, assets/img/remont-object-after-11.webp 1600w"
+             sizes="(min-width: 1024px) 72vw, 100vw"
+             width="1600" height="1067"
+             alt="Кресло у окна с дуговым торшером"
+             loading="lazy" decoding="async">
+            </figure>
+          </li>
+          <li class="pgal__slide" hidden data-index="3">
+            <figure class="media media--3x2">
+              <img src="assets/img/remont-object-after-1.webp"
+             srcset="assets/img/remont-object-after-1-800.webp 800w, assets/img/remont-object-after-1.webp 1600w"
+             sizes="(min-width: 1024px) 72vw, 100vw"
+             width="1600" height="1067"
+             alt="Прихожая с деревом и зеркалами после ремонта"
+             loading="lazy" decoding="async">
+            </figure>
+          </li>
+          <li class="pgal__slide" hidden data-index="4">
+            <figure class="media media--3x2">
+              <img src="assets/img/remont-object-after-12.webp"
+             srcset="assets/img/remont-object-after-12-800.webp 800w, assets/img/remont-object-after-12.webp 1600w"
+             sizes="(min-width: 1024px) 72vw, 100vw"
+             width="1600" height="1067"
+             alt="Спальня с синим текстилем и декоративным сердцем"
+             loading="lazy" decoding="async">
+            </figure>
+          </li>
+          <li class="pgal__slide" hidden data-index="5">
+            <figure class="media media--3x2">
+              <img src="assets/img/remont-object-after-2.webp"
+             srcset="assets/img/remont-object-after-2-800.webp 800w, assets/img/remont-object-after-2.webp 1600w"
+             sizes="(min-width: 1024px) 72vw, 100vw"
+             width="1600" height="1067"
+             alt="Прихожая со шкафом и скамейкой"
+             loading="lazy" decoding="async">
+            </figure>
+          </li>
+          <li class="pgal__slide pgal__slide--before" hidden data-index="6">
+            <figure class="media media--3x2">
+              <img src="assets/img/remont-object-before-1.webp"
+             srcset="assets/img/remont-object-before-1-800.webp 800w, assets/img/remont-object-before-1.webp 1600w"
+             sizes="(min-width: 1024px) 72vw, 100vw"
+             width="1600" height="1067"
+             alt="Квартира до ремонта: прихожая со старым шкафом"
+             loading="lazy" decoding="async">
+            </figure>
+            <figcaption class="pgal__tag">до ремонта</figcaption>
+          </li>
+          <li class="pgal__slide pgal__slide--before" hidden data-index="7">
+            <figure class="media media--3x2">
+              <img src="assets/img/remont-object-before-3.webp"
+             srcset="assets/img/remont-object-before-3-800.webp 800w, assets/img/remont-object-before-3.webp 1600w"
+             sizes="(min-width: 1024px) 72vw, 100vw"
+             width="1600" height="1067"
+             alt="Квартира до ремонта: старый санузел"
+             loading="lazy" decoding="async">
+            </figure>
+            <figcaption class="pgal__tag">до ремонта</figcaption>
+          </li>
+          <li class="pgal__slide pgal__slide--before" hidden data-index="8">
+            <figure class="media media--3x2">
+              <img src="assets/img/remont-object-before-5.webp"
+             srcset="assets/img/remont-object-before-5-800.webp 800w, assets/img/remont-object-before-5.webp 1600w"
+             sizes="(min-width: 1024px) 72vw, 100vw"
+             width="1600" height="1067"
+             alt="Квартира до ремонта: комната со старыми обоями"
+             loading="lazy" decoding="async">
+            </figure>
+            <figcaption class="pgal__tag">до ремонта</figcaption>
+          </li>
+          <li class="pgal__slide pgal__slide--before" hidden data-index="9">
+            <figure class="media media--3x2">
+              <img src="assets/img/remont-object-before-6.webp"
+             srcset="assets/img/remont-object-before-6-800.webp 800w, assets/img/remont-object-before-6.webp 1600w"
+             sizes="(min-width: 1024px) 72vw, 100vw"
+             width="1600" height="1067"
+             alt="Квартира до ремонта: пустая комната с зелёными стенами"
+             loading="lazy" decoding="async">
+            </figure>
+            <figcaption class="pgal__tag">до ремонта</figcaption>
+          </li>
+            </ul>
+          </div>
+          <div class="pgal__controls">
+            <button class="pgal__arrow" type="button" data-pgal-prev aria-label="Предыдущее фото">←</button>
+            <div class="pgal__dots" data-pgal-dots>
+          <button class="pgal__dot" type="button" data-goto="0" aria-label="Слайд 1" aria-current="true"></button>
+          <button class="pgal__dot" type="button" data-goto="1" aria-label="Слайд 2" aria-current="false"></button>
+          <button class="pgal__dot" type="button" data-goto="2" aria-label="Слайд 3" aria-current="false"></button>
+          <button class="pgal__dot" type="button" data-goto="3" aria-label="Слайд 4" aria-current="false"></button>
+          <button class="pgal__dot" type="button" data-goto="4" aria-label="Слайд 5" aria-current="false"></button>
+          <button class="pgal__dot" type="button" data-goto="5" aria-label="Слайд 6" aria-current="false"></button>
+          <button class="pgal__dot" type="button" data-goto="6" aria-label="Слайд 7" aria-current="false"></button>
+          <button class="pgal__dot" type="button" data-goto="7" aria-label="Слайд 8" aria-current="false"></button>
+          <button class="pgal__dot" type="button" data-goto="8" aria-label="Слайд 9" aria-current="false"></button>
+          <button class="pgal__dot" type="button" data-goto="9" aria-label="Слайд 10" aria-current="false"></button>
+            </div>
+            <button class="pgal__arrow" type="button" data-pgal-next aria-label="Следующее фото">→</button>
+          </div>
+          <ul class="pgal__thumbs" data-pgal-thumbs>
+          <li><button class="pgal__thumb" type="button" data-goto="0" aria-label="Показать фото 1">
+            <img src="assets/img/remont-object-after-10-800.webp" width="800" height="533" alt="" loading="lazy" decoding="async">
+          </button></li>
+          <li><button class="pgal__thumb" type="button" data-goto="1" aria-label="Показать фото 2">
+            <img src="assets/img/remont-object-after-13-800.webp" width="800" height="533" alt="" loading="lazy" decoding="async">
+          </button></li>
+          <li><button class="pgal__thumb" type="button" data-goto="2" aria-label="Показать фото 3">
+            <img src="assets/img/remont-object-after-11-800.webp" width="800" height="533" alt="" loading="lazy" decoding="async">
+          </button></li>
+          <li><button class="pgal__thumb" type="button" data-goto="3" aria-label="Показать фото 4">
+            <img src="assets/img/remont-object-after-1-800.webp" width="800" height="533" alt="" loading="lazy" decoding="async">
+          </button></li>
+          <li><button class="pgal__thumb" type="button" data-goto="4" aria-label="Показать фото 5">
+            <img src="assets/img/remont-object-after-12-800.webp" width="800" height="533" alt="" loading="lazy" decoding="async">
+          </button></li>
+          <li><button class="pgal__thumb" type="button" data-goto="5" aria-label="Показать фото 6">
+            <img src="assets/img/remont-object-after-2-800.webp" width="800" height="533" alt="" loading="lazy" decoding="async">
+          </button></li>
+          <li><button class="pgal__thumb" type="button" data-goto="6" aria-label="Показать фото 7">
+            <img src="assets/img/remont-object-before-1-800.webp" width="800" height="533" alt="" loading="lazy" decoding="async">
+          </button></li>
+          <li><button class="pgal__thumb" type="button" data-goto="7" aria-label="Показать фото 8">
+            <img src="assets/img/remont-object-before-3-800.webp" width="800" height="533" alt="" loading="lazy" decoding="async">
+          </button></li>
+          <li><button class="pgal__thumb" type="button" data-goto="8" aria-label="Показать фото 9">
+            <img src="assets/img/remont-object-before-5-800.webp" width="800" height="533" alt="" loading="lazy" decoding="async">
+          </button></li>
+          <li><button class="pgal__thumb" type="button" data-goto="9" aria-label="Показать фото 10">
+            <img src="assets/img/remont-object-before-6-800.webp" width="800" height="533" alt="" loading="lazy" decoding="async">
+          </button></li>
+          </ul>
+          <p class="visually-hidden" role="status" data-pgal-status></p>
+        </div>
       </div>
     </section>
 
@@ -106,73 +253,21 @@
         <div class="project-body__text">
           <span class="section__eyebrow">Задача</span>
           <h2 id="task-title">Что хотел заказчик</h2>
-          <p>Капитальный ремонт: черновые работы, чистовые работы и итоговая стилизация. Показываем объект в работе — от состояния «после демонтажа» до готового интерьера.</p>
+          <p>Капитальный ремонт и комплектация 2-комнатной квартиры 66 м²: от демонтажа старой отделки до готового интерьера для сдачи в аренду.</p>
 
           <span class="section__eyebrow section__eyebrow--spaced">Решение</span>
           <h2>Что я сделала</h2>
-          <p>Черновые работы — под демонтаж и подготовку, чистовые — с финишной отделкой. Показано, что было и что стало: одна и та же квартира, «было» и «стало».</p>
+          <p>Санузел в сером мраморе с подсветкой зеркала и стиральной машиной, спальни в глубоком синем, прихожая с деревом и зеркалами. Сравнение «до и после» — честная демонстрация объёма работ.</p>
         </div>
 
         <aside class="spec" aria-labelledby="spec-title">
           <h2 class="spec__title" id="spec-title">Об объекте</h2>
           <dl class="spec__list">
-          <div class="spec__row"><dt>Тип объекта</dt><dd>Квартира</dd></div>
-          <div class="spec__row"><dt>Стадия</dt><dd>Капитальный ремонт</dd></div>
-          <div class="spec__row"><dt>Что показано</dt><dd>Черновые, чистовые, результат</dd></div>
-          <div class="spec__row"><dt>Год</dt><dd>2025</dd></div>
+          <div class="spec__row"><dt>Площадь</dt><dd>66 м²</dd></div>
+          <div class="spec__row"><dt>Тип</dt><dd>2-комнатная</dd></div>
+          <div class="spec__row"><dt>Формат</dt><dd>Ремонт + комплектация</dd></div>
           </dl>
-
-          <h2 class="spec__title spec__title--spaced" id="materials-title">Материалы и решения</h2>
-          <ul class="card__list" aria-labelledby="materials-title">
-          <li>Тёмная мебель</li>
-          <li>Мягкий тёплый свет</li>
-          <li>Светлые стены</li>
-          </ul>
         </aside>
-      </div>
-    </section>
-
-    <section class="section section--surface" aria-labelledby="gallery-title">
-      <div class="container">
-        <div class="section__head">
-          <span class="section__eyebrow">Галерея</span>
-          <h2 id="gallery-title">Визуализации проекта</h2>
-        </div>
-        <ul class="gallery">
-        <li class="gallery__item">
-          <figure class="media media--3x2">
-            <img src="assets/img/remont-object-1.webp"
-             srcset="assets/img/remont-object-1-800.webp 800w, assets/img/remont-object-1.webp 1600w"
-             sizes="100vw"
-             width="1600" height="1067"
-             alt="Кухня-гостиная с тёмной мебелью"
-             loading="lazy" decoding="async">
-          </figure>
-          <figcaption>tg-155-05</figcaption>
-        </li>
-        <li class="gallery__item">
-          <figure class="media media--3x2">
-            <img src="assets/img/remont-object-2.webp"
-             srcset="assets/img/remont-object-2-800.webp 800w, assets/img/remont-object-2.webp 1600w"
-             sizes="100vw"
-             width="1600" height="1067"
-             alt="Спальня в тёплых тонах"
-             loading="lazy" decoding="async">
-          </figure>
-          <figcaption>tg-155-06</figcaption>
-        </li>
-        <li class="gallery__item">
-          <figure class="media media--3x2">
-            <img src="assets/img/remont-object-3.webp"
-             srcset="assets/img/remont-object-3-800.webp 800w, assets/img/remont-object-3.webp 1600w"
-             sizes="100vw"
-             width="1600" height="1067"
-             alt="Гостиная после ремонта"
-             loading="lazy" decoding="async">
-          </figure>
-          <figcaption>tg-155-03</figcaption>
-        </li>
-        </ul>
       </div>
     </section>
 
@@ -181,11 +276,7 @@
         <nav class="project-nav" aria-label="Другие проекты">
           <div class="project-nav__item">
             <span class="project-nav__label">Предыдущий проект</span>
-            <a class="project-nav__link" href="project-two-room-63.html">2-комнатная 63,14 м² — три варианта перепланировки</a>
-          </div>
-          <div class="project-nav__item project-nav__item--next">
-            <span class="project-nav__label">Следующий проект</span>
-            <a class="project-nav__link" href="project-altufievskoe-29.html">ЖК Алтуфьевское 53 — студия 29,9 м²</a>
+            <a class="project-nav__link" href="project-two-room-63.html">2-комнатная 63 м²: перепланировка в 3К</a>
           </div>
         </nav>
       </div>
@@ -195,10 +286,9 @@
       <div class="container cta__inner">
         <h2 class="cta__title" id="cta-title">Хотите так же?</h2>
         <p class="cta__text">
-          Пришлите планировку и пару слов о том, как вы живёте. Ответим в течение рабочего дня
-          и предложим формат сотрудничества.
+          Пришлите планировку и пару слов о том, как вы живёте. Отвечу в течение рабочего дня.
         </p>
-        <a class="btn btn--accent" href="contacts.html">Обсудить проект</a>
+        <a class="btn btn--accent" href="https://t.me/JuliayTara" rel="noopener">Написать в Telegram</a>
       </div>
     </section>
   </main>
@@ -206,8 +296,9 @@
   <footer class="site-footer">
     <div class="container site-footer__grid">
       <div>
-        <p class="site-footer__title">Юлия Тара</p>
-        <p class="text-muted">Дизайн, планировка и благоустройство квартир. Москва и онлайн по России.</p>
+        <p class="site-footer__title">Юлия Таранникова</p>
+        <p class="text-muted">Дизайн интерьера с инженерно-экономическим образованием.
+        Планировка, законная перепланировка, комплектация. Москва и онлайн по России.</p>
       </div>
 
       <nav class="site-footer__nav" aria-label="Меню в подвале">
@@ -226,14 +317,15 @@
         <ul>
           <li><a href="https://t.me/JuliayTara" rel="noopener">Telegram — @JuliayTara</a></li>
           <li><a href="https://t.me/homest_jul" rel="noopener">Канал — @homest_jul</a></li>
+          <li><a href="https://max.ru/channel_jt_design" rel="noopener">Канал в Max — jt_design</a></li>
           <li><a href="https://vk.ru/wall517179030_3" rel="noopener">ВКонтакте</a></li>
         </ul>
       </div>
     </div>
 
     <div class="container site-footer__bottom">
-      <span>© <span data-year>2026</span> Юлия Тара. Все права защищены.</span>
-      <span>Промокод <strong>JTARA</strong> на мебель Divan.ru — 5%</span>
+      <span>© <span data-year>2026</span> Юлия Таранникова</span>
+      <span>г. Москва · онлайн по России</span>
     </div>
   </footer>
 
