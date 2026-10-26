@@ -37,6 +37,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://jt-design.ru/etapy.html</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://jt-design.ru/index.html</loc>
     <lastmod>2026-10-26</lastmod>
     <changefreq>monthly</changefreq>
@@ -49,7 +55,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://jt-design.ru/project-euro3-57.html</loc>
+    <loc>https://jt-design.ru/project-euro3-dolina.html</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jt-design.ru/project-euro3-green-park.html</loc>
     <lastmod>2026-10-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -61,7 +73,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://jt-design.ru/project-remont-object.html</loc>
+    <loc>https://jt-design.ru/project-remont-2k.html</loc>
     <lastmod>2026-10-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

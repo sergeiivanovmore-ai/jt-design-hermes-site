@@ -366,3 +366,182 @@
   color: var(--color-text);
 }
 .faq details p a { color: var(--color-accent-strong); }
+
+/* ==========================================================================
+   Правки владельца (октябрь 2026): слоган, услуги, этапы, контраст,
+   hero без обрезки, шапка на узких экранах.
+   ========================================================================== */
+
+/* --- 1. Заглавный слоган под подзаголовком героя ------------------------- */
+.hero__slogan {
+  margin: var(--space-sm) 0 0;
+  padding-left: var(--space-sm);
+  border-left: 3px solid var(--color-accent-soft);
+  color: var(--color-text);
+  font-size: var(--step-0);
+  line-height: 1.5;
+  max-width: 46ch;
+}
+
+/* --- 2. Контраст: тёмные акцентные полосы из палитры -------------------- */
+/* CTA-блок — глубокий серо-синий #535D69 с текстом #E4E1EB (5.19:1) */
+.section.cta {
+  background-color: var(--color-text);
+  color: var(--color-bg);
+}
+.section.cta .cta__title,
+.section.cta .cta__text { color: var(--color-bg); }
+.section.cta .cta__title { border-color: var(--color-accent-soft); }
+
+/* Бейджи-номера: фон #D1B9BF, текст #535D69 — крупный кегль (>=24px),
+   поэтому порог AA 3:1 (фактически 3.44:1) соблюдён */
+.card__index {
+  background-color: var(--color-warm);
+  color: var(--color-text);
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+/* Заголовки секций — голубая черта под надзаголовком для разделения блоков */
+.section__eyebrow {
+  display: inline-block;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--color-accent-soft);
+  color: var(--color-text);
+}
+
+/* Границы карточек заметнее (было почти не видно) */
+.card {
+  border: 1px solid rgba(133, 163, 177, .55);
+  box-shadow: 0 10px 26px -22px rgba(83, 93, 105, .75);
+}
+
+/* --- 3. Карточки услуг -------------------------------------------------- */
+.card--service .card__media { margin-bottom: var(--space-sm); }
+.card--service .card__list { margin-bottom: var(--space-sm); }
+.card--service .link-arrow { margin-top: auto; }
+
+/* --- 4. Карточки тарифов ------------------------------------------------ */
+.card--tariff .card__price {
+  font-family: var(--font-serif);
+  font-size: var(--step-2);
+  color: var(--color-text);
+  margin: 0 0 var(--space-sm);
+}
+.card--tariff .card__note {
+  margin: var(--space-sm) 0 0;
+  padding-top: var(--space-sm);
+  border-top: 1px solid rgba(133, 163, 177, .5);
+  font-size: var(--step--1);
+  color: var(--color-text);
+}
+
+/* --- 5. Номер этапа в списке -------------------------------------------- */
+.steps__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-bottom: var(--space-2xs);
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-serif);
+  font-size: var(--step-0);
+}
+
+/* --- 6. Страница «Этапы дизайн-проекта» --------------------------------- */
+.stages {
+  display: grid;
+  gap: var(--space-xl);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.stage {
+  display: grid;
+  gap: var(--space-md);
+  align-items: start;
+  padding-top: var(--space-md);
+  border-top: 2px solid var(--color-accent-soft);
+}
+.stage__num {
+  display: inline-block;
+  margin-bottom: var(--space-2xs);
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.stage__title { margin-top: 0; }
+.stage__list {
+  margin: 0 0 var(--space-sm);
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.35rem;
+}
+.stage__list li { color: var(--color-text); }
+.stage__result {
+  margin: 0;
+  padding: var(--space-2xs) var(--space-sm);
+  border-left: 3px solid var(--color-warm);
+  background-color: rgba(209, 185, 191, .22);
+  color: var(--color-text);
+}
+.stage__media { margin: 0; }
+@media (min-width: 900px) {
+  .stage { grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+  .stage:nth-child(even) .stage__text { order: 2; }
+  .stage:nth-child(even) .stage__media { order: 1; }
+}
+
+/* --- 7. «Что я сделала» на странице проекта ----------------------------- */
+.project-list {
+  margin: 0 0 var(--space-sm);
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.5rem;
+}
+.project-list li { color: var(--color-text); }
+.project-result {
+  margin: var(--space-sm) 0 0;
+  padding: var(--space-2xs) var(--space-sm);
+  border-left: 3px solid var(--color-warm);
+  background-color: rgba(209, 185, 191, .22);
+  font-weight: 500;
+}
+
+/* --- 8. Hero на десктопе: без обрезки кадра ----------------------------- */
+/* Портрет 900x1018 (0.88). Контейнер 4/3 обрезал две трети высоты.
+   Теперь пропорция близка к исходной, высота ограничена, ширина — по ней. */
+@media (min-width: 768px) {
+  .hero .media {
+    aspect-ratio: 8 / 9;
+    max-height: 62vh;
+    width: auto;
+    justify-self: end;
+    align-self: start;
+  }
+}
+
+/* --- 9. Шапка на узких экранах: ничего не выходит за экран -------------- */
+.site-header__inner { min-width: 0; }
+.logo {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nav-toggle { flex: 0 0 auto; }
+@media (max-width: 380px) {
+  .logo { font-size: var(--step-0); letter-spacing: 0.02em; }
+  .nav-toggle { width: 2.5rem; height: 2.5rem; padding: 0.5rem; }
+}
