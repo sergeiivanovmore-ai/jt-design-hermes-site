@@ -120,33 +120,51 @@
   gap: var(--space-sm);
   margin-top: var(--space-md);
 }
-.carousel__arrow {
-  width: 2.75rem;
-  height: 2.75rem;
+.carousel__arrow,
+.pgal__arrow {
+  width: 3rem;
+  height: 3rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: transparent;
-  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  border: 1px solid rgba(83, 93, 105, .18);
   border-radius: 50%;
   color: var(--color-text);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   cursor: pointer;
-  transition: border-color var(--transition), color var(--transition);
+  box-shadow: 0 4px 14px -8px rgba(83, 93, 105, .6);
+  transition: background-color var(--transition), border-color var(--transition),
+              color var(--transition), transform var(--transition);
 }
-.carousel__arrow:hover { border-color: var(--color-accent); color: var(--color-accent); }
-.carousel__arrow:focus-visible { outline: 2px solid var(--color-accent-strong); outline-offset: 3px; }
-.carousel__arrow:disabled { opacity: 0.35; cursor: default; }
-.carousel__arrow:disabled:hover { border-color: var(--color-border); color: var(--color-text); }
+.carousel__arrow:hover,
+.pgal__arrow:hover {
+  background-color: var(--color-text);
+  border-color: var(--color-text);
+  color: var(--color-bg);
+  transform: scale(1.06);
+}
+.carousel__arrow:focus-visible,
+.pgal__arrow:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+.carousel__arrow:disabled,
+.pgal__arrow:disabled {
+  opacity: 0.4;
+  cursor: default;
+  box-shadow: none;
+  background-color: transparent;
+  border-color: rgba(83, 93, 105, .2);
+  color: var(--color-text);
+  transform: none;
+}
 
 .carousel__dots { display: flex; gap: 0.4rem; }
 .carousel__dot {
-  width: 0.6rem;
-  height: 0.6rem;
+  width: 0.75rem;
+  height: 0.75rem;
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background-color: var(--color-greige);
+  background-color: rgba(83, 93, 105, .3);
   cursor: pointer;
   transition: background-color var(--transition), transform var(--transition);
 }
@@ -178,7 +196,6 @@
   margin: 0;
   scroll-snap-align: start;
 }
-.pgal__slide[hidden] { display: none; }
 .pgal__slide--before::after {
   content: "до ремонта";
   position: absolute;
@@ -200,31 +217,15 @@
   gap: var(--space-sm);
   margin-top: var(--space-sm);
 }
-.pgal__arrow {
-  width: 2.75rem;
-  height: 2.75rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: 1px solid var(--color-border);
-  border-radius: 50%;
-  color: var(--color-text);
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: border-color var(--transition), color var(--transition);
-}
-.pgal__arrow:hover { border-color: var(--color-accent); color: var(--color-accent); }
-.pgal__arrow:focus-visible { outline: 2px solid var(--color-accent-strong); outline-offset: 3px; }
 
 .pgal__dots { display: flex; gap: 0.4rem; }
 .pgal__dot {
-  width: 0.6rem;
-  height: 0.6rem;
+  width: 0.75rem;
+  height: 0.75rem;
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background-color: var(--color-greige);
+  background-color: rgba(83, 93, 105, .3);
   cursor: pointer;
   transition: background-color var(--transition), transform var(--transition);
 }
