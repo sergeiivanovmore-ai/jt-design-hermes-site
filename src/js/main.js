@@ -1,9 +1,11 @@
 /* ==========================================================================
-   JT Design — main.js (v2)
+   JT Design — main.js (v3)
    Vanilla JS, без зависимостей и глобальных переменных (IIFE + 'use strict').
+   Карусели построены на нативном горизонтальном скролле (scroll-snap):
+   свайп работает на мобильных даже без JS, стрелки/точки управляют
+   scrollLeft и подсвечивают текущую позицию по факту скролла.
    Модули: мобильное меню, тень шапки, карусель проектов с сегментами,
-   карусель галереи проекта, год в подвале, появление секций при скролле.
-   Форму убрали: связь — через Telegram (@JuliayTara), бэкенда нет.
+   карусель галереи проекта, год в подвале, появление секций.
    ========================================================================== */
 (function () {
   'use strict';
@@ -78,15 +80,30 @@
   }
 
   /* ---------------------------------------------------------------------
-     3. Карусель проектов с сегментами.
-     Показывает 1/2/3 слайда в зависимости от ширины экрана; сегменты
-     фильтруют слайды по data-seg-values. Управление: стрелки, точки,
-     клавиатура (←/→ в фокусе карусели). Без JS видны все слайды подряд.
+     Общая утилита: шаг карусели = ширина первого видимого слайда + gap.
+     --------------------------------------------------------------------- */
+  function slideStep(track) {
+    var first = track.querySelector('li:not([hidden])');
+    if (!first) return 0;
+    var style = window.getComputedStyle(track);
+    var gap = parseFloat(style.columnGap || style.gap || '0') || 0;
+    return first.getBoundingClientRect().width + gap;
+  }
+
+  function scrollBehavior() {
+    return prefersReducedMotion ? 'auto' : 'smooth';
+  }
+
+  /* ---------------------------------------------------------------------
+     3. Карусель проектов с сегментами (scroll-snap).
+     Свайп — нативный скролл, работает на мобильных; стрелки/точки
+     управляют scrollLeft, активная точка определяется по факту скролла.
      --------------------------------------------------------------------- */
   function initProjectCarousel() {
     var root = document.querySelector('[data-carousel]');
     if (!root) return;
 
+    var viewport = root.querySelector('.carousel__viewport');
     var track = root.querySelector('[data-track]');
     var slides = Array.prototype.slice.call(root.querySelectorAll('.carousel__slide'));
     var segs = Array.prototype.slice.call(root.querySelectorAll('[data-seg]'));
@@ -94,108 +111,104 @@
     var nextBtn = root.querySelector('[data-next]');
     var dotsBox = root.querySelector('[data-dots]');
     var status = root.querySelector('[data-carousel-status]');
-    if (!track || !slides.length) return;
-
-    var current = 0;
+    if (!viewport || !track || !slides.length) return;
 
     function visibleSlides() {
       return slides.filter(function (s) { return !s.hidden; });
     }
 
-    function measurePerView() {
+    function perView() {
       var w = window.innerWidth;
-      if (w >= 1024) return 3;
-      if (w >= 768) return 2;
-      return 1;
+      return w >= 1024 ? 3 : (w >= 768 ? 2 : 1);
+    }
+
+    function maxIndex() {
+      return Math.max(0, visibleSlides().length - perView());
     }
 
     function buildDots() {
       if (!dotsBox) return;
-      var vis = visibleSlides();
-      var perView = measurePerView();
-      var pages = Math.max(1, vis.length - perView + 1);
       dotsBox.innerHTML = '';
+      var pages = maxIndex() + 1;
       for (var i = 0; i < pages; i++) {
         (function (idx) {
           var b = document.createElement('button');
           b.type = 'button';
           b.className = 'carousel__dot';
           b.setAttribute('aria-label', 'Страница ' + (idx + 1));
-          b.dataset.page = String(idx);
-          b.addEventListener('click', function () { goTo(idx); });
+          b.addEventListener('click', function () {
+            viewport.scrollTo({ left: idx * slideStep(track), behavior: scrollBehavior() });
+          });
           dotsBox.appendChild(b);
         })(i);
       }
     }
 
     function update() {
-      var vis = visibleSlides();
-      var perView = measurePerView();
-      var maxIndex = Math.max(0, vis.length - perView);
-      if (current > maxIndex) current = maxIndex;
-
-      var slideW = 0;
-      if (vis.length) {
-        var rect = vis[0].getBoundingClientRect();
-        var style = window.getComputedStyle(track);
-        var gap = parseFloat(style.columnGap || style.gap || '0') || 0;
-        slideW = rect.width + gap;
-      }
-      track.style.transform = 'translateX(' + (-(current * slideW)) + 'px)';
+      var step = slideStep(track);
+      var index = step > 0 ? Math.round(viewport.scrollLeft / step) : 0;
+      index = Math.max(0, Math.min(maxIndex(), index));
 
       if (dotsBox) {
         Array.prototype.forEach.call(dotsBox.children, function (d, i) {
-          d.classList.toggle('is-active', i === current);
-          d.setAttribute('aria-current', i === current ? 'true' : 'false');
+          d.classList.toggle('is-active', i === index);
         });
       }
-      if (prevBtn) prevBtn.disabled = current === 0;
-      if (nextBtn) nextBtn.disabled = current >= maxIndex;
-      if (status) status.textContent = 'Слайд ' + (current + 1) + ' из ' + (maxIndex + 1);
+      if (prevBtn) prevBtn.disabled = index === 0;
+      if (nextBtn) nextBtn.disabled = index >= maxIndex();
+      if (status) status.textContent = 'Слайд ' + (index + 1) + ' из ' + (maxIndex() + 1);
     }
 
-    function goTo(i) {
-      current = i;
-      update();
+    function goTo(delta) {
+      var step = slideStep(track);
+      var index = step > 0 ? Math.round(viewport.scrollLeft / step) : 0;
+      var target = Math.max(0, Math.min(maxIndex(), index + delta));
+      viewport.scrollTo({ left: target * step, behavior: scrollBehavior() });
     }
 
-    function applySegment(value) {
-      slides.forEach(function (s) {
-        var vals = (s.getAttribute('data-seg-values') || '').split(/\s+/);
-        s.hidden = value !== 'all' && vals.indexOf(value) === -1;
+    if (prevBtn) prevBtn.addEventListener('click', function () { goTo(-1); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { goTo(1); });
+
+    // Подсветка точки по фактическому скроллу (в т.ч. после свайпа пальцем)
+    var raf = null;
+    viewport.addEventListener('scroll', function () {
+      if (raf) return;
+      raf = window.requestAnimationFrame(function () {
+        raf = null;
+        update();
       });
-      current = 0;
-      buildDots();
-      update();
-      if (status) {
-        status.textContent = 'Показано проектов: ' + visibleSlides().length;
-      }
-    }
+    }, { passive: true });
 
     segs.forEach(function (seg) {
       seg.addEventListener('click', function () {
         segs.forEach(function (s) {
           s.setAttribute('aria-selected', s === seg ? 'true' : 'false');
         });
-        applySegment(seg.getAttribute('data-seg'));
+        var value = seg.getAttribute('data-seg');
+        slides.forEach(function (s) {
+          var vals = (s.getAttribute('data-seg-values') || '').split(/\s+/);
+          s.hidden = value !== 'all' && vals.indexOf(value) === -1;
+        });
+        viewport.scrollTo({ left: 0, behavior: 'auto' });
+        buildDots();
+        update();
+        if (status) status.textContent = 'Показано проектов: ' + visibleSlides().length;
       });
     });
 
-    if (prevBtn) prevBtn.addEventListener('click', function () { goTo(Math.max(0, current - 1)); });
-    if (nextBtn) nextBtn.addEventListener('click', function () { goTo(current + 1); });
-
-    // Клавиатура работает, пока фокус внутри карусели
     document.addEventListener('keydown', function (event) {
       if (!root.contains(document.activeElement)) return;
-      if (event.key === 'ArrowLeft') goTo(Math.max(0, current - 1));
-      if (event.key === 'ArrowRight') goTo(current + 1);
+      if (event.key === 'ArrowLeft') goTo(-1);
+      if (event.key === 'ArrowRight') goTo(1);
     });
 
-    // Пересчёт при ресайзе (debounce 120ms)
     var resizeT = null;
     window.addEventListener('resize', function () {
       clearTimeout(resizeT);
-      resizeT = setTimeout(update, 120);
+      resizeT = setTimeout(function () {
+        buildDots();
+        update();
+      }, 150);
     });
 
     buildDots();
@@ -203,11 +216,12 @@
   }
 
   /* ---------------------------------------------------------------------
-     4. Карусель галереи проекта: стрелки, точки, миниатюры
+     4. Карусель галереи проекта (scroll-snap + миниатюры)
      --------------------------------------------------------------------- */
   function initProjectGallery() {
     var root = document.querySelector('[data-pgal]');
     if (!root) return;
+    var viewport = root.querySelector('.pgal__viewport');
     var track = root.querySelector('[data-pgal-track]');
     var slides = Array.prototype.slice.call(root.querySelectorAll('.pgal__slide'));
     var prevBtn = root.querySelector('[data-pgal-prev]');
@@ -215,48 +229,65 @@
     var dots = Array.prototype.slice.call(root.querySelectorAll('.pgal__dot'));
     var thumbs = Array.prototype.slice.call(root.querySelectorAll('.pgal__thumb'));
     var status = root.querySelector('[data-pgal-status]');
-    if (!track || !slides.length) return;
-
-    var current = 0;
+    if (!viewport || !track || !slides.length) return;
 
     function update() {
-      var slide = slides[current];
-      if (slide) {
-        track.style.transform = 'translateX(' + (-slide.offsetLeft) + 'px)';
-      }
+      var step = slideStep(track);
+      var index = step > 0 ? Math.round(viewport.scrollLeft / step) : 0;
+      index = Math.max(0, Math.min(slides.length - 1, index));
+
       dots.forEach(function (d, i) {
-        d.setAttribute('aria-current', i === current ? 'true' : 'false');
+        d.setAttribute('aria-current', i === index ? 'true' : 'false');
       });
       thumbs.forEach(function (t, i) {
-        t.setAttribute('aria-current', i === current ? 'true' : 'false');
+        t.setAttribute('aria-current', i === index ? 'true' : 'false');
       });
-      if (status) status.textContent = 'Фото ' + (current + 1) + ' из ' + slides.length;
+      // Активную миниатюру держим в поле зрения
+      if (thumbs[index] && thumbs[index].scrollIntoView) {
+        thumbs[index].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      }
+      if (status) status.textContent = 'Фото ' + (index + 1) + ' из ' + slides.length;
     }
 
-    function goTo(i) {
-      current = Math.max(0, Math.min(slides.length - 1, i));
-      update();
+    function goTo(delta) {
+      var step = slideStep(track);
+      var index = step > 0 ? Math.round(viewport.scrollLeft / step) : 0;
+      var target = Math.max(0, Math.min(slides.length - 1, index + delta));
+      viewport.scrollTo({ left: target * step, behavior: scrollBehavior() });
     }
 
-    if (prevBtn) prevBtn.addEventListener('click', function () { goTo(current - 1); });
-    if (nextBtn) nextBtn.addEventListener('click', function () { goTo(current + 1); });
+    if (prevBtn) prevBtn.addEventListener('click', function () { goTo(-1); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { goTo(1); });
     dots.forEach(function (d) {
-      d.addEventListener('click', function () { goTo(parseInt(d.dataset.goto, 10)); });
+      d.addEventListener('click', function () {
+        viewport.scrollTo({
+          left: parseInt(d.dataset.goto, 10) * slideStep(track),
+          behavior: scrollBehavior(),
+        });
+      });
     });
     thumbs.forEach(function (t) {
-      t.addEventListener('click', function () { goTo(parseInt(t.dataset.goto, 10)); });
+      t.addEventListener('click', function () {
+        viewport.scrollTo({
+          left: parseInt(t.dataset.goto, 10) * slideStep(track),
+          behavior: scrollBehavior(),
+        });
+      });
     });
+
+    var raf = null;
+    viewport.addEventListener('scroll', function () {
+      if (raf) return;
+      raf = window.requestAnimationFrame(function () {
+        raf = null;
+        update();
+      });
+    }, { passive: true });
 
     document.addEventListener('keydown', function (event) {
       if (!root.contains(document.activeElement)) return;
-      if (event.key === 'ArrowLeft') goTo(current - 1);
-      if (event.key === 'ArrowRight') goTo(current + 1);
-    });
-
-    var resizeT = null;
-    window.addEventListener('resize', function () {
-      clearTimeout(resizeT);
-      resizeT = setTimeout(update, 120);
+      if (event.key === 'ArrowLeft') goTo(-1);
+      if (event.key === 'ArrowRight') goTo(1);
     });
 
     update();

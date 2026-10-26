@@ -1,6 +1,7 @@
 /* ==========================================================================
-   Карусели, «Обо мне», дополнения v2
-   Прилепляется к styles.css (генерируется build_v2, но правится вручную).
+   Карусели (v3): scroll-snap — нативный свайп на мобильных.
+   Стрелки/точки синхронизируются с позицией скролла (см. main.js).
+   Плюс: «Обо мне», заметки, адаптив.
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -34,22 +35,35 @@
   color: #FFFFFF;
 }
 
-.carousel__viewport { overflow: hidden; }
+/* Вьюпорт = горизонтальный скролл со снапом. Свайп работает нативно
+   на iOS/Android; полоса прокрутки скрыта, управление дублируют стрелки. */
+.carousel__viewport {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;              /* Firefox */
+  -webkit-overflow-scrolling: touch;  /* плавный инерционный скролл iOS */
+  overscroll-behavior-x: contain;
+}
+.carousel__viewport::-webkit-scrollbar { display: none; }
+
 .carousel__track {
   display: flex;
   gap: var(--space-md);
   list-style: none;
-  transition: transform 320ms cubic-bezier(.2, .7, .3, 1);
 }
 .carousel__slide {
-  flex: 0 0 100%;
+  flex: 0 0 86%;
   min-width: 0;
+  scroll-snap-align: start;
 }
+.carousel__slide[hidden] { display: none; }
+
 @media (min-width: 768px) {
   .carousel__slide { flex-basis: calc(50% - var(--space-md) / 2); }
 }
 @media (min-width: 1024px) {
-  .carousel__slide { flex-basis: calc(33.333% - var(--space-md) * 2 / 3); }
+  .carousel__slide { flex-basis: calc((100% - var(--space-md) * 2) / 3); }
 }
 
 .carousel__card {
@@ -62,14 +76,14 @@
 .carousel__media img { transition: transform 600ms cubic-bezier(.2, .7, .3, 1); }
 .carousel__card:hover .carousel__media img { transform: scale(1.03); }
 
-/* Номер слайда поверх фото — как на образце */
+/* Номер слайда поверх фото — кремовый бейдж из палитры */
 .carousel__num {
   position: absolute;
   top: var(--space-sm);
   left: var(--space-sm);
   z-index: 2;
   padding: 0.25rem 0.7rem;
-  background-color: rgba(252, 247, 248, .92);
+  background-color: var(--color-cream);
   border-radius: 999px;
   font-family: var(--font-serif);
   font-size: var(--step--1);
@@ -118,16 +132,17 @@
   color: var(--color-text);
   font-size: 1.1rem;
   cursor: pointer;
-  transition: border-color var(--transition), color var(--transition), background-color var(--transition);
+  transition: border-color var(--transition), color var(--transition);
 }
 .carousel__arrow:hover { border-color: var(--color-accent); color: var(--color-accent); }
 .carousel__arrow:focus-visible { outline: 2px solid var(--color-accent-strong); outline-offset: 3px; }
+.carousel__arrow:disabled { opacity: 0.35; cursor: default; }
+.carousel__arrow:disabled:hover { border-color: var(--color-border); color: var(--color-text); }
 
 .carousel__dots { display: flex; gap: 0.4rem; }
-.carousel__dot,
-[data-dots] .carousel__dot {
-  width: 0.55rem;
-  height: 0.55rem;
+.carousel__dot {
+  width: 0.6rem;
+  height: 0.6rem;
   padding: 0;
   border: 0;
   border-radius: 50%;
@@ -135,32 +150,42 @@
   cursor: pointer;
   transition: background-color var(--transition), transform var(--transition);
 }
-.carousel__dot[aria-current="true"],
 .carousel__dot.is-active { background-color: var(--color-accent); transform: scale(1.25); }
+.carousel__dot:focus-visible { outline: 2px solid var(--color-accent-strong); outline-offset: 2px; }
 
 /* --------------------------------------------------------------------------
    Карусель галереи на странице проекта
    -------------------------------------------------------------------------- */
 .pgal { margin-top: var(--space-md); }
-.pgal__viewport { overflow: hidden; border-radius: var(--radius); }
+.pgal__viewport {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  border-radius: var(--radius);
+}
+.pgal__viewport::-webkit-scrollbar { display: none; }
 .pgal__track {
   display: flex;
   list-style: none;
-  transition: transform 320ms cubic-bezier(.2, .7, .3, 1);
 }
 .pgal__slide {
   position: relative;
   flex: 0 0 100%;
   min-width: 0;
   margin: 0;
+  scroll-snap-align: start;
 }
+.pgal__slide[hidden] { display: none; }
 .pgal__slide--before::after {
   content: "до ремонта";
   position: absolute;
   top: var(--space-sm);
   left: var(--space-sm);
   padding: 0.25rem 0.7rem;
-  background-color: rgba(252, 247, 248, .92);
+  background-color: var(--color-cream);
   border-radius: 999px;
   font-size: var(--step--1);
   letter-spacing: 0.08em;
@@ -176,8 +201,8 @@
   margin-top: var(--space-sm);
 }
 .pgal__arrow {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -185,6 +210,7 @@
   border: 1px solid var(--color-border);
   border-radius: 50%;
   color: var(--color-text);
+  font-size: 1.1rem;
   cursor: pointer;
   transition: border-color var(--transition), color var(--transition);
 }
@@ -193,8 +219,8 @@
 
 .pgal__dots { display: flex; gap: 0.4rem; }
 .pgal__dot {
-  width: 0.55rem;
-  height: 0.55rem;
+  width: 0.6rem;
+  height: 0.6rem;
   padding: 0;
   border: 0;
   border-radius: 50%;
@@ -203,6 +229,7 @@
   transition: background-color var(--transition), transform var(--transition);
 }
 .pgal__dot[aria-current="true"] { background-color: var(--color-accent); transform: scale(1.25); }
+.pgal__dot:focus-visible { outline: 2px solid var(--color-accent-strong); outline-offset: 2px; }
 
 .pgal__thumbs {
   display: flex;
@@ -214,6 +241,7 @@
   scrollbar-width: thin;
 }
 .pgal__thumb {
+  flex: 0 0 auto;
   width: 5.5rem;
   aspect-ratio: 3 / 2;
   padding: 0;
@@ -262,11 +290,9 @@
   .about__photo { max-width: 16rem; margin-inline: auto; }
 }
 
-/* Карусель: скрытые слайды при фильтре */
-.carousel__slide[hidden] { display: none; }
-.pgal__slide[hidden] { display: none; }
-
-/* prefers-reduced-motion: без скольжения — мгновенная смена */
+/* --------------------------------------------------------------------------
+   prefers-reduced-motion: скролл без плавности
+   -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .carousel__track, .pgal__track { transition: none; }
+  .carousel__viewport, .pgal__viewport { scroll-behavior: auto; }
 }
