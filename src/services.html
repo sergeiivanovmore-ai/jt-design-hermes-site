@@ -8,9 +8,9 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap">
-  <link rel="stylesheet" href="css/styles.css?v=2e3c36a7">
-  <link rel="stylesheet" href="css/carousel.css?v=3c7aa21f">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+  <link rel="stylesheet" href="css/styles.css?v=bf9042cc">
+  <link rel="stylesheet" href="css/carousel.css?v=c202a924">
   <script src="js/main.js?v=0ad0c29b" defer></script>
   <title>Услуги и тарифы — Юлия Таранникова</title>
   <meta name="description" content="Услуги дизайнера интерьера: планировка, визуализация, полный дизайн-проект, подготовка квартиры к аренде или продаже. Тарифы: 800 ₽/м², 1 500 ₽/м², 3 000 ₽/м², авторское сопровождение 5 000 ₽ за выезд.">
@@ -48,6 +48,12 @@
       </nav>
 
       <a class="btn btn--ghost header__cta" href="contacts.html">Обсудить проект</a>
+      <a class="header__cta-mobile" href="https://t.me/JuliayTara" rel="noopener"
+         aria-label="Написать в Telegram">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+          <path d="M21.5 4.3 18.6 19c-.2 1-.8 1.2-1.6.8l-4.4-3.3-2.1 2c-.2.2-.4.4-.9.4l.3-4.4 8.1-7.3c.3-.3 0-.5-.5-.2l-10 6.3-4.3-1.4c-.9-.3-.9-.9.2-1.3l16.8-6.5c.8-.3 1.5.2 1.3 1Z"/>
+        </svg>
+      </a>
     </div>
   </header>
 
@@ -62,9 +68,10 @@
             и подготовки квартиры к аренде или продаже.
           </p>
         </div>
-        <ul class="cards">
+        <ul class="cards cards--services">
           <li class="card card--service">
-            <span class="card__index">01</span>
+            <span class="card__num">01</span>
+            <span class="card__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h10M4 18h16"/><path d="M18 9v9"/></svg></span>
             <figure class="media media--3x2 card__media">
               <img src="assets/img/dolina-57-3.webp"
              srcset="assets/img/dolina-57-3-800.webp 800w, assets/img/dolina-57-3.webp 1600w"
@@ -82,7 +89,8 @@
             </ul>
           </li>
           <li class="card card--service">
-            <span class="card__index">02</span>
+            <span class="card__num">02</span>
+            <span class="card__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z"/><circle cx="12" cy="12" r="2.6"/></svg></span>
             <figure class="media media--3x2 card__media">
               <img src="assets/img/dolina-57-1.webp"
              srcset="assets/img/dolina-57-1-800.webp 800w, assets/img/dolina-57-1.webp 1600w"
@@ -91,16 +99,17 @@
              alt="3D-визуализация кухни-гостиной с синим диваном"
              loading="lazy" decoding="async">
             </figure>
-            <h3 class="card__title">Визуализация 🎨</h3>
+            <h3 class="card__title">Визуализация</h3>
             <p class="text-muted">Закажите Визуализацию — и вы увидите будущий интерьер до начала ремонта и сможете что-то изменить без переделок в реальности.</p>
             <ul class="card__list">
               <li>вид в 3D каждой комнаты: цвета, фактуры, свет и мебель</li>
               <li>сочетание плитки + обои + мебель — всё видно заранее</li>
-              <li>утверждение результата до закупки материалов — экономия на ошибках: меняем в проекте, а не на стройке 💸</li>
+              <li>утверждение результата до закупки материалов — экономия на ошибках: меняем в проекте, а не на стройке</li>
             </ul>
           </li>
           <li class="card card--service">
-            <span class="card__index">03</span>
+            <span class="card__num">03</span>
+            <span class="card__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="M3 13l9 5 9-5"/></svg></span>
             <figure class="media media--3x2 card__media">
               <img src="assets/img/two-room-63-3.webp"
              srcset="assets/img/two-room-63-3-800.webp 800w, assets/img/two-room-63-3.webp 1600w"
@@ -109,7 +118,7 @@
              alt="Визуализация детской: результат дизайн-проекта"
              loading="lazy" decoding="async">
             </figure>
-            <h3 class="card__title">Полный дизайн-проект 📚</h3>
+            <h3 class="card__title">Полный дизайн-проект</h3>
             <p class="text-muted">Закажите полный Дизайн-проект со всеми планами для строителей — и ремонт будет идти по чёткому плану, без остановок, переделок и сюрпризов в бюджете.</p>
             <ul class="card__list">
               <li>планы монтажа и демонтажа, сантехники, света, розеток, тёплых полов</li>
@@ -119,7 +128,8 @@
             <a class="link-arrow" href="etapy.html">Этапы дизайн-проекта</a>
           </li>
           <li class="card card--service">
-            <span class="card__index">04</span>
+            <span class="card__num">04</span>
+            <span class="card__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 11 12 4l8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-5h4v5"/></svg></span>
             <figure class="media media--3x2 card__media">
               <img src="assets/img/green-park-euro3-4.webp"
              srcset="assets/img/green-park-euro3-4-800.webp 800w, assets/img/green-park-euro3-4.webp 1600w"
@@ -132,7 +142,7 @@
             <p class="text-muted">Хоумстейджинг — если нужно сдать или продать объект быстрее и дороже.</p>
             <ul class="card__list">
               <li>с хоумстейджингом квартира продаётся и сдаётся выгоднее</li>
-              <li>фото привлекают клиентов с первого взгляда 👀</li>
+              <li>фото привлекают клиентов с первого взгляда</li>
               <li>нейтральные светлые решения с тёплыми акцентами</li>
             </ul>
           </li>
@@ -229,8 +239,11 @@
     <section class="section cta" aria-labelledby="cta-title">
       <div class="container cta__inner">
         <h2 class="cta__title" id="cta-title">Не уверены, какой формат нужен?</h2>
-        <p class="cta__text">Ваше время — ваши деньги 💰⏰ Я экономлю и то, и другое. Пишите ✍️ — и я помогу вам пройти ремонт с минимальными затратами во времени и силах.</p>
-        <a class="btn btn--accent" href="https://t.me/JuliayTara" rel="noopener">Написать в Telegram</a>
+        <p class="cta__text">Ваше время — ваши деньги. Я экономлю и то, и другое. Напишите — и я помогу пройти ремонт с минимальными затратами во времени и силах.</p>
+        <div class="cta__actions">
+          <a class="btn btn--accent" href="https://t.me/JuliayTara" rel="noopener">Написать в Telegram</a>
+          <a class="btn btn--ghost" href="https://t.me/homest_jul" rel="noopener">Читать канал</a>
+        </div>
       </div>
     </section>
   </main>

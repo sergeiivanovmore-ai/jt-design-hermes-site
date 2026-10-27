@@ -29,7 +29,7 @@
 
   /* Типографика */
   --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
   /* Модульная шкала размеров (fluid) */
   --step--1: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);

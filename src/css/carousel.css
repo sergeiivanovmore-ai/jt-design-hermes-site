@@ -545,3 +545,315 @@
   .logo { font-size: var(--step-0); letter-spacing: 0.02em; }
   .nav-toggle { width: 2.5rem; height: 2.5rem; padding: 0.5rem; }
 }
+
+/* ==========================================================================
+   ВИЗУАЛЬНЫЙ РЕДИЗАЙН ПО ТЗ (октябрь 2026)
+   Палитра: #535d69 · #85a3b1 · #c4d0d9 · #e4e1eb · #d1b9bf (+ базовый белый)
+   Роли по ТЗ: белый — основной фон; #e4e1eb — чередование секций;
+   #c4d0d9 — карточки услуг и подложки; #85a3b1 — акцент (иконки, линии,
+   контуры, ховеры); #d1b9bf — тёплый акцент (цифры этапов, теги, ховер).
+   Контрастные ограничения (проверено формулой WCAG):
+   - белый текст на #85a3b1 = 2.64:1 → ниже AA, поэтому ЗАЛИВКА кнопок и
+     иконочных кнопок идёт тёмным #535d69 (6.26:1), а #85a3b1 работает в
+     контурах, линиях, иконках-декоре и ховерах;
+   - текст на #c4d0d9 = 4.26:1 → только крупный/заголовки, мелкий текст
+     живёт на белых и #e4e1eb подложках.
+   ========================================================================== */
+
+:root {
+  /* базовый фон по ТЗ — белый; лиловый уходит в чередование секций */
+  --color-bg: #FFFFFF;
+  --color-alt: #E4E1EB;
+  --color-ink: #535D69;
+
+  /* сетка отступов 8px: 16 / 24 / 32 / 48 / 80 / 120 */
+  --s-1: 1rem;      /* 16 */
+  --s-2: 1.5rem;    /* 24 */
+  --s-3: 2rem;      /* 32 */
+  --s-4: 3rem;      /* 48 */
+  --s-5: 5rem;      /* 80 */
+  --s-6: 7.5rem;    /* 120 */
+  --section-y: clamp(5rem, 9vw, 7.5rem);
+
+  /* единый радиус по ТЗ */
+  --radius: 12px;
+  --radius-btn: 10px;
+  --radius-pill: 999px;
+
+  /* анимации 0.3s ease */
+  --transition: 300ms ease;
+}
+
+/* --------------------------------------------------------------------------
+   1. Hero: фоновое фото + полупрозрачная плашка #e4e1eb (80%)
+   -------------------------------------------------------------------------- */
+.hero--photo {
+  position: relative;
+  isolation: isolate;
+  padding: 0;
+  min-height: min(88vh, 760px);
+  display: grid;
+  align-items: center;
+}
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+.hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 55%;
+}
+.hero--photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(83, 93, 105, .18), rgba(83, 93, 105, .30));
+}
+.hero--photo { min-height: 0; padding-block: 0; }        /* гасим базовые отступы .hero */
+.hero--photo .hero__inner { display: block; padding-block: 5.5rem var(--s-3); }
+.hero--photo .hero__title { font-size: clamp(2.25rem, 1.7rem + 2.2vw, 3.25rem); margin-bottom: var(--s-2); }
+.hero--photo .hero__subtitle { max-width: 34rem; font-size: var(--step-0); }
+.hero__plate {
+  max-width: 48rem;
+  padding: var(--s-3);
+  border-radius: var(--radius);
+  background-color: rgba(228, 225, 235, .80);   /* #e4e1eb, 80% */
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 24px 60px -40px rgba(83, 93, 105, .8);
+}
+.hero__plate .hero__subtitle { margin-bottom: var(--space-sm); }
+@media (min-width: 768px) {
+  .hero__plate { padding: var(--s-4); }
+  .hero--photo { min-height: min(78vh, 700px); }
+}
+
+/* --------------------------------------------------------------------------
+   2. Чередование секций: белый ↔ #e4e1eb; #c4d0d9 — подложки карточек
+   -------------------------------------------------------------------------- */
+.section { background-color: var(--color-bg); }
+.section--surface { background-color: var(--color-alt); }   /* лиловый по ТЗ */
+.section--blue { background-color: var(--color-surface); }  /* светло-голубой */
+
+/* --------------------------------------------------------------------------
+   3. «Что вы получаете»: 4 карточки 2х2, крупные цифры антиквой, иконки
+   -------------------------------------------------------------------------- */
+.cards--services { grid-template-columns: 1fr; }
+@media (min-width: 640px) { .cards--services { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1280px) { .cards--services { grid-template-columns: repeat(2, 1fr); } }
+
+.card--service {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  padding: var(--s-3);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: 0 18px 40px -34px rgba(83, 93, 105, .7);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.card--service:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 60px -40px rgba(83, 93, 105, .75);
+}
+.card--service .card__num {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 1.6rem + 3vw, 3.75rem);
+  line-height: 1;
+  color: var(--color-warm);       /* #d1b9bf — тёплый акцент */
+  display: block;
+}
+.card--service .card__icon {
+  color: var(--color-accent-soft); /* #85a3b1 — линейные иконки */
+  display: inline-flex;
+}
+.card--service .card__icon .icon { width: 2.25rem; height: 2.25rem; }
+.card--service .card__title { margin: 0; font-size: var(--step-2); }
+.card--service .card__list { margin: 0; }
+.card--service .card__media { display: none; }   /* фото у услуг убираем: ЧИСТЫЕ карточки */
+@media (min-width: 1024px) {
+  .card--service { padding: var(--s-4); }
+}
+
+/* --------------------------------------------------------------------------
+   4. «Обо мне»: секция на #e4e1eb, теги инструментов
+   -------------------------------------------------------------------------- */
+.about__photo .media { border-radius: var(--radius); }
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1);
+  margin: var(--s-1) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.tag {
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-btn);
+  background-color: var(--color-surface);   /* #c4d0d9 */
+  color: var(--color-ink);
+  font-size: var(--step--1);
+  letter-spacing: 0.02em;
+}
+
+/* --------------------------------------------------------------------------
+   5. Процесс: вертикальный таймлайн
+   -------------------------------------------------------------------------- */
+.steps,
+.stages {
+  position: relative;
+  display: grid;
+  gap: var(--s-3);
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 var(--s-4);
+}
+.steps::before,
+.stages::before {
+  content: "";
+  position: absolute;
+  left: 1.05rem;
+  top: 0.6rem;
+  bottom: 0.6rem;
+  width: 2px;
+  background-color: var(--color-surface);    /* линия #c4d0d9 */
+}
+.steps__item,
+.stage {
+  position: relative;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+/* старый счётчик «01..07» больше не нужен: номер теперь в кружке таймлайна */
+.steps__item::before { content: none; }
+.steps__item { counter-increment: none; padding-top: 0; border-top: 0; }
+.steps__num,
+.stage__num {
+  position: absolute;
+  left: calc(-1 * var(--s-4) + 0.05rem);
+  top: 0;
+  width: 2.1rem;
+  height: 2.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--color-accent-soft);   /* #85a3b1 */
+  color: var(--color-bg);
+  font-family: var(--font-serif);
+  font-size: var(--step-0);
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.stages .stage:nth-child(even) .stage__num { background-color: var(--color-warm); color: var(--color-ink); }
+.stage { display: grid; gap: var(--s-2); padding-bottom: var(--s-3); }
+@media (min-width: 900px) {
+  .stage { grid-template-columns: 1.05fr 1fr; gap: var(--s-4); }
+  .stages .stage:nth-child(even) .stage__text { order: 2; }
+  .stages .stage:nth-child(even) .stage__media { order: 1; }
+}
+.stage__media .media { border-radius: var(--radius); }
+.stage__title { margin: var(--s-1) 0 var(--space-sm); }
+
+/* --------------------------------------------------------------------------
+   6. Блог и FAQ
+   -------------------------------------------------------------------------- */
+.article-card {
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-surface);
+  border-radius: var(--radius);
+  padding: var(--s-1);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.article-card:hover { transform: translateY(-4px); box-shadow: 0 28px 60px -44px rgba(83, 93, 105, .8); }
+.article-card__media { border-radius: var(--radius-btn); }
+
+/* текстовая ссылка «Все материалы»: текст тёмный (AA 6.26:1), подчёркивание — акцент */
+.link-underline {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent-soft);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: var(--step--1);
+}
+.link-underline:hover { text-decoration-color: var(--color-ink); }
+
+.faq summary::after { color: var(--color-accent-soft); font-size: var(--step-2); }
+.faq details { border-radius: var(--radius); }
+
+/* --------------------------------------------------------------------------
+   7. Кнопки: радиус 8–12px, заливка тёмная (AA), контуры — акцент
+   -------------------------------------------------------------------------- */
+.btn { border-radius: var(--radius-btn); letter-spacing: 0.04em; }
+.btn--lg { min-height: 3.5rem; padding: 1rem 2.4rem; font-size: var(--step-0); }
+.btn--accent {
+  background-color: var(--color-ink);      /* 6.26:1 с белым текстом */
+  color: #FFFFFF;
+  border-color: var(--color-ink);
+}
+.btn--accent:hover { background-color: #3F4854; border-color: #3F4854; color: #FFFFFF; }
+.btn--ghost {
+  background-color: transparent;
+  border-color: var(--color-accent-soft);  /* контур #85a3b1 */
+  color: var(--color-ink);
+}
+.btn--ghost:hover {
+  background-color: var(--color-accent-soft);
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+
+/* --------------------------------------------------------------------------
+   8. Sticky-шапка: CTA видна всегда (на мобильном — иконка)
+   -------------------------------------------------------------------------- */
+.header__cta-mobile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background-color: var(--color-ink);
+  color: #FFFFFF;
+  transition: background-color var(--transition);
+}
+.header__cta-mobile svg { width: 1.25rem; height: 1.25rem; }
+.header__cta-mobile:hover { background-color: #3F4854; }
+@media (min-width: 768px) {
+  .header__cta { display: inline-flex; }
+  .header__cta-mobile { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   9. CTA-блок: две кнопки
+   -------------------------------------------------------------------------- */
+.cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1);
+  justify-content: center;
+}
+.section.cta { background-color: var(--color-surface); color: var(--color-ink); }
+.section.cta .cta__title, .section.cta .cta__text { color: var(--color-ink); }
+
+/* --------------------------------------------------------------------------
+   10. Мелочи: заголовки антиквой в #535d69, наведение карточек
+   -------------------------------------------------------------------------- */
+h1, h2, h3, h4 { color: var(--color-ink); }
+::selection { background: var(--color-surface); color: var(--color-ink); }
