@@ -732,6 +732,12 @@
   border: 0;
   background: none;
 }
+/* старые правила .steps раскладывали этапы в 2 и 4 колонки на планшете/десктопе —
+   для вертикального таймлайна это ломало линию и накладывало текст: держим одну колонку */
+.steps, .stages, .steps--compact { grid-template-columns: 1fr; }
+@media (min-width: 768px) { .steps, .stages { grid-template-columns: 1fr; } }
+@media (min-width: 1024px) { .steps, .stages { grid-template-columns: 1fr; } }
+
 /* старый счётчик «01..07» больше не нужен: номер теперь в кружке таймлайна */
 .steps__item::before { content: none; }
 .steps__item { counter-increment: none; padding-top: 0; border-top: 0; }
@@ -850,6 +856,14 @@
   justify-content: center;
 }
 .section.cta { background-color: var(--color-surface); color: var(--color-ink); }
+/* Мелкий текст на #c4d0d9 даёт 4.26:1 — ниже AA. Внутри полосы текст живёт
+   на светлой плашке (та же логика, что в hero и карточках): 6.26:1. */
+.section.cta .cta__inner {
+  max-width: 62rem;
+  padding: var(--s-4) var(--s-3);
+  border-radius: var(--radius);
+  background-color: rgba(255, 255, 255, .93);
+}
 .section.cta .cta__title, .section.cta .cta__text { color: var(--color-ink); }
 
 /* --------------------------------------------------------------------------
