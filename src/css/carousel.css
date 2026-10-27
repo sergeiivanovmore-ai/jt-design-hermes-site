@@ -821,6 +821,52 @@
 }
 
 /* --------------------------------------------------------------------------
+   Страницы проектов: единый вид по правкам владельца
+   -------------------------------------------------------------------------- */
+/* отступ между текстом и плашкой «Об объекте» — минимум 40–60px */
+.project-body { gap: var(--s-4); }
+@media (min-width: 1024px) { .project-body { gap: 3.5rem; } }
+
+/* плашка «Об объекте»: единый фон и обводка, верхняя граница по заголовку */
+.spec {
+  background-color: rgba(196, 208, 217, .30);     /* #c4d0d9, 30% */
+  border: 1px solid var(--color-accent-soft);      /* обводка #85a3b1 */
+  border-radius: var(--radius);
+  padding: var(--s-3);
+  align-self: start;                               /* по верхнему краю колонки */
+}
+/* Верх плашки совпадает с заголовком «Задача клиента», а не с надзаголовком:
+   сдвигаем на высоту надзаголовка (кегль --step--1 × 1.65 + отступ). */
+@media (min-width: 1024px) {
+  .project-body .spec { margin-top: calc(var(--step--1) * 1.65 + var(--space-sm)); }
+}
+.spec__title { margin-top: 0; }
+.spec__list { margin-bottom: 0; }
+.spec__row dt, .spec__row dd { line-height: 1.5; }
+
+/* плашка «Итог»/«Результат»: пудрово-розовый фон, акцентная полоса слева */
+.project-result,
+.stage__result {
+  margin: var(--s-3) 0 0;
+  padding: var(--s-2) var(--s-3);
+  background-color: rgba(209, 185, 191, .15);      /* #d1b9bf, 15% */
+  border-left: 4px solid var(--color-warm);
+  border-radius: 0 var(--radius-btn) var(--radius-btn) 0;
+  font-weight: 500;
+}
+
+/* кнопка призыва под «Итогом» */
+.project-cta { margin: var(--s-3) 0 0; }
+
+/* миниатюры галереи: активная — акцентной рамкой, остальные приглушены */
+.pgal__thumb { opacity: .65; transition: opacity var(--transition), border-color var(--transition); }
+.pgal__thumb:hover { opacity: 1; }
+.pgal__thumb[aria-current="true"] { opacity: 1; border-color: var(--color-accent-soft); }
+/* полоса миниатюр прокручивается на мобильных */
+.pgal__thumbs { scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
+.pgal__thumb { scroll-snap-align: center; }
+
+/* --------------------------------------------------------------------------
    5. Процесс: вертикальный таймлайн
    -------------------------------------------------------------------------- */
 .steps,
