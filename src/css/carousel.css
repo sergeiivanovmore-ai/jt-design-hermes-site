@@ -406,11 +406,11 @@
   display: inline-block;
 }
 
-/* Заголовки секций — голубая черта под надзаголовком для разделения блоков */
+/* Надзаголовок секции: без подчёркивания (выглядело как активная ссылка) */
 .section__eyebrow {
   display: inline-block;
-  padding-bottom: 0.35rem;
-  border-bottom: 2px solid var(--color-accent-soft);
+  padding-bottom: 0;
+  border-bottom: 0;
   color: var(--color-text);
 }
 
@@ -779,6 +779,25 @@
 @media (min-width: 1024px) {
   .card--service { padding: var(--s-4); }
 }
+
+/* --- Блок «Услуги»: ровная сетка, ссылки, якорь тарифов (правки владельца) --- */
+/* все четыре карточки одной высоты: строки сетки растягиваются одинаково */
+.cards--services { grid-auto-rows: 1fr; align-items: stretch; }
+.card--service { height: 100%; }
+.card--service .card__list { margin-bottom: 0; }
+
+/* «Этапы дизайн-проекта» — под блоком карточек, по центру */
+.services-more {
+  margin: var(--s-3) 0 0;
+  text-align: center;
+}
+
+/* ссылка «Тарифы —» в правом верхнем углу блока: ховер в акцентный цвет */
+.link-arrow--accent { transition: color var(--transition), gap var(--transition); }
+.link-arrow--accent:hover { color: var(--color-accent-soft); }
+
+/* якорь тарифов: не прячем заголовок под закреплённой шапкой */
+#tariffs { scroll-margin-top: 6rem; }
 
 /* --------------------------------------------------------------------------
    4. «Обо мне»: секция на #e4e1eb, теги инструментов
