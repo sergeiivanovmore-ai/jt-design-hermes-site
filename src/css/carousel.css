@@ -615,12 +615,12 @@
   background: linear-gradient(180deg, rgba(83, 93, 105, .18), rgba(83, 93, 105, .30));
 }
 .hero--photo { min-height: 0; padding-block: 0; }        /* гасим базовые отступы .hero */
-.hero--photo .hero__inner { display: block; padding-block: 5.5rem var(--s-3); }
-.hero--photo .hero__title { font-size: clamp(2.25rem, 1.7rem + 2.2vw, 3.25rem); margin-bottom: var(--s-2); }
+.hero--photo .hero__inner { display: block; padding-block: 5.25rem var(--s-2); }
+.hero--photo .hero__title { font-size: clamp(1.8rem, 1.45rem + 1.9vw, 2.75rem); margin-bottom: var(--s-2); }
 .hero--photo .hero__subtitle { max-width: 34rem; font-size: var(--step-0); }
 .hero__plate {
   max-width: 48rem;
-  padding: var(--s-3);
+  padding: var(--s-1) var(--s-2) var(--s-2);
   border-radius: var(--radius);
   background-color: rgba(228, 225, 235, .80);   /* #e4e1eb, 80% */
   -webkit-backdrop-filter: blur(6px);
@@ -629,9 +629,57 @@
 }
 .hero__plate .hero__subtitle { margin-bottom: var(--space-sm); }
 @media (min-width: 768px) {
-  .hero__plate { padding: var(--s-4); }
+  .hero__plate { padding: var(--s-3) var(--s-4); }
   .hero--photo { min-height: min(78vh, 700px); }
 }
+
+/* Плотнее кнопки в первом экране, чтобы обе помещались без прокрутки */
+.hero__actions { margin-top: var(--s-1); }
+
+/* --- Портрет дизайнера в первом экране (правка владельца) --- */
+.hero__top {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+  margin-bottom: var(--s-1);
+}
+.hero__portrait {
+  flex: 0 0 auto;
+  margin: 0;
+  width: 4.5rem;                        /* 72px на мобильном */
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 10px 30px -18px rgba(83, 93, 105, .8);
+}
+.hero__portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; }
+.hero__eyebrow { margin-bottom: 0.35rem; }
+/* на мобильном надзаголовок короче — иначе три строки и лишняя высота */
+@media (max-width: 479px) { .hero__eyebrow-extra { display: none; } }
+.hero__name {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--step-1);
+  color: var(--color-ink);
+}
+.hero__role {
+  margin: 0.15rem 0 0;
+  font-size: var(--step--1);
+  color: var(--color-ink);
+  opacity: .85;
+}
+@media (min-width: 900px) {
+  .hero__top { gap: var(--s-2); margin-bottom: var(--s-2); }
+  .hero__portrait { width: 7.5rem; }    /* 120px на десктопе */
+  .hero__name { font-size: var(--step-2); }
+  .hero__role { font-size: var(--step-0); }
+}
+
+/* Заголовок страницы в масштабе секционного (правка владельца: «как у Что вы получаете») */
+.h2-like { font-size: var(--step-3); }
+/* Заголовки тарифов — в один размер с заголовками услуг */
+.card--tariff .card__title { font-size: var(--step-2); }
 
 /* --------------------------------------------------------------------------
    2. Чередование секций: белый ↔ #e4e1eb; #c4d0d9 — подложки карточек
