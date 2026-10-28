@@ -9,18 +9,27 @@
    1. Токены дизайна
    -------------------------------------------------------------------------- */
 :root {
-  /* Палитра */
-  --color-bg: #FAFAF7;              /* фон страницы */
-  --color-surface: #F5F0E8;         /* поверхность (карточки, секции) */
-  --color-text: #2A2A2A;            /* основной текст */
-  --color-accent: #B8764F;          /* акцент (декор, крупный текст, линии) */
-  --color-accent-strong: #8A5433;   /* акцент для мелкого текста: 5.9:1 на --color-bg (WCAG AA) */
-  --color-text-muted: #5C5C57;      /* вторичный текст: 6.4:1 на --color-bg (WCAG AA) */
-  --color-border: rgba(42, 42, 42, .12);
+  /* Палитра — точные свотчи референса пользователя (In Color Balance):
+     #535d69 · #85a3b1 · #c4d0d9 · #e4e1eb · #d1b9bf
+     Голубая гамма. Роли подобраны под контраст AA:
+     текст всегда на светлых поверхностях (#E4E1EB — 5.4:1),
+     #C4D0D9 — декоративные поверхности и фоны карточек,
+     #85A3B1 — декор (линии, точки, бейджи-рамки), #D1B9BF — тёплый акцент. */
+  --color-bg: #E4E1EB;              /* фон страницы — светлый из палитры */
+  --color-surface: #C4D0D9;         /* голубые секции — референс */
+  --color-surface-2: #85A3B1;       /* серо-голубой декор — референс */
+  --color-text: #535D69;            /* текст и акцент — референс */
+  --color-accent: #535D69;          /* кнопки, ссылки */
+  --color-accent-soft: #85A3B1;     /* мягкий акцент: линии, точки, рамки */
+  --color-accent-strong: #535D69;   /* ссылки и мелкий текст */
+  --color-warm: #D1B9BF;            /* пыльно-розовый — точечный декор */
+  --color-greige: #85A3B1;          /* линии, точки */
+  --color-text-muted: #535D69;      /* вторичный текст (различие — размером) */
+  --color-border: rgba(83, 93, 105, .22);
 
   /* Типографика */
   --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
   /* Модульная шкала размеров (fluid) */
   --step--1: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
@@ -43,8 +52,8 @@
   --container-max: 75rem;     /* 1200px */
   --container-pad: 1.25rem;
   --radius: 2px;
-  --shadow-sm: 0 1px 2px rgba(42, 42, 42, .06);
-  --shadow-md: 0 16px 40px -18px rgba(42, 42, 42, .28);
+  --shadow-sm: 0 1px 2px rgba(83, 93, 105, .08);
+  --shadow-md: 0 16px 40px -18px rgba(83, 93, 105, .30);
   --transition: 240ms cubic-bezier(.2, .7, .3, 1);
 }
 
@@ -111,7 +120,7 @@ ul, ol { margin: 0; padding: 0; }
 }
 
 ::selection {
-  background: var(--color-surface);
+  background: var(--color-surface-2);
   color: var(--color-text);
 }
 
@@ -171,45 +180,62 @@ ul, ol { margin: 0; padding: 0; }
   align-items: center;
   justify-content: center;
   gap: var(--space-2xs);
-  min-height: 3rem;
-  padding: 0.75rem 1.75rem;
+  min-height: 3.25rem;
+  padding: 0.85rem 2rem;
   border: 1px solid transparent;
-  border-radius: var(--radius);
+  border-radius: 999px;              /* пилюля — как на образце */
   font-family: var(--font-sans);
   font-size: var(--step--1);
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
   transition: background-color var(--transition), color var(--transition),
-              border-color var(--transition), transform var(--transition);
+              border-color var(--transition), transform var(--transition),
+              box-shadow var(--transition);
 }
+.btn:active { transform: translateY(0); }
+.btn:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
 
-/* Основная — тёмная: контраст текста 14:1 (AA/AAA) */
+/* Основная — залитая тёмная: контраст 5.2:1 на фоне (AA) */
 .btn--primary {
   background-color: var(--color-text);
   color: var(--color-bg);
 }
 .btn--primary:hover {
-  background-color: #000;
+  background-color: #3F4854;
   color: var(--color-bg);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -12px rgba(83, 93, 105, .8);
 }
 
-/* Акцентная — 6.2:1 с тёплым белым (AA) */
+/* Акцентная — светлая пилюля для цветных полос CTA: контраст 5.2:1.
+   На голубой полосе (#C4D0D9) светлая кнопка читается лучше залитой. */
 .btn--accent {
-  background-color: var(--color-accent-strong);
-  color: #FFFDFA;
+  background-color: var(--color-bg);
+  border-color: rgba(83, 93, 105, .28);
+  color: var(--color-text);
 }
-.btn--accent:hover { background-color: #6F4126; color: #FFFDFA; transform: translateY(-1px); }
+.btn--accent:hover {
+  background-color: var(--color-text);
+  border-color: var(--color-text);
+  color: var(--color-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -12px rgba(83, 93, 105, .8);
+}
 
 .btn--ghost {
   background-color: transparent;
-  border-color: var(--color-border);
+  border-color: rgba(83, 93, 105, .35);
   color: var(--color-text);
 }
-.btn--ghost:hover { border-color: var(--color-text); background-color: rgba(42, 42, 42, .04); color: var(--color-text); }
+.btn--ghost:hover {
+  border-color: var(--color-text);
+  background-color: rgba(83, 93, 105, .07);
+  color: var(--color-text);
+  transform: translateY(-2px);
+}
 
 .link-arrow {
   display: inline-flex;
@@ -238,7 +264,7 @@ ul, ol { margin: 0; padding: 0; }
   position: sticky;
   top: 0;
   z-index: 50;
-  background-color: rgba(250, 250, 247, .92);
+  background-color: rgba(228, 225, 235, .94);
   backdrop-filter: saturate(140%) blur(8px);
   border-bottom: 1px solid transparent;
   transition: border-color var(--transition);
@@ -272,16 +298,19 @@ ul, ol { margin: 0; padding: 0; }
   gap: 5px;
   width: 2.75rem;
   height: 2.75rem;
-  padding: 0.65rem;
-  background: none;
-  border: 1px solid var(--color-border);
+  padding: 0.6rem;
+  background-color: var(--color-bg);
+  border: 1px solid rgba(83, 93, 105, .3);
   border-radius: var(--radius);
   cursor: pointer;
+  transition: border-color var(--transition), background-color var(--transition);
 }
+.nav-toggle:hover { border-color: var(--color-accent); }
 .nav-toggle__bar {
   display: block;
   width: 100%;
-  height: 1px;
+  height: 2px;
+  border-radius: 2px;
   background: var(--color-text);
   transition: transform var(--transition), opacity var(--transition);
 }
@@ -615,7 +644,7 @@ ul, ol { margin: 0; padding: 0; }
   font: inherit;
   transition: border-color var(--transition), box-shadow var(--transition);
 }
-.form__control:hover { border-color: rgba(42, 42, 42, .35); }
+.form__control:hover { border-color: rgba(43, 89, 104, .45); }
 .form__control:focus { border-color: var(--color-accent-strong); }
 textarea.form__control { min-height: 9rem; resize: vertical; }
 .form__hint { font-size: var(--step--1); color: var(--color-text-muted); }

@@ -1,0 +1,1053 @@
+/* ==========================================================================
+   Карусели (v3): scroll-snap — нативный свайп на мобильных.
+   Стрелки/точки синхронизируются с позицией скролла (см. main.js).
+   Плюс: «Обо мне», заметки, адаптив.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Карусель проектов (главная, портфолио)
+   -------------------------------------------------------------------------- */
+.carousel { margin-top: var(--space-md); }
+
+.carousel__segs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  margin-bottom: var(--space-md);
+}
+.carousel__seg {
+  min-height: 2.5rem;
+  padding: 0.45rem 1.1rem;
+  background: transparent;
+  border: 1px solid rgba(83, 93, 105, .3);
+  border-radius: 999px;
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--step--1);
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background-color var(--transition), border-color var(--transition), color var(--transition);
+}
+.carousel__seg:hover { border-color: var(--color-accent); background-color: rgba(83, 93, 105, .06); }
+.carousel__seg[aria-selected="true"] {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg);
+}
+
+/* Вьюпорт = горизонтальный скролл со снапом. Свайп работает нативно
+   на iOS/Android; полоса прокрутки скрыта, управление дублируют стрелки. */
+.carousel__viewport {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;              /* Firefox */
+  -webkit-overflow-scrolling: touch;  /* плавный инерционный скролл iOS */
+  overscroll-behavior-x: contain;
+}
+.carousel__viewport::-webkit-scrollbar { display: none; }
+
+.carousel__track {
+  display: flex;
+  gap: var(--space-md);
+  list-style: none;
+}
+.carousel__slide {
+  flex: 0 0 86%;
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.carousel__slide[hidden] { display: none; }
+
+@media (min-width: 768px) {
+  .carousel__slide { flex-basis: calc(50% - var(--space-md) / 2); }
+}
+@media (min-width: 1024px) {
+  .carousel__slide { flex-basis: calc((100% - var(--space-md) * 2) / 3); }
+}
+
+.carousel__card {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.carousel__media { border-radius: var(--radius); }
+.carousel__media img { transition: transform 600ms cubic-bezier(.2, .7, .3, 1); }
+.carousel__card:hover .carousel__media img { transform: scale(1.03); }
+
+/* Номер слайда поверх фото — кремовый бейдж из палитры */
+.carousel__num {
+  position: absolute;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  z-index: 2;
+  padding: 0.25rem 0.7rem;
+  background-color: var(--color-bg);
+  border-radius: 999px;
+  font-family: var(--font-serif);
+  font-size: var(--step--1);
+  letter-spacing: 0.12em;
+  color: var(--color-accent);
+}
+
+.carousel__info {
+  display: grid;
+  gap: 0.15rem;
+  padding: var(--space-sm) 0 0;
+}
+.carousel__title {
+  font-family: var(--font-serif);
+  font-size: var(--step-1);
+  color: var(--color-text);
+}
+.carousel__card:hover .carousel__title {
+  color: var(--color-accent-strong);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+.carousel__meta {
+  font-size: var(--step--1);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.carousel__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+.carousel__arrow,
+.pgal__arrow {
+  width: 3rem;
+  height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg);
+  border: 1px solid rgba(83, 93, 105, .18);
+  border-radius: 50%;
+  color: var(--color-text);
+  font-size: 1.15rem;
+  cursor: pointer;
+  box-shadow: 0 4px 14px -8px rgba(83, 93, 105, .6);
+  transition: background-color var(--transition), border-color var(--transition),
+              color var(--transition), transform var(--transition);
+}
+.carousel__arrow:hover,
+.pgal__arrow:hover {
+  background-color: var(--color-text);
+  border-color: var(--color-text);
+  color: var(--color-bg);
+  transform: scale(1.06);
+}
+.carousel__arrow:focus-visible,
+.pgal__arrow:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+.carousel__arrow:disabled,
+.pgal__arrow:disabled {
+  opacity: 0.4;
+  cursor: default;
+  box-shadow: none;
+  background-color: transparent;
+  border-color: rgba(83, 93, 105, .2);
+  color: var(--color-text);
+  transform: none;
+}
+
+.carousel__dots { display: flex; gap: 0.4rem; }
+.carousel__dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  /* контурный индикатор: неактивная точка — кольцо #535D69 (5.2:1 на светлом),
+     залитая полупрозрачная точка давала всего ~1.5:1 и была почти не видна */
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--color-accent);
+  cursor: pointer;
+  transition: background-color var(--transition), transform var(--transition);
+}
+.carousel__dot.is-active { background-color: var(--color-accent); box-shadow: none; transform: scale(1.25); }
+.carousel__dot:focus-visible { outline: 2px solid var(--color-accent-strong); outline-offset: 2px; }
+
+/* --------------------------------------------------------------------------
+   Карусель галереи на странице проекта
+   -------------------------------------------------------------------------- */
+.pgal { margin-top: var(--space-md); }
+.pgal__viewport {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  border-radius: var(--radius);
+}
+.pgal__viewport::-webkit-scrollbar { display: none; }
+.pgal__track {
+  display: flex;
+  list-style: none;
+}
+.pgal__slide {
+  position: relative;
+  flex: 0 0 100%;
+  min-width: 0;
+  margin: 0;
+  scroll-snap-align: start;
+}
+.pgal__slide--before::after {
+  content: "до ремонта";
+  position: absolute;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  padding: 0.25rem 0.7rem;
+  background-color: var(--color-bg);
+  border-radius: 999px;
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.pgal__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.pgal__dots { display: flex; gap: 0.4rem; }
+.pgal__dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  /* контурный индикатор: неактивная точка — кольцо #535D69 (5.2:1 на светлом),
+     залитая полупрозрачная точка давала всего ~1.5:1 и была почти не видна */
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--color-accent);
+  cursor: pointer;
+  transition: background-color var(--transition), transform var(--transition);
+}
+.pgal__dot[aria-current="true"] { background-color: var(--color-accent); box-shadow: none; transform: scale(1.25); }
+.pgal__dot:focus-visible { outline: 2px solid var(--color-accent-strong); outline-offset: 2px; }
+
+.pgal__thumbs {
+  display: flex;
+  gap: var(--space-2xs);
+  margin-top: var(--space-sm);
+  list-style: none;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+  scrollbar-width: thin;
+}
+.pgal__thumb {
+  flex: 0 0 auto;
+  width: 5.5rem;
+  aspect-ratio: 3 / 2;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  background: none;
+  transition: border-color var(--transition);
+}
+.pgal__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pgal__thumb[aria-current="true"] { border-color: var(--color-accent); }
+.pgal__thumb:focus-visible { outline: 2px solid var(--color-accent-strong); outline-offset: 2px; }
+
+/* --------------------------------------------------------------------------
+   Обо мне (фото + текст асимметрично)
+   -------------------------------------------------------------------------- */
+.about { display: grid; gap: var(--space-xl); align-items: start; }
+.about__photo { max-width: 22rem; }
+.about__photo .media { border-radius: var(--radius); box-shadow: var(--shadow-md); }
+.about__role {
+  font-size: var(--step--1);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent-strong);
+  margin-bottom: var(--space-sm);
+}
+
+/* Заметка-карточка (нотка услуги, промокод) */
+.card__note {
+  margin-top: var(--space-xs);
+  font-size: var(--step--1);
+  color: var(--color-text-muted);
+}
+
+/* Фото на странице контактов */
+.contact-photo { max-width: 22rem; }
+
+/* --------------------------------------------------------------------------
+   Адаптив
+   -------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .about { grid-template-columns: 2fr 3fr; }
+}
+@media (max-width: 767px) {
+  .about__photo { max-width: 16rem; margin-inline: auto; }
+}
+
+/* --------------------------------------------------------------------------
+   prefers-reduced-motion: скролл без плавности
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .carousel__viewport, .pgal__viewport { scroll-behavior: auto; }
+}
+
+/* --------------------------------------------------------------------------
+   Светлые карточки на голубых секциях (#C4D0D9): мелкий текст на #C4D0D9
+   не проходит AA (3.99:1), поэтому живёт на светлых пластинах #E4E1EB.
+   -------------------------------------------------------------------------- */
+.section--surface .card,
+.section--surface .spec,
+.section--surface .steps__item { background-color: var(--color-bg); }
+.section--surface .steps__item { padding: var(--space-sm) var(--space-md); border-radius: var(--radius); }
+.section--surface .section__head {
+  background-color: var(--color-bg);
+  padding: var(--space-md);
+  border-radius: var(--radius);
+}
+.section--surface .article-card {
+  background-color: var(--color-bg);
+  padding: var(--space-sm);
+  border-radius: var(--radius);
+}
+
+/* --------------------------------------------------------------------------
+   Ценности в работе (3 карточки)
+   -------------------------------------------------------------------------- */
+.cards--three { grid-template-columns: 1fr; }
+@media (min-width: 768px) { .cards--three { grid-template-columns: repeat(3, 1fr); } }
+
+/* --------------------------------------------------------------------------
+   FAQ — нативные details/summary, без JS
+   -------------------------------------------------------------------------- */
+.faq { display: grid; gap: var(--space-xs); max-width: 46rem; }
+.faq details {
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+.faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: 1rem 1.25rem;
+  font-weight: 500;
+  color: var(--color-text);
+  cursor: pointer;
+  list-style: none;
+  min-height: 3rem;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+";
+  font-family: var(--font-serif);
+  font-size: var(--step-1);
+  color: var(--color-accent-soft);
+  flex: 0 0 auto;
+}
+.faq details[open] summary::after { content: "\2013"; }
+.faq summary:focus-visible { outline: 2px solid var(--color-accent-strong); outline-offset: 2px; }
+.faq details p {
+  margin: 0;
+  padding: 0 1.25rem 1rem;
+  color: var(--color-text);
+}
+.faq details p a { color: var(--color-accent-strong); }
+
+/* ==========================================================================
+   Правки владельца (октябрь 2026): слоган, услуги, этапы, контраст,
+   hero без обрезки, шапка на узких экранах.
+   ========================================================================== */
+
+/* --- 1. Заглавный слоган под подзаголовком героя ------------------------- */
+.hero__slogan {
+  margin: var(--s-2) 0 0;
+  padding-left: var(--s-2);
+  border-left: 4px solid var(--color-accent-soft);   /* акцентная линия цитаты */
+  line-height: 1.6;
+  color: var(--color-text);
+  font-size: var(--step-0);
+  line-height: 1.5;
+  max-width: 46ch;
+}
+
+/* --- 2. Контраст: тёмные акцентные полосы из палитры -------------------- */
+/* CTA-блок — глубокий серо-синий #535D69 с текстом #E4E1EB (5.19:1) */
+.section.cta {
+  background-color: var(--color-text);
+  color: var(--color-bg);
+}
+.section.cta .cta__title,
+.section.cta .cta__text { color: var(--color-bg); }
+.section.cta .cta__title { border-color: var(--color-accent-soft); }
+
+/* Бейджи-номера: фон #D1B9BF, текст #535D69 — крупный кегль (>=24px),
+   поэтому порог AA 3:1 (фактически 3.44:1) соблюдён */
+.card__index {
+  background-color: var(--color-warm);
+  color: var(--color-text);
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+/* Надзаголовок секции: без подчёркивания (выглядело как активная ссылка) */
+.section__eyebrow {
+  display: inline-block;
+  padding-bottom: 0;
+  border-bottom: 0;
+  color: var(--color-text);
+}
+
+/* Границы карточек заметнее (было почти не видно) */
+.card {
+  border: 1px solid rgba(133, 163, 177, .55);
+  box-shadow: 0 10px 26px -22px rgba(83, 93, 105, .75);
+}
+
+/* --- 3. Карточки услуг -------------------------------------------------- */
+.card--service .card__media { margin-bottom: var(--space-sm); }
+.card--service .card__list { margin-bottom: var(--space-sm); }
+.card--service .link-arrow { margin-top: auto; }
+
+/* --- 4. Карточки тарифов ------------------------------------------------ */
+.card--tariff .card__price {
+  font-family: var(--font-serif);
+  font-size: var(--step-2);
+  color: var(--color-text);
+  margin: 0 0 var(--space-sm);
+}
+.card--tariff .card__note {
+  margin: var(--space-sm) 0 0;
+  padding-top: var(--space-sm);
+  border-top: 1px solid rgba(133, 163, 177, .5);
+  font-size: var(--step--1);
+  color: var(--color-text);
+}
+
+/* --- 5. Номер этапа в списке -------------------------------------------- */
+.steps__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-bottom: var(--space-2xs);
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-serif);
+  font-size: var(--step-0);
+}
+
+/* --- 6. Страница «Этапы дизайн-проекта» --------------------------------- */
+.stages {
+  display: grid;
+  gap: var(--space-xl);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.stage {
+  display: grid;
+  gap: var(--space-md);
+  align-items: start;
+  padding-top: var(--space-md);
+  border-top: 2px solid var(--color-accent-soft);
+}
+.stage__num {
+  display: inline-block;
+  margin-bottom: var(--space-2xs);
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.stage__title { margin-top: 0; }
+.stage__list {
+  margin: 0 0 var(--space-sm);
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.35rem;
+}
+.stage__list li { color: var(--color-text); }
+.stage__result {
+  margin: 0;
+  padding: var(--space-2xs) var(--space-sm);
+  border-left: 3px solid var(--color-warm);
+  background-color: rgba(209, 185, 191, .22);
+  color: var(--color-text);
+}
+.stage__media { margin: 0; }
+@media (min-width: 900px) {
+  .stage { grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+  .stage:nth-child(even) .stage__text { order: 2; }
+  .stage:nth-child(even) .stage__media { order: 1; }
+}
+
+/* --- 7. «Что я сделала» на странице проекта ----------------------------- */
+.project-list {
+  margin: 0 0 var(--space-sm);
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.5rem;
+}
+.project-list li { color: var(--color-text); }
+.project-result {
+  margin: var(--space-sm) 0 0;
+  padding: var(--space-2xs) var(--space-sm);
+  border-left: 3px solid var(--color-warm);
+  background-color: rgba(209, 185, 191, .22);
+  font-weight: 500;
+}
+
+/* --- 8. Hero на десктопе: без обрезки кадра ----------------------------- */
+/* Портрет 900x1018 (0.88). Контейнер 4/3 обрезал две трети высоты.
+   Теперь пропорция близка к исходной, высота ограничена, ширина — по ней. */
+@media (min-width: 768px) {
+  .hero .media {
+    aspect-ratio: 8 / 9;
+    max-height: 62vh;
+    width: auto;
+    justify-self: end;
+    align-self: start;
+  }
+}
+
+/* --- 9. Шапка на узких экранах: ничего не выходит за экран -------------- */
+.site-header__inner { min-width: 0; }
+.logo {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nav-toggle { flex: 0 0 auto; }
+@media (max-width: 380px) {
+  .logo { font-size: var(--step-0); letter-spacing: 0.02em; }
+  .nav-toggle { width: 2.5rem; height: 2.5rem; padding: 0.5rem; }
+}
+
+/* ==========================================================================
+   ВИЗУАЛЬНЫЙ РЕДИЗАЙН ПО ТЗ (октябрь 2026)
+   Палитра: #535d69 · #85a3b1 · #c4d0d9 · #e4e1eb · #d1b9bf (+ базовый белый)
+   Роли по ТЗ: белый — основной фон; #e4e1eb — чередование секций;
+   #c4d0d9 — карточки услуг и подложки; #85a3b1 — акцент (иконки, линии,
+   контуры, ховеры); #d1b9bf — тёплый акцент (цифры этапов, теги, ховер).
+   Контрастные ограничения (проверено формулой WCAG):
+   - белый текст на #85a3b1 = 2.64:1 → ниже AA, поэтому ЗАЛИВКА кнопок и
+     иконочных кнопок идёт тёмным #535d69 (6.26:1), а #85a3b1 работает в
+     контурах, линиях, иконках-декоре и ховерах;
+   - текст на #c4d0d9 = 4.26:1 → только крупный/заголовки, мелкий текст
+     живёт на белых и #e4e1eb подложках.
+   ========================================================================== */
+
+:root {
+  /* базовый фон по ТЗ — белый; лиловый уходит в чередование секций */
+  --color-bg: #FFFFFF;
+  --color-alt: #E4E1EB;
+  --color-ink: #535D69;
+
+  /* сетка отступов 8px: 16 / 24 / 32 / 48 / 80 / 120 */
+  --s-1: 1rem;      /* 16 */
+  --s-2: 1.5rem;    /* 24 */
+  --s-3: 2rem;      /* 32 */
+  --s-4: 3rem;      /* 48 */
+  --s-5: 5rem;      /* 80 */
+  --s-6: 7.5rem;    /* 120 */
+  --section-y: clamp(5rem, 9vw, 7.5rem);
+
+  /* единый радиус по ТЗ */
+  --radius: 12px;
+  --radius-btn: 10px;
+  --radius-pill: 999px;
+
+  /* анимации 0.3s ease */
+  --transition: 300ms ease;
+}
+
+/* --------------------------------------------------------------------------
+   1. Hero: фоновое фото + полупрозрачная плашка #e4e1eb (80%)
+   -------------------------------------------------------------------------- */
+.hero--photo {
+  position: relative;
+  isolation: isolate;
+  padding: 0;
+  min-height: min(88vh, 760px);
+  display: grid;
+  align-items: center;
+}
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+.hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 55%;
+}
+.hero--photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(83, 93, 105, .18), rgba(83, 93, 105, .30));
+}
+/* На мобильном фото затемняем сильнее, чтобы текст на плашке читался (ТЗ, п. 6) */
+@media (max-width: 899px) {
+  .hero--photo::after {
+    background: linear-gradient(180deg, rgba(45, 53, 61, .42), rgba(45, 53, 61, .58));
+  }
+  /* на телефоне плашка — во всю ширину экрана (ТЗ, п. 6) */
+  .hero__plate {
+    width: 100vw;
+    max-width: none;
+    margin-inline: calc(-1 * var(--container-pad));
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+}
+.hero--photo { min-height: 0; padding-block: 0; }        /* гасим базовые отступы .hero */
+.hero--photo .hero__inner { display: block; padding-block: 5.25rem var(--s-2); }
+.hero--photo .hero__title { font-size: clamp(1.8rem, 1.45rem + 1.9vw, 2.75rem); margin-bottom: var(--s-2); }
+.hero--photo .hero__subtitle { max-width: 34rem; font-size: var(--step-0); }
+.hero__plate {
+  max-width: 40rem;
+  padding: var(--s-2);
+  border-radius: var(--radius);
+  /* матовое стекло: плотнее светлая заливка + размытие фона (ТЗ, п. 2) */
+  background-color: rgba(255, 255, 255, .72);
+  background-image: linear-gradient(rgba(228, 225, 235, .45), rgba(228, 225, 235, .45));
+  -webkit-backdrop-filter: blur(12px) saturate(1.05);
+  backdrop-filter: blur(12px) saturate(1.05);
+  border: 1px solid rgba(255, 255, 255, .55);
+  box-shadow: 0 30px 70px -46px rgba(83, 93, 105, .85);
+}
+.hero__plate .hero__subtitle { margin-bottom: var(--space-sm); }
+@media (min-width: 768px) {
+  .hero--photo { min-height: min(78vh, 700px); }
+}
+
+/* Десктоп: текст в правой половине — слева остаётся открытый интерьер (ТЗ, п. 1) */
+@media (min-width: 900px) {
+  .hero--photo .hero__inner {
+    display: grid;
+    grid-template-columns: 1fr min(45vw, 40rem);   /* 40–45% ширины экрана */
+    align-items: center;
+  }
+  .hero__plate {
+    grid-column: 2;
+    padding: var(--s-4);                  /* 48px со всех сторон */
+    justify-self: end;
+    width: 100%;
+  }
+  /* надзаголовок — в одну строку */
+  .hero__eyebrow {
+    white-space: nowrap;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+  }
+}
+
+/* Кнопки первого экрана: по левому краю текста, обе помещаются без прокрутки */
+.hero__actions { margin-top: var(--s-1); justify-content: flex-start; }
+.hero--photo .btn--ghost {
+  border-width: 2px;
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.hero--photo .btn--ghost:hover { background-color: var(--color-ink); color: #FFFFFF; }
+
+/* --- Портрет дизайнера в первом экране (правка владельца) --- */
+.hero__top {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);                        /* фото и текст не слипаются */
+  margin-bottom: var(--s-2);
+}
+.hero__portrait {
+  flex: 0 0 auto;
+  margin: 0;
+  width: 4.5rem;                        /* 72px на мобильном */
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 10px 30px -18px rgba(83, 93, 105, .8);
+}
+.hero__portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; }
+.hero__eyebrow { margin-bottom: 0.35rem; }
+/* на мобильном надзаголовок короче — иначе три строки и лишняя высота */
+@media (max-width: 479px) {
+  .hero__eyebrow-extra { display: none; }
+  /* надзаголовок в одну строку и на телефоне */
+  .hero__eyebrow { font-size: 0.68rem; letter-spacing: 0.1em; white-space: nowrap; }
+}
+.hero__name {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--step-1);
+  color: var(--color-ink);
+}
+.hero__role {
+  margin: 0.15rem 0 0;
+  font-size: var(--step--1);
+  color: var(--color-ink);
+  opacity: .85;
+}
+@media (min-width: 900px) {
+  .hero__top { gap: var(--s-3); margin-bottom: var(--s-2); }
+  .hero__portrait { width: 7.5rem; }    /* 120px на десктопе */
+  .hero__name { font-size: var(--step-2); }
+  .hero__role { font-size: var(--step-0); }
+}
+
+/* Заголовок страницы в масштабе секционного (правка владельца: «как у Что вы получаете») */
+.h2-like { font-size: var(--step-3); }
+/* Заголовки тарифов — в один размер с заголовками услуг */
+.card--tariff .card__title { font-size: var(--step-2); }
+
+/* --------------------------------------------------------------------------
+   2. Чередование секций: белый ↔ #e4e1eb; #c4d0d9 — подложки карточек
+   -------------------------------------------------------------------------- */
+.section { background-color: var(--color-bg); }
+.section--surface { background-color: var(--color-alt); }   /* лиловый по ТЗ */
+.section--blue { background-color: var(--color-surface); }  /* светло-голубой */
+
+/* --------------------------------------------------------------------------
+   3. «Что вы получаете»: 4 карточки 2х2, крупные цифры антиквой, иконки
+   -------------------------------------------------------------------------- */
+.cards--services { grid-template-columns: 1fr; }
+@media (min-width: 640px) { .cards--services { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1280px) { .cards--services { grid-template-columns: repeat(2, 1fr); } }
+
+.card--service {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  padding: var(--s-3);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: 0 18px 40px -34px rgba(83, 93, 105, .7);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.card--service:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 60px -40px rgba(83, 93, 105, .75);
+}
+.card--service .card__num {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 1.6rem + 3vw, 3.75rem);
+  line-height: 1;
+  color: var(--color-warm);       /* #d1b9bf — тёплый акцент */
+  display: block;
+}
+.card--service .card__icon {
+  color: var(--color-accent-soft); /* #85a3b1 — линейные иконки */
+  display: inline-flex;
+}
+.card--service .card__icon .icon { width: 2.25rem; height: 2.25rem; }
+.card--service .card__title { margin: 0; font-size: var(--step-2); }
+.card--service .card__list { margin: 0; }
+.card--service .card__media { display: none; }   /* фото у услуг убираем: ЧИСТЫЕ карточки */
+@media (min-width: 1024px) {
+  .card--service { padding: var(--s-4); }
+}
+
+/* --- Блок «Услуги»: ровная сетка, ссылки, якорь тарифов (правки владельца) --- */
+/* все четыре карточки одной высоты: строки сетки растягиваются одинаково */
+.cards--services { grid-auto-rows: 1fr; align-items: stretch; }
+.card--service { height: 100%; }
+.card--service .card__list { margin-bottom: 0; }
+
+/* «Этапы дизайн-проекта» — под блоком карточек, по центру */
+.services-more {
+  margin: var(--s-3) 0 0;
+  text-align: center;
+}
+
+/* ссылка «Тарифы —» в правом верхнем углу блока: ховер в акцентный цвет */
+.link-arrow--accent { transition: color var(--transition), gap var(--transition); }
+.link-arrow--accent:hover { color: var(--color-accent-soft); }
+
+/* якорь тарифов: не прячем заголовок под закреплённой шапкой */
+#tariffs { scroll-margin-top: 6rem; }
+
+/* --------------------------------------------------------------------------
+   4. «Обо мне»: секция на #e4e1eb, теги инструментов
+   -------------------------------------------------------------------------- */
+.about__photo .media { border-radius: var(--radius); }
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1);
+  margin: var(--s-1) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.tag {
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-btn);
+  background-color: var(--color-surface);   /* #c4d0d9 */
+  color: var(--color-ink);
+  font-size: var(--step--1);
+  letter-spacing: 0.02em;
+}
+
+/* --------------------------------------------------------------------------
+   Страницы проектов: единый вид по правкам владельца
+   -------------------------------------------------------------------------- */
+/* отступ между текстом и плашкой «Об объекте» — минимум 40–60px */
+.project-body { gap: var(--s-4); }
+@media (min-width: 1024px) { .project-body { gap: 3.5rem; } }
+
+/* плашка «Об объекте»: единый фон и обводка, верхняя граница по заголовку */
+.spec {
+  background-color: rgba(196, 208, 217, .30);     /* #c4d0d9, 30% */
+  border: 1px solid var(--color-accent-soft);      /* обводка #85a3b1 */
+  border-radius: var(--radius);
+  padding: var(--s-3);
+  align-self: start;                               /* по верхнему краю колонки */
+}
+/* Верх плашки совпадает с заголовком «Задача клиента», а не с надзаголовком:
+   сдвигаем на высоту надзаголовка (кегль --step--1 × 1.65 + отступ). */
+@media (min-width: 1024px) {
+  .project-body .spec { margin-top: calc(var(--step--1) * 1.65 + var(--space-sm)); }
+}
+.spec__title { margin-top: 0; }
+.spec__list { margin-bottom: 0; }
+.spec__row dt, .spec__row dd { line-height: 1.5; }
+
+/* плашка «Итог»/«Результат»: пудрово-розовый фон, акцентная полоса слева */
+.project-result,
+.stage__result {
+  margin: var(--s-3) 0 0;
+  padding: var(--s-2) var(--s-3);
+  background-color: rgba(209, 185, 191, .15);      /* #d1b9bf, 15% */
+  border-left: 4px solid var(--color-warm);
+  border-radius: 0 var(--radius-btn) var(--radius-btn) 0;
+  font-weight: 500;
+}
+
+/* кнопка призыва под «Итогом» */
+.project-cta { margin: var(--s-3) 0 0; }
+
+/* миниатюры галереи: активная — акцентной рамкой, остальные приглушены */
+.pgal__thumb { opacity: .65; transition: opacity var(--transition), border-color var(--transition); }
+.pgal__thumb:hover { opacity: 1; }
+.pgal__thumb[aria-current="true"] { opacity: 1; border-color: var(--color-accent-soft); }
+/* полоса миниатюр прокручивается на мобильных */
+.pgal__thumbs { scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
+.pgal__thumb { scroll-snap-align: center; }
+
+/* --------------------------------------------------------------------------
+   5. Процесс: вертикальный таймлайн
+   -------------------------------------------------------------------------- */
+.steps,
+.stages {
+  position: relative;
+  display: grid;
+  gap: var(--s-3);
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 var(--s-4);
+}
+.steps::before,
+.stages::before {
+  content: "";
+  position: absolute;
+  left: 1.05rem;
+  top: 0.6rem;
+  bottom: 0.6rem;
+  width: 2px;
+  background-color: var(--color-surface);    /* линия #c4d0d9 */
+}
+.steps__item,
+.stage {
+  position: relative;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+/* старые правила .steps раскладывали этапы в 2 и 4 колонки на планшете/десктопе —
+   для вертикального таймлайна это ломало линию и накладывало текст: держим одну колонку */
+.steps, .stages, .steps--compact { grid-template-columns: 1fr; }
+@media (min-width: 768px) { .steps, .stages { grid-template-columns: 1fr; } }
+@media (min-width: 1024px) { .steps, .stages { grid-template-columns: 1fr; } }
+
+/* старый счётчик «01..07» больше не нужен: номер теперь в кружке таймлайна */
+.steps__item::before { content: none; }
+.steps__item { counter-increment: none; padding-top: 0; border-top: 0; }
+.steps__num,
+.stage__num {
+  position: absolute;
+  left: calc(-1 * var(--s-4) + 0.05rem);
+  top: 0;
+  width: 2.1rem;
+  height: 2.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--color-accent-soft);   /* #85a3b1 */
+  color: var(--color-bg);
+  font-family: var(--font-serif);
+  font-size: var(--step-0);
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.stages .stage:nth-child(even) .stage__num { background-color: var(--color-warm); color: var(--color-ink); }
+.stage { display: grid; gap: var(--s-2); padding-bottom: var(--s-3); }
+@media (min-width: 900px) {
+  .stage { grid-template-columns: 1.05fr 1fr; gap: var(--s-4); }
+  .stages .stage:nth-child(even) .stage__text { order: 2; }
+  .stages .stage:nth-child(even) .stage__media { order: 1; }
+}
+.stage__media .media { border-radius: var(--radius); }
+.stage__title { margin: var(--s-1) 0 var(--space-sm); }
+
+/* --------------------------------------------------------------------------
+   6. Блог и FAQ
+   -------------------------------------------------------------------------- */
+.article-card {
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-surface);
+  border-radius: var(--radius);
+  padding: var(--s-1);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.article-card:hover { transform: translateY(-4px); box-shadow: 0 28px 60px -44px rgba(83, 93, 105, .8); }
+.article-card__media { border-radius: var(--radius-btn); }
+
+/* текстовая ссылка «Все материалы»: текст тёмный (AA 6.26:1), подчёркивание — акцент */
+.link-underline {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent-soft);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: var(--step--1);
+}
+.link-underline:hover { text-decoration-color: var(--color-ink); }
+
+.faq summary::after { color: var(--color-accent-soft); font-size: var(--step-2); }
+.faq details { border-radius: var(--radius); }
+
+/* --------------------------------------------------------------------------
+   7. Кнопки: радиус 8–12px, заливка тёмная (AA), контуры — акцент
+   -------------------------------------------------------------------------- */
+.btn { border-radius: var(--radius-btn); letter-spacing: 0.04em; }
+.btn--lg { min-height: 3.5rem; padding: 1rem 2rem; font-size: var(--step-0); }
+.btn--accent {
+  background-color: var(--color-ink);      /* 6.26:1 с белым текстом */
+  color: #FFFFFF;
+  border-color: var(--color-ink);
+}
+.btn--accent:hover { background-color: #3F4854; border-color: #3F4854; color: #FFFFFF; }
+.btn--ghost {
+  background-color: transparent;
+  border-color: var(--color-accent-soft);  /* контур #85a3b1 */
+  color: var(--color-ink);
+}
+.btn--ghost:hover {
+  background-color: var(--color-accent-soft);
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+
+/* Логотип на узких экранах: кегль и трекинг меньше, чтобы имя не уезжало в многоточие */
+@media (max-width: 480px) {
+  .logo { font-size: 0.95rem; letter-spacing: 0.01em; }
+  .logo__mark { padding: 0 0.1em; }
+}
+/* На самых узких экранах (<=360px) показываем только фамилию —
+   иначе имя уходит в многоточие из-за кнопок в шапке */
+@media (max-width: 360px) {
+  .logo__first { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   8. Sticky-шапка: CTA видна всегда (на мобильном — иконка)
+   -------------------------------------------------------------------------- */
+.site-header .header__cta {
+  background-color: #57798A;             /* глубокий пыльно-голубой: с белым текстом 4.66:1 */
+  border-color: #57798A;
+  color: #FFFFFF;
+}
+.site-header .header__cta:hover { background-color: var(--color-ink); border-color: var(--color-ink); }
+.header__cta-mobile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background-color: #57798A;
+  color: #FFFFFF;
+  transition: background-color var(--transition);
+}
+.header__cta-mobile svg { width: 1.25rem; height: 1.25rem; }
+.header__cta-mobile:hover { background-color: #3F4854; }
+@media (min-width: 768px) {
+  .header__cta { display: inline-flex; }
+  .header__cta-mobile { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   9. CTA-блок: две кнопки
+   -------------------------------------------------------------------------- */
+.cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1);
+  justify-content: center;
+}
+.section.cta { background-color: var(--color-surface); color: var(--color-ink); }
+/* Мелкий текст на #c4d0d9 даёт 4.26:1 — ниже AA. Внутри полосы текст живёт
+   на светлой плашке (та же логика, что в hero и карточках): 6.26:1. */
+.section.cta .cta__inner {
+  max-width: 62rem;
+  padding: var(--s-4) var(--s-3);
+  border-radius: var(--radius);
+  background-color: rgba(255, 255, 255, .93);
+}
+.section.cta .cta__title, .section.cta .cta__text { color: var(--color-ink); }
+
+/* --------------------------------------------------------------------------
+   10. Мелочи: заголовки антиквой в #535d69, наведение карточек
+   -------------------------------------------------------------------------- */
+h1, h2, h3, h4 { color: var(--color-ink); }
+::selection { background: var(--color-surface); color: var(--color-ink); }

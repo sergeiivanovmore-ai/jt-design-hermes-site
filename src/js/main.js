@@ -1,8 +1,11 @@
 /* ==========================================================================
-   JT Design — main.js
+   JT Design — main.js (v3)
    Vanilla JS, без зависимостей и глобальных переменных (IIFE + 'use strict').
-   Модули: мобильное меню, тень шапки, фильтр портфолио, год в подвале,
-   появление секций при скролле, валидация формы заявки.
+   Карусели построены на нативном горизонтальном скролле (scroll-snap):
+   свайп работает на мобильных даже без JS, стрелки/точки управляют
+   scrollLeft и подсвечивают текущую позицию по факту скролла.
+   Модули: мобильное меню, тень шапки, карусель проектов с сегментами,
+   карусель галереи проекта, год в подвале, появление секций.
    ========================================================================== */
 (function () {
   'use strict';
@@ -77,43 +80,226 @@
   }
 
   /* ---------------------------------------------------------------------
-     3. Фильтр портфолио
-     Без JS видны все проекты, поэтому фильтрация — прогрессивное улучшение.
+     Общая утилита: шаг карусели = ширина первого видимого слайда + gap.
      --------------------------------------------------------------------- */
-  function initFilter() {
-    var group = document.querySelector('[data-filter]');
-    var list = document.querySelector('[data-projects]');
-    if (!group || !list) return;
+  function slideStep(track) {
+    var first = track.querySelector('li:not([hidden])');
+    if (!first) return 0;
+    var style = window.getComputedStyle(track);
+    var gap = parseFloat(style.columnGap || style.gap || '0') || 0;
+    return first.getBoundingClientRect().width + gap;
+  }
 
-    var buttons = Array.prototype.slice.call(group.querySelectorAll('[data-filter-value]'));
-    var cards = Array.prototype.slice.call(list.querySelectorAll('[data-category]'));
-    var status = document.querySelector('[data-filter-status]');
-
-    buttons.forEach(function (button) {
-      button.addEventListener('click', function () {
-        var value = button.getAttribute('data-filter-value');
-        var visible = 0;
-
-        buttons.forEach(function (other) {
-          other.setAttribute('aria-pressed', other === button ? 'true' : 'false');
-        });
-
-        cards.forEach(function (card) {
-          var match = value === 'all' || card.getAttribute('data-category') === value;
-          card.hidden = !match;
-          if (match) visible += 1;
-        });
-
-        // Объявляем результат скринридеру
-        if (status) {
-          status.textContent = 'Показано проектов: ' + visible;
-        }
-      });
-    });
+  function scrollBehavior() {
+    return prefersReducedMotion ? 'auto' : 'smooth';
   }
 
   /* ---------------------------------------------------------------------
-     4. Текущий год в подвале
+     3. Карусель проектов с сегментами (scroll-snap).
+     Свайп — нативный скролл, работает на мобильных; стрелки/точки
+     управляют scrollLeft, активная точка определяется по факту скролла.
+     --------------------------------------------------------------------- */
+  function initProjectCarousel() {
+    var root = document.querySelector('[data-carousel]');
+    if (!root) return;
+
+    var viewport = root.querySelector('.carousel__viewport');
+    var track = root.querySelector('[data-track]');
+    var slides = Array.prototype.slice.call(root.querySelectorAll('.carousel__slide'));
+    var segs = Array.prototype.slice.call(root.querySelectorAll('[data-seg]'));
+    var prevBtn = root.querySelector('[data-prev]');
+    var nextBtn = root.querySelector('[data-next]');
+    var dotsBox = root.querySelector('[data-dots]');
+    var status = root.querySelector('[data-carousel-status]');
+    if (!viewport || !track || !slides.length) return;
+
+    function visibleSlides() {
+      return slides.filter(function (s) { return !s.hidden; });
+    }
+
+    function perView() {
+      var w = window.innerWidth;
+      return w >= 1024 ? 3 : (w >= 768 ? 2 : 1);
+    }
+
+    function maxIndex() {
+      return Math.max(0, visibleSlides().length - perView());
+    }
+
+    function buildDots() {
+      if (!dotsBox) return;
+      dotsBox.innerHTML = '';
+      var pages = maxIndex() + 1;
+      for (var i = 0; i < pages; i++) {
+        (function (idx) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'carousel__dot';
+          b.setAttribute('aria-label', 'Страница ' + (idx + 1));
+          b.addEventListener('click', function () {
+            viewport.scrollTo({ left: idx * slideStep(track), behavior: scrollBehavior() });
+          });
+          dotsBox.appendChild(b);
+        })(i);
+      }
+    }
+
+    function update() {
+      var step = slideStep(track);
+      var index = step > 0 ? Math.round(viewport.scrollLeft / step) : 0;
+      index = Math.max(0, Math.min(maxIndex(), index));
+
+      if (dotsBox) {
+        Array.prototype.forEach.call(dotsBox.children, function (d, i) {
+          d.classList.toggle('is-active', i === index);
+        });
+      }
+      if (prevBtn) prevBtn.disabled = index === 0;
+      if (nextBtn) nextBtn.disabled = index >= maxIndex();
+      if (status) status.textContent = 'Слайд ' + (index + 1) + ' из ' + (maxIndex() + 1);
+    }
+
+    function goTo(delta) {
+      var step = slideStep(track);
+      var index = step > 0 ? Math.round(viewport.scrollLeft / step) : 0;
+      var target = Math.max(0, Math.min(maxIndex(), index + delta));
+      viewport.scrollTo({ left: target * step, behavior: scrollBehavior() });
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', function () { goTo(-1); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { goTo(1); });
+
+    // Подсветка точки по фактическому скроллу (в т.ч. после свайпа пальцем)
+    var raf = null;
+    viewport.addEventListener('scroll', function () {
+      if (raf) return;
+      raf = window.requestAnimationFrame(function () {
+        raf = null;
+        update();
+      });
+    }, { passive: true });
+
+    segs.forEach(function (seg) {
+      seg.addEventListener('click', function () {
+        segs.forEach(function (s) {
+          s.setAttribute('aria-selected', s === seg ? 'true' : 'false');
+        });
+        var value = seg.getAttribute('data-seg');
+        slides.forEach(function (s) {
+          var vals = (s.getAttribute('data-seg-values') || '').split(/\s+/);
+          s.hidden = value !== 'all' && vals.indexOf(value) === -1;
+        });
+        viewport.scrollTo({ left: 0, behavior: 'auto' });
+        buildDots();
+        update();
+        if (status) status.textContent = 'Показано проектов: ' + visibleSlides().length;
+      });
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (!root.contains(document.activeElement)) return;
+      if (event.key === 'ArrowLeft') goTo(-1);
+      if (event.key === 'ArrowRight') goTo(1);
+    });
+
+    var resizeT = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeT);
+      resizeT = setTimeout(function () {
+        buildDots();
+        update();
+      }, 150);
+    });
+
+    buildDots();
+    update();
+  }
+
+  /* ---------------------------------------------------------------------
+     4. Карусель галереи проекта (scroll-snap + миниатюры)
+     --------------------------------------------------------------------- */
+  function initProjectGallery() {
+    var root = document.querySelector('[data-pgal]');
+    if (!root) return;
+    var viewport = root.querySelector('.pgal__viewport');
+    var track = root.querySelector('[data-pgal-track]');
+    var slides = Array.prototype.slice.call(root.querySelectorAll('.pgal__slide'));
+    var prevBtn = root.querySelector('[data-pgal-prev]');
+    var nextBtn = root.querySelector('[data-pgal-next]');
+    var dots = Array.prototype.slice.call(root.querySelectorAll('.pgal__dot'));
+    var thumbs = Array.prototype.slice.call(root.querySelectorAll('.pgal__thumb'));
+    var status = root.querySelector('[data-pgal-status]');
+    if (!viewport || !track || !slides.length) return;
+
+    function update() {
+      var step = slideStep(track);
+      var index = step > 0 ? Math.round(viewport.scrollLeft / step) : 0;
+      index = Math.max(0, Math.min(slides.length - 1, index));
+
+      dots.forEach(function (d, i) {
+        d.setAttribute('aria-current', i === index ? 'true' : 'false');
+      });
+      thumbs.forEach(function (t, i) {
+        t.setAttribute('aria-current', i === index ? 'true' : 'false');
+      });
+      // Активную миниатюру держим в поле зрения, прокручивая ТОЛЬКО полосу
+      // миниатюр: scrollIntoView мог утащить вниз всю страницу при свайпе.
+      if (thumbs[index] && thumbs[index].parentElement) {
+        var strip = thumbs[index].parentElement;
+        if (strip.scrollWidth > strip.clientWidth) {
+          strip.scrollLeft = Math.max(0, thumbs[index].offsetLeft
+            - (strip.clientWidth - thumbs[index].offsetWidth) / 2);
+        }
+      }
+      if (status) status.textContent = 'Фото ' + (index + 1) + ' из ' + slides.length;
+    }
+
+    function goTo(delta) {
+      var step = slideStep(track);
+      var index = step > 0 ? Math.round(viewport.scrollLeft / step) : 0;
+      var target = Math.max(0, Math.min(slides.length - 1, index + delta));
+      viewport.scrollTo({ left: target * step, behavior: scrollBehavior() });
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', function () { goTo(-1); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { goTo(1); });
+    dots.forEach(function (d) {
+      d.addEventListener('click', function () {
+        viewport.scrollTo({
+          left: parseInt(d.dataset.goto, 10) * slideStep(track),
+          behavior: scrollBehavior(),
+        });
+      });
+    });
+    thumbs.forEach(function (t) {
+      t.addEventListener('click', function () {
+        viewport.scrollTo({
+          left: parseInt(t.dataset.goto, 10) * slideStep(track),
+          behavior: scrollBehavior(),
+        });
+      });
+    });
+
+    var raf = null;
+    viewport.addEventListener('scroll', function () {
+      if (raf) return;
+      raf = window.requestAnimationFrame(function () {
+        raf = null;
+        update();
+      });
+    }, { passive: true });
+
+    document.addEventListener('keydown', function (event) {
+      if (!root.contains(document.activeElement)) return;
+      if (event.key === 'ArrowLeft') goTo(-1);
+      if (event.key === 'ArrowRight') goTo(1);
+    });
+
+    update();
+  }
+
+  /* ---------------------------------------------------------------------
+     5. Текущий год в подвале
      --------------------------------------------------------------------- */
   function initYear() {
     var nodes = document.querySelectorAll('[data-year]');
@@ -122,7 +308,7 @@
   }
 
   /* ---------------------------------------------------------------------
-     5. Появление секций при скролле
+     6. Появление секций при скролле
      --------------------------------------------------------------------- */
   function initReveal() {
     var items = document.querySelectorAll('[data-reveal]');
@@ -149,51 +335,15 @@
   }
 
   /* ---------------------------------------------------------------------
-     6. Форма заявки: клиентская валидация
-     TODO: подключить бэкенд — здесь будет POST на endpoint (Formspree, n8n,
-     собственный API). Пока сообщение носит демонстрационный характер.
-     --------------------------------------------------------------------- */
-  function initContactForm() {
-    var form = document.querySelector('[data-contact-form]');
-    if (!form) return;
-
-    var status = form.querySelector('[data-form-status]');
-
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
-
-      var name = form.elements.name;
-      var contact = form.elements.contact;
-      var invalid = [];
-
-      [name, contact].forEach(function (field) {
-        var ok = field.value.trim().length > 0;
-        field.setAttribute('aria-invalid', ok ? 'false' : 'true');
-        if (!ok) invalid.push(field);
-      });
-
-      if (invalid.length) {
-        status.textContent = 'Заполните, пожалуйста, поля «Имя» и «Контакт».';
-        invalid[0].focus();
-        return;
-      }
-
-      // Здесь будет реальная отправка на бэкенд
-      status.textContent = 'Спасибо, ' + name.value.trim() + '! Заявка принята — свяжемся в течение рабочего дня.';
-      form.reset();
-    });
-  }
-
-  /* ---------------------------------------------------------------------
      Инициализация
      --------------------------------------------------------------------- */
   function init() {
     initNav();
     initHeaderShadow();
-    initFilter();
+    initProjectCarousel();
+    initProjectGallery();
     initYear();
     initReveal();
-    initContactForm();
   }
 
   if (document.readyState === 'loading') {
