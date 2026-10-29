@@ -1055,3 +1055,136 @@
    -------------------------------------------------------------------------- */
 h1, h2, h3, h4 { color: var(--color-ink); }
 ::selection { background: var(--color-surface); color: var(--color-ink); }
+
+/* ==========================================================================
+   Правки владельца (29.10.2026)
+   ========================================================================== */
+
+/* Кнопка «Обсудить проект» в блоке «Обо мне»: пыльно-голубая заливка, белый
+   текст, скругление 10px; при наведении — тёмно-серый (#535d69). */
+.btn--blue {
+  background-color: var(--color-accent-soft);   /* #85a3b1 */
+  border-color: var(--color-accent-soft);
+  color: #fff;
+  border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+.btn--blue:hover {
+  background-color: var(--color-text);          /* #535d69 */
+  border-color: var(--color-text);
+  color: var(--color-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -12px rgba(83, 93, 105, .8);
+}
+
+/* Тарифы: название — главный акцент плашки (нумерация убрана). */
+.card--tariff .card__title {
+  font-weight: 600;
+  color: var(--color-text);
+}
+.card--tariff .card__price { margin-top: var(--s-2); }
+
+/* Текст после «PS.» — курсивом и отдельной строкой. */
+.card__note--ps {
+  margin-top: var(--s-2);
+  color: var(--color-text-muted);
+}
+
+/* Блок «Образование» в «Обо мне». */
+.edu {
+  margin-top: var(--s-4);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--color-surface);
+}
+.edu__title { margin: 0 0 var(--s-2); font-size: var(--step-1); }
+.edu__text { margin: 0 0 var(--s-3); }
+.edu__thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.edu__thumb {
+  display: block;
+  padding: 0;
+  border: 1px solid var(--color-surface);
+  border-radius: var(--radius-btn);
+  background: #fff;
+  cursor: zoom-in;
+  overflow: hidden;
+  transition: border-color var(--transition), transform var(--transition);
+}
+.edu__thumb img { display: block; width: 100%; height: auto; }
+.edu__thumb:hover { border-color: var(--color-accent-soft); transform: translateY(-2px); }
+
+/* Лайтбокс для дипломов. */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: var(--s-4);
+  background: rgba(35, 42, 49, .9);
+}
+.lightbox[hidden] { display: none; }
+.lightbox__figure { margin: 0; max-width: min(1100px, 92vw); text-align: center; }
+.lightbox__img {
+  display: block;
+  max-width: 100%;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  border-radius: var(--radius-btn);
+  background: #fff;
+}
+.lightbox__caption { margin-top: var(--s-2); color: #e4e1eb; font-size: var(--step--1); }
+.lightbox__close {
+  position: absolute;
+  top: var(--s-3);
+  right: var(--s-3);
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .92);
+  color: var(--color-text);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.lightbox__close:hover { background: #fff; }
+
+/* «Обо мне»: фото тянется по высоте текстовой колонки. На мобильных фото
+   остаётся первым (порядок в разметке), текст — под ним. */
+.about__text > .btn { margin-top: var(--s-3); }
+
+@media (min-width: 768px) {
+  .about { align-items: stretch; }
+  .about__photo { display: flex; }
+  .about__photo .media { flex: 1 1 auto; aspect-ratio: auto; }
+  .about__photo .media img { height: 100%; object-fit: cover; object-position: 50% 15%; }
+}
+
+/* Этап 6: широкая таблица спецификации показывается целиком, без обрезки. */
+.stages .stage--doc { grid-template-columns: 1fr; }
+.stages .stage--doc .stage__text { order: 1; }
+.stages .stage--doc .stage__media { order: 2; grid-column: 1 / -1; }
+.stages .stage--doc .media { aspect-ratio: auto; }
+.stages .stage--doc .media img { width: 100%; height: auto; object-fit: contain; }
+
+/* «Этапы дизайн-проекта»: меньше воздуха до первого этапа. */
+.section--tight { padding-block: var(--s-4) var(--s-5); }
+.section--tight .stages { margin-top: var(--s-2); }
+
+/* Цитата в блоке контактов. */
+.section__quote {
+  margin: var(--s-3) 0 0;
+  padding-left: var(--s-3);
+  border-left: 3px solid var(--color-warm);
+  font-style: italic;
+}
