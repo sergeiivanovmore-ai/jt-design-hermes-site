@@ -1316,9 +1316,35 @@ h1, h2, h3, h4 { color: var(--color-ink); }
   border-color: #4B6876;
   color: #FFFFFF;
 }
+/* Вторая кнопка — MAX: прозрачный фон + акцентная обводка #85a3b1,
+   текст тёмный (#535d69, 6.7:1). Текст самой обводки цветом #85a3b1
+   не годится: 2.67:1 на белом — ниже AA. */
+.btn--max {
+  background-color: transparent;
+  border-color: var(--color-accent-soft);
+  border-width: 2px;
+  color: var(--color-text);
+  font-size: var(--step-0);
+  min-height: 3.5rem;
+  padding: 1rem 2.2rem;
+}
+.btn--max:hover,
+.btn--max:focus-visible {
+  background-color: rgba(133, 163, 177, .22);
+  border-color: var(--color-accent);
+  color: var(--color-text);
+}
 .btn__icon { width: 20px; height: 20px; flex: 0 0 auto; }
 
-.contact-cta { margin: 0.5rem 0 0; }
+/* Пара кнопок в контактах: стоят рядом, переносятся на узком экране,
+   набраны в нижнем регистре — «@JuliayTara» читается лучше капса. */
+.contact-cta {
+  margin: 0.85rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.contact-cta .btn { text-transform: none; letter-spacing: 0.04em; }
 
 /* Правая колонка: фото — главный акцент, выровнено по центру колонки */
 .contact-layout__col--photo {
@@ -1348,7 +1374,8 @@ h1, h2, h3, h4 { color: var(--color-ink); }
 .diplomas__title {
   margin: 0 0 0.9rem;
   font-family: var(--font-serif);
-  font-size: var(--step-0);
+  font-size: var(--step-1);      /* крупнее, чтобы не сливаться с текстом строк */
+  line-height: 1.2;
   color: var(--color-text);
 }
 .diplomas__list {
@@ -1366,11 +1393,14 @@ h1, h2, h3, h4 { color: var(--color-ink); }
 }
 .diplomas__thumb {
   display: block;
+  width: 100%;
+  padding: 0;                     /* это <button>: убрать браузерные отступы */
   border-radius: 4px;
   overflow: hidden;
   border: 1px solid rgba(83, 93, 105, .22);
   background-color: #FFFFFF;
   box-shadow: 0 6px 14px -12px rgba(83, 93, 105, .6);
+  cursor: zoom-in;
 }
 .diplomas__thumb img { display: block; width: 100%; height: auto; }
 .diplomas__thumb:focus-visible { outline: 2px solid var(--color-accent-strong); outline-offset: 2px; }
