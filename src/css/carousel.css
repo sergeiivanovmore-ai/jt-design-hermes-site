@@ -1092,6 +1092,30 @@ h1, h2, h3, h4 { color: var(--color-ink); }
   color: var(--color-text-muted);
 }
 
+/* Список внутри плашки тарифа (тариф «Комплектация»). */
+.card__list {
+  display: grid;
+  gap: var(--s-1);
+  margin: var(--s-2) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.card__list li {
+  position: relative;
+  padding-left: 1.1rem;
+  color: var(--color-text-muted);
+}
+.card__list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .62em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--color-accent-soft);
+}
+
 /* Блок «Образование» в «Обо мне». */
 .edu {
   margin-top: var(--s-4);
@@ -1170,10 +1194,12 @@ h1, h2, h3, h4 { color: var(--color-ink); }
   .about__photo .media img { height: 100%; object-fit: cover; object-position: 50% 15%; }
 }
 
-/* Этап 6: широкая таблица спецификации показывается целиком, без обрезки. */
+/* Этап 6: таблица показывается после текста этапа и строки «Результат — …».
+   :nth-child(n) поднимает специфичность выше правила «зигзага» для чётных этапов,
+   из-за которого картинка вставала перед текстом. */
 .stages .stage--doc { grid-template-columns: 1fr; }
-.stages .stage--doc .stage__text { order: 1; }
-.stages .stage--doc .stage__media { order: 2; grid-column: 1 / -1; }
+.stages .stage--doc:nth-child(n) .stage__text { order: 0; }
+.stages .stage--doc:nth-child(n) .stage__media { order: 0; grid-column: 1 / -1; }
 .stages .stage--doc .media { aspect-ratio: auto; }
 .stages .stage--doc .media img { width: 100%; height: auto; object-fit: contain; }
 
