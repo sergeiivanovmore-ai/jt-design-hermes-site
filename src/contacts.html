@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap">
   <link rel="stylesheet" href="css/styles.css?v=bf9042cc">
-  <link rel="stylesheet" href="css/carousel.css?v=88e74d30">
+  <link rel="stylesheet" href="css/carousel.css?v=ffc531f5">
   <script src="js/main.js?v=061ff288" defer></script>
   <title>Контакты — Юлия Таранникова, дизайн интерьера</title>
   <meta name="description" content="Свяжитесь со мной: Telegram @JuliayTara, канал @homest_jul, канал в Max jt_design, ВКонтакте. Подберу оптимальный пакет услуг под ваш проект. г. Москва.">
@@ -40,7 +40,7 @@
       <nav class="site-nav" id="primary-nav" aria-label="Основная навигация" data-nav>
         <ul class="site-nav__list">
           <li><a class="site-nav__link" href="index.html">Главная</a></li>
-          <li><a class="site-nav__link site-nav__link--accent" href="portfolio.html">Проекты</a></li>
+          <li><a class="site-nav__link" href="portfolio.html">Проекты</a></li>
           <li><a class="site-nav__link" href="services.html">Услуги</a></li>
           <li><a class="site-nav__link" href="contacts.html" aria-current="page">Контакты</a></li>
         </ul>
@@ -65,11 +65,17 @@
           <p class="section__lead">
             Подберу оптимальный пакет услуг под ваш проект. Быстрее всего отвечаю в Telegram.
           </p>
+          <p class="contact-cta">
+            <a class="btn btn--tg btn--lg" href="https://t.me/JuliayTara" rel="noopener">
+              <svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M21.5 4.3 18.6 19c-.2 1-.8 1.2-1.6.8l-4.4-3.3-2.1 2c-.2.2-.4.4-.9.4l.3-4.4 8.1-7.3c.3-.3 0-.5-.5-.2l-10 6.3-4.3-1.4c-.9-.3-.9-.9.2-1.3l16.8-6.5c.8-.3 1.5.2 1.3 1Z"/></svg>
+              @JuliayTara
+            </a>
+          </p>
           <p class="hero__slogan">Ваше время — ваши деньги. Я экономлю и то, и другое. Напишите — и я помогу пройти ремонт с минимальными затратами во времени и силах.</p>
         </div>
 
         <div class="contact-layout">
-          <div>
+          <div class="contact-layout__col contact-layout__col--info">
             <ul class="contact-list">
               <li>
                 <span class="contact-list__label">Telegram</span>
@@ -91,6 +97,7 @@
               <li>
                 <span class="contact-list__label">Instagram</span>
                 <span class="contact-list__value"><a href="https://www.instagram.com/jt_design_msk" rel="noopener">@jt_design_msk</a></span>
+                <p class="text-muted">Эстетика интерьера и бэкстейджи со съёмок.</p>
               </li>
               <li>
                 <span class="contact-list__label">Город</span>
@@ -100,7 +107,7 @@
             </ul>
           </div>
 
-          <div>
+          <div class="contact-layout__col contact-layout__col--photo">
             <figure class="media media--4x5 contact-photo">
               <img src="assets/img/julia-1.webp?v=40abbbb7"
                    srcset="assets/img/julia-1-400.webp?v=fb044bef 400w, assets/img/julia-1-800.webp?v=77e780bb 800w, assets/img/julia-1.webp?v=40abbbb7 820w"
@@ -109,10 +116,30 @@
                    alt="Юлия Таранникова — дизайнер интерьера"
                    loading="lazy" decoding="async">
             </figure>
-            <div class="section__note">
-              <p>Профессиональная переподготовка: Диплом «Дизайнер интерьера» (ООО «ДИСКИЛЛ», 2026 г.) — право на проектирование жилых и общественных пространств.</p>
-              <p>Специализация по хоумстейджингу: Профессиональный курс «Хоумстейджинг: от хобби до модной профессии» (школа «Хоумстейджинг с любовью», 2024 г.).</p>
-              <p class="section__quote">«Благодаря сочетанию инженерного подхода и экспертизы в хоумстейджинге, я создаю интерьеры, в которых комфортно жить, и которые выгодно сдавать или продавать».</p>
+            <div class="diplomas">
+              <h2 class="diplomas__title">Дипломы</h2>
+              <ul class="diplomas__list">
+                <li class="diplomas__item">
+                  <a class="diplomas__thumb" href="assets/img/diploma-designer.webp?v=67d0d015"
+                     target="_blank" rel="noopener">
+                    <img src="assets/img/diploma-designer-600.webp?v=413bcf58" width="600" height="444"
+                         alt="Скан диплома «Дизайнер интерьера», ООО «ДИСКИЛЛ», 2026"
+                         loading="lazy" decoding="async">
+                  </a>
+                  <span class="diplomas__text">Диплом «Дизайнер интерьера»
+                    (ООО «ДИСКИЛЛ», 2026 г.)</span>
+                </li>
+                <li class="diplomas__item">
+                  <a class="diplomas__thumb" href="assets/img/diploma-homestaging.webp?v=3f2096dd"
+                     target="_blank" rel="noopener">
+                    <img src="assets/img/diploma-homestaging-600.webp?v=aebf2e88" width="600" height="428"
+                         alt="Скан диплома о курсе «Хоумстейджинг: от хобби до модной профессии», 2024"
+                         loading="lazy" decoding="async">
+                  </a>
+                  <span class="diplomas__text">Специалист по хоумстейджингу
+                    (Школа «Хоумстейджинг с любовью», 2024 г.)</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>

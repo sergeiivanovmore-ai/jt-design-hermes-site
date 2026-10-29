@@ -1203,6 +1203,10 @@ h1, h2, h3, h4 { color: var(--color-ink); }
 .stages .stage--doc .media { aspect-ratio: auto; }
 .stages .stage--doc .media img { width: 100%; height: auto; object-fit: contain; }
 
+/* Блок-призыв: заголовок, текст и кнопки на равных отступах
+   (у <p> был собственный margin-bottom, из-за него текст отходил от кнопок). */
+.section.cta .cta__text { margin-bottom: 0; }
+
 /* «Этапы дизайн-проекта»: меньше воздуха до первого этапа. */
 .section--tight { padding-block: var(--s-4) var(--s-5); }
 .section--tight .stages { margin-top: var(--s-2); }
@@ -1219,16 +1223,8 @@ h1, h2, h3, h4 { color: var(--color-ink); }
    Правки владельца (29.10.2026, круг 2): меню и иконки соцсетей
    ========================================================================== */
 
-/* «Проекты» в меню — заметнее остальных пунктов (мягкая плашка, не спорит
-   с кнопкой «Обсудить проект» в шапке). */
-.site-nav__link--accent {
-  padding: 6px 14px;
-  border-radius: 999px;
-  background-color: rgba(133, 163, 177, .30);
-  color: var(--color-text);
-  font-weight: 600;
-}
-.site-nav__link--accent:hover { background-color: rgba(133, 163, 177, .50); }
+/* «Проекты» в меню больше не выделяется плашкой — по просьбе владельца
+   все пункты меню одного цвета (29.10.2026). */
 
 /* Ряд иконок мессенджеров в подвале — вместо списка текстовых ссылок. */
 .social {
@@ -1294,4 +1290,99 @@ h1, h2, h3, h4 { color: var(--color-ink); }
   .social__icon { width: 48px; height: 48px; }
   .social__icon svg { width: 24px; height: 24px; }
   .social__label { font-size: .8125rem; }
+}
+
+
+/* ==========================================================================
+   Контакты (правки владельца, 29.10.2026): фото-акцент, светлая плашка
+   дипломов, крупная кнопка Telegram, порядок блоков на мобильном
+   ========================================================================== */
+
+/* Кнопка Telegram в шапке контактов. Просили #85a3b1 с белым текстом,
+   но это 2.67:1 — ниже AA даже для крупного кегля. Берём ближайший
+   оттенок той же гаммы, который держит белый текст: #57798A (4.66:1). */
+.btn--tg {
+  background-color: #57798A;
+  border-color: #57798A;
+  color: #FFFFFF;
+  font-size: var(--step-0);
+  min-height: 3.5rem;
+  padding: 1rem 2.2rem;
+  letter-spacing: 0.08em;
+}
+.btn--tg:hover,
+.btn--tg:focus-visible {
+  background-color: #4B6876;
+  border-color: #4B6876;
+  color: #FFFFFF;
+}
+.btn__icon { width: 20px; height: 20px; flex: 0 0 auto; }
+
+.contact-cta { margin: 0.5rem 0 0; }
+
+/* Правая колонка: фото — главный акцент, выровнено по центру колонки */
+.contact-layout__col--photo {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: var(--s-3);
+}
+.contact-photo {
+  width: min(100%, 27rem);
+  max-width: 27rem;
+  margin: 0;
+}
+.contact-photo img { width: 100%; height: auto; }
+
+/* Плашка дипломов: светлая (#e4e1eb 55%), тёмный текст #535d69 (5.8:1).
+   Прежняя тёмная плашка и цитата убраны — цитата дублировала «Обо мне». */
+.diplomas {
+  width: min(100%, 27rem);
+  padding: var(--s-3);
+  border-radius: var(--radius);
+  border: 1px solid rgba(83, 93, 105, .12);
+  background-color: rgba(228, 225, 235, .55);
+  box-shadow: 0 14px 34px -30px rgba(83, 93, 105, .65);
+  color: var(--color-text);
+}
+.diplomas__title {
+  margin: 0 0 0.9rem;
+  font-family: var(--font-serif);
+  font-size: var(--step-0);
+  color: var(--color-text);
+}
+.diplomas__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.9rem;
+}
+.diplomas__item {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  align-items: center;
+  gap: 0.9rem;
+}
+.diplomas__thumb {
+  display: block;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(83, 93, 105, .22);
+  background-color: #FFFFFF;
+  box-shadow: 0 6px 14px -12px rgba(83, 93, 105, .6);
+}
+.diplomas__thumb img { display: block; width: 100%; height: auto; }
+.diplomas__thumb:focus-visible { outline: 2px solid var(--color-accent-strong); outline-offset: 2px; }
+.diplomas__text {
+  font-size: var(--step--1);
+  line-height: 1.45;
+  color: var(--color-text);
+}
+
+/* Мобильный: фото первым, затем контакты-фото-дипломы; плашка не липнет к краям */
+@media (max-width: 767px) {
+  .contact-layout__col--photo { order: -1; }
+  .contact-photo { width: min(100%, 22rem); max-width: 22rem; }
+  .diplomas { width: 100%; max-width: 27rem; }
 }
