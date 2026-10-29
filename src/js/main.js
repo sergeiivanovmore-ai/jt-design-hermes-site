@@ -364,7 +364,8 @@
       var thumb = trigger.querySelector('img');
       lastFocus = trigger;
       img.setAttribute('src', trigger.getAttribute('data-lightbox'));
-      img.setAttribute('alt', thumb ? (thumb.getAttribute('alt') || '') : '');
+      img.setAttribute('alt', (thumb && thumb.getAttribute('alt')) ||
+        trigger.getAttribute('data-lightbox-alt') || '');
       cap.textContent = trigger.getAttribute('data-lightbox-caption') || '';
       box.hidden = false;
       document.body.style.overflow = 'hidden';
