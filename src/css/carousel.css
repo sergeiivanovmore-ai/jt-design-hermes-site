@@ -1092,29 +1092,8 @@ h1, h2, h3, h4 { color: var(--color-ink); }
   color: var(--color-text-muted);
 }
 
-/* Список внутри плашки тарифа (тариф «Комплектация»). */
-.card__list {
-  display: grid;
-  gap: var(--s-1);
-  margin: var(--s-2) 0 0;
-  padding: 0;
-  list-style: none;
-}
-.card__list li {
-  position: relative;
-  padding-left: 1.1rem;
-  color: var(--color-text-muted);
-}
-.card__list li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: .62em;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background-color: var(--color-accent-soft);
-}
+/* Список внутри плашки тарифа использует общий стиль сайта (.card__list) —
+   «—» в начале строки, как в карточках услуг. */
 
 /* Блок «Образование» в «Обо мне». */
 .edu {
@@ -1183,15 +1162,24 @@ h1, h2, h3, h4 { color: var(--color-ink); }
 }
 .lightbox__close:hover { background: #fff; }
 
-/* «Обо мне»: фото тянется по высоте текстовой колонки. На мобильных фото
-   остаётся первым (порядок в разметке), текст — под ним. */
+/* «Обо мне»: фото держит натуральную пропорцию кадра (4:5), без растяжения и
+   обрезки; пустоту под фото закрывает лёгкая подложка-цитата .about__note.
+   На мобильных фото остаётся первым (порядок в разметке), текст — под ним. */
 .about__text > .btn { margin-top: var(--s-3); }
+.about__note {
+  margin: var(--s-2) 0 0;
+  padding: var(--s-2);
+  border-radius: var(--radius);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--step--1);
+}
 
 @media (min-width: 768px) {
-  .about { align-items: stretch; }
-  .about__photo { display: flex; }
-  .about__photo .media { flex: 1 1 auto; aspect-ratio: auto; }
-  .about__photo .media img { height: 100%; object-fit: cover; object-position: 50% 15%; }
+  .about { align-items: start; }
+  .about__photo { display: block; }
+  .about__photo .media { aspect-ratio: 4 / 5; }
+  .about__photo .media img { height: 100%; object-fit: cover; object-position: 50% 20%; }
 }
 
 /* Этап 6: таблица показывается после текста этапа и строки «Результат — …».
@@ -1213,4 +1201,85 @@ h1, h2, h3, h4 { color: var(--color-ink); }
   padding-left: var(--s-3);
   border-left: 3px solid var(--color-warm);
   font-style: italic;
+}
+
+/* ==========================================================================
+   Правки владельца (29.10.2026, круг 2): меню и иконки соцсетей
+   ========================================================================== */
+
+/* «Проекты» в меню — заметнее остальных пунктов (мягкая плашка, не спорит
+   с кнопкой «Обсудить проект» в шапке). */
+.site-nav__link--accent {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background-color: rgba(133, 163, 177, .30);
+  color: var(--color-text);
+  font-weight: 600;
+}
+.site-nav__link--accent:hover { background-color: rgba(133, 163, 177, .50); }
+
+/* Ряд иконок мессенджеров в подвале — вместо списка текстовых ссылок. */
+.social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.social__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+.social__icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--color-accent-soft);   /* #85a3b1, белый логотип внутри */
+  color: #fff;
+  transition: background-color var(--transition), transform var(--transition);
+}
+.social__icon svg { width: 22px; height: 22px; }
+.social__label {
+  font-size: .72rem;
+  line-height: 1.2;
+  color: var(--color-text-muted);
+}
+/* Метка «канал» на второй иконке Telegram, чтобы не путать с личным аккаунтом. */
+.social__badge {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background-color: var(--color-text);
+  color: var(--color-bg);
+  font-size: .625rem;
+  line-height: 1;
+}
+.social__link:hover .social__icon,
+.social__link:focus-visible .social__icon {
+  background-color: var(--color-warm);          /* #d1b9bf при наведении */
+  transform: scale(1.08);
+}
+.social__link:focus-visible .social__icon {
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
+}
+
+/* На телефоне иконки остаются крупными — по ним удобно попадать пальцем. */
+@media (max-width: 560px) {
+  .social { gap: 16px; }
+  .social__icon { width: 48px; height: 48px; }
+  .social__icon svg { width: 24px; height: 24px; }
+  .social__label { font-size: .8125rem; }
 }
