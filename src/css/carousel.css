@@ -1254,6 +1254,14 @@ h1, h2, h3, h4 { color: var(--color-ink); }
   transition: background-color var(--transition), transform var(--transition);
 }
 .social__icon svg { width: 22px; height: 22px; }
+/* MAX в подвале — фирменный значок, без голубого круга под ним */
+.social__icon--brand { background-color: transparent; }
+.social__icon--brand img {
+  display: block;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+}
 .social__label {
   font-size: .72rem;
   line-height: 1.2;
@@ -1356,8 +1364,32 @@ h1, h2, h3, h4 { color: var(--color-ink); }
 }
 .contact-cta .btn { text-transform: none; letter-spacing: 0.04em; }
 
+/* Сетка «Контакты»: заголовок и список — левая колонка, фото с дипломами —
+   правая, и она начинается на одном уровне с заголовком «Свяжитесь со мной»
+   (надзаголовок «Контакты» вынесен над сеткой). */
+.contacts-grid {
+  display: grid;
+  gap: var(--space-lg);
+}
+.contacts-head { display: grid; gap: var(--space-sm); }
+.contacts-head > h1 { margin: 0; text-wrap: balance; }
+
+@media (min-width: 768px) {
+  .contacts-grid {
+    /* Левая колонка чуть шире: заголовок «Свяжитесь со мной» должен
+       укладываться в одну строку, фото при этом остаётся крупным. */
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    column-gap: var(--space-xl);
+    row-gap: var(--space-lg);
+    align-items: start;
+  }
+  .contacts-head { grid-column: 1; grid-row: 1; }
+  .contacts-list { grid-column: 1; grid-row: 2; }
+  .contacts-photo { grid-column: 2; grid-row: 1 / span 2; }
+}
+
 /* Правая колонка: фото — главный акцент, выровнено по центру колонки */
-.contact-layout__col--photo {
+.contacts-photo {
   display: grid;
   justify-items: center;
   align-content: start;
@@ -1422,7 +1454,10 @@ h1, h2, h3, h4 { color: var(--color-ink); }
 
 /* Мобильный: фото первым, затем контакты-фото-дипломы; плашка не липнет к краям */
 @media (max-width: 767px) {
-  .contact-layout__col--photo { order: -1; }
+  /* Порядок: заголовок и тексты → фото с дипломами → список контактов */
+  .contacts-head { order: 1; }
+  .contacts-photo { order: 2; }
+  .contacts-list { order: 3; }
   .contact-photo { width: min(100%, 22rem); max-width: 22rem; }
   .diplomas { width: 100%; max-width: 27rem; }
 }
