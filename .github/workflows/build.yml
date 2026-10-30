@@ -9,6 +9,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository_owner }}/jt-design-site
+  PROD_URL: https://jt-design.ru/
 
 jobs:
   build:
@@ -46,7 +47,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Обновить прод-контейнер и проверить версию
+      # Ключ в authorized_keys посажен на один скрипт (command="/opt/docker/jt-site/deploy-prod.sh"),
+      # поэтому тело скрипта ниже сервером игнорируется — выполняется только этот файл.
+      # Так ключ в секретах не даёт полного доступа к серверу.
+      - name: Обновить прод на сервере (скрипт deploy-prod.sh)
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.DEPLOY_HOST }}
@@ -55,22 +59,18 @@ jobs:
           port: ${{ secrets.DEPLOY_PORT }}
           script_stop: true
           script: |
-            set -e
-            cd /opt/docker/jt-site
+            /opt/docker/jt-site/deploy-prod.sh
 
-            # обновляем только сервис jt-site-prod — staging (jt-site-staging) не затрагивается
-            docker compose -f docker-compose.prod.yml -f docker-compose.staging.yml pull jt-site-prod
-            docker compose -f docker-compose.prod.yml -f docker-compose.staging.yml up -d jt-site-prod
-
-            # ждём, пока сайт начнёт отдавать именно эту сборку (до ~40 секунд)
-            EXPECTED="${{ needs.build.outputs.carousel }}"
-            LIVE=""
-            for i in $(seq 1 10); do
-              LIVE=$(curl -fsS https://jt-design.ru/ | grep -o 'carousel.css?v=[a-f0-9]*' | head -1 | cut -d= -f2 || true)
-              if [ "$LIVE" = "$EXPECTED" ]; then break; fi
-              sleep 4
-            done
-            echo "версия на проде: ${LIVE:-не получена}, ожидалась $EXPECTED"
-            test "$LIVE" = "$EXPECTED"
-
-            docker compose -f docker-compose.prod.yml -f docker-compose.staging.yml ps jt-site-prod
+      - name: Проверить версию на живом сайте
+        env:
+          EXPECTED: ${{ needs.build.outputs.carousel }}
+        run: |
+          set -euo pipefail
+          LIVE=""
+          for i in $(seq 1 10); do
+            LIVE=$(curl -fsS "${{ env.PROD_URL }}" | grep -o 'carousel.css?v=[a-f0-9]*' | head -1 | cut -d= -f2 || true)
+            if [ "$LIVE" = "$EXPECTED" ]; then break; fi
+            sleep 4
+          done
+          echo "версия на проде: ${LIVE:-не получена}, ожидалась $EXPECTED"
+          test "$LIVE" = "$EXPECTED"
