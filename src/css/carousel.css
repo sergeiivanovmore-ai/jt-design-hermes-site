@@ -436,6 +436,14 @@
 .card--service .card__media { margin-bottom: var(--space-sm); }
 .card--service .card__list { margin-bottom: var(--space-sm); }
 .card--service .link-arrow { margin-top: auto; }
+/* Текстовая ссылка в карточке услуги: прижата к низу карточки (flex-колонка),
+   оформлена как остальные текстовые ссылки сайта — тёмный текст (#535d69,
+   AA 6.7:1) с подчёркиванием акцентным #85a3b1. */
+.card--service .card__link {
+  margin-top: auto;
+  align-self: flex-start;
+  padding-top: var(--s-1);
+}
 
 /* --- 4. Карточки тарифов ------------------------------------------------ */
 .card--tariff .card__price {
