@@ -1,8 +1,10 @@
-name: Build and publish image
+name: Build, publish and deploy
 
 on:
   push:
     branches: [main]
+  # ручной запуск из вкладки Actions — удобно проверить деплой без нового коммита
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
@@ -14,8 +16,15 @@ jobs:
     permissions:
       contents: read
       packages: write
+    outputs:
+      # версия CSS берётся из репозитория и потом сверяется с живым сайтом
+      carousel: ${{ steps.ver.outputs.carousel }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Версия ассетов из репозитория
+        id: ver
+        run: echo "carousel=$(md5sum src/css/carousel.css | cut -c1-8)" >> "$GITHUB_OUTPUT"
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -32,3 +41,36 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Обновить прод-контейнер и проверить версию
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          script_stop: true
+          script: |
+            set -e
+            cd /opt/docker/jt-site
+
+            # обновляем только сервис jt-site-prod — staging (jt-site-staging) не затрагивается
+            docker compose -f docker-compose.prod.yml -f docker-compose.staging.yml pull jt-site-prod
+            docker compose -f docker-compose.prod.yml -f docker-compose.staging.yml up -d jt-site-prod
+
+            # ждём, пока сайт начнёт отдавать именно эту сборку (до ~40 секунд)
+            EXPECTED="${{ needs.build.outputs.carousel }}"
+            LIVE=""
+            for i in $(seq 1 10); do
+              LIVE=$(curl -fsS https://jt-design.ru/ | grep -o 'carousel.css?v=[a-f0-9]*' | head -1 | cut -d= -f2 || true)
+              if [ "$LIVE" = "$EXPECTED" ]; then break; fi
+              sleep 4
+            done
+            echo "версия на проде: ${LIVE:-не получена}, ожидалась $EXPECTED"
+            test "$LIVE" = "$EXPECTED"
+
+            docker compose -f docker-compose.prod.yml -f docker-compose.staging.yml ps jt-site-prod
