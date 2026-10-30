@@ -1,12 +1,15 @@
-name: Build and publish image
+name: Build, publish and deploy
 
 on:
   push:
     branches: [main]
+  # ручной запуск из вкладки Actions — удобно проверить деплой без нового коммита
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository_owner }}/jt-design-site
+  PROD_URL: https://jt-design.ru/
 
 jobs:
   build:
@@ -14,8 +17,15 @@ jobs:
     permissions:
       contents: read
       packages: write
+    outputs:
+      # версия CSS берётся из репозитория и потом сверяется с живым сайтом
+      carousel: ${{ steps.ver.outputs.carousel }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Версия ассетов из репозитория
+        id: ver
+        run: echo "carousel=$(md5sum src/css/carousel.css | cut -c1-8)" >> "$GITHUB_OUTPUT"
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -32,3 +42,35 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      # Ключ в authorized_keys посажен на один скрипт (command="/opt/docker/jt-site/deploy-prod.sh"),
+      # поэтому тело скрипта ниже сервером игнорируется — выполняется только этот файл.
+      # Так ключ в секретах не даёт полного доступа к серверу.
+      - name: Обновить прод на сервере (скрипт deploy-prod.sh)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          script_stop: true
+          script: |
+            /opt/docker/jt-site/deploy-prod.sh
+
+      - name: Проверить версию на живом сайте
+        env:
+          EXPECTED: ${{ needs.build.outputs.carousel }}
+        run: |
+          set -euo pipefail
+          LIVE=""
+          for i in $(seq 1 10); do
+            LIVE=$(curl -fsS "${{ env.PROD_URL }}" | grep -o 'carousel.css?v=[a-f0-9]*' | head -1 | cut -d= -f2 || true)
+            if [ "$LIVE" = "$EXPECTED" ]; then break; fi
+            sleep 4
+          done
+          echo "версия на проде: ${LIVE:-не получена}, ожидалась $EXPECTED"
+          test "$LIVE" = "$EXPECTED"
