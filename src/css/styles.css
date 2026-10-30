@@ -674,7 +674,21 @@ textarea.form__control { min-height: 9rem; resize: vertical; }
 
 .project-hero { padding-top: var(--space-lg); }
 .project-hero__inner { display: grid; gap: var(--space-lg); }
-.project-hero__title { margin-bottom: var(--space-sm); }
+/* Переносы в заголовке: длинное слово («конфиденциальности») на 390px шире
+   колонки в 350px и растягивало документ по горизонтали. У страниц уже стоит
+   lang="ru", поэтому Chromium переносит по правилам русского языка. */
+.project-hero__title {
+  margin-bottom: var(--space-sm);
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+/* Заголовок, в котором есть очень длинное слово («Политика
+   конфиденциальности»): на узких экранах кегль слегка меньше, чтобы слово
+   уложилось в строку целиком — без переноса внутри слова. Значение подобрано
+   замером: при 320/360/390/480px ширина слова меньше колонки текста. */
+@media (max-width: 480px) {
+  .project-hero__title--long { font-size: clamp(1.5rem, 8vw, 2.2rem); }
+}
 .project-hero__lead {
   max-width: 42rem;
   font-size: var(--step-1);
@@ -782,6 +796,13 @@ textarea.form__control { min-height: 9rem; resize: vertical; }
 .article-card__text { margin-top: var(--space-2xs); color: var(--color-text-muted); }
 
 /* Текст статьи */
+.article-body {
+  /* Длинные токены (URL, артикулы) в узкой колонке текста: переносим, иначе
+     строка растягивает документ шире вьюпорта и появляется горизонтальный скролл
+     на мобильном (проверено на странице политики: docW 416 при окне 390). */
+  overflow-wrap: break-word;
+}
+
 .article-body h2 {
   font-size: var(--step-2);
   margin-top: var(--space-lg);
@@ -905,6 +926,20 @@ textarea.form__control { min-height: 9rem; resize: vertical; }
   font-size: var(--step--1);
   color: var(--color-text-muted);
 }
+
+/* Ссылка на политику конфиденциальности в подвале.
+   Цвет тот же, что у соседнего мелкого текста, а на ссылку указывает
+   подчёркивание. Подчёркивание — цветом текста (#535D69): акцентный
+   #85A3B1 на голубом подвале даёт 1.70:1 и практически не виден. */
+.site-footer__bottom a {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+
+.site-footer__bottom a:hover { color: var(--color-accent-strong); }
 
 /* Появление секций при скролле (включается из main.js) */
 .reveal { opacity: 0; transform: translateY(16px); }
