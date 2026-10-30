@@ -335,6 +335,62 @@
   }
 
   /* ---------------------------------------------------------------------
+     Лайтбокс (дипломы в блоке «Образование»)
+     --------------------------------------------------------------------- */
+  function initLightbox() {
+    var triggers = Array.prototype.slice.call(document.querySelectorAll('[data-lightbox]'));
+    if (!triggers.length) return;
+
+    var box = document.createElement('div');
+    box.className = 'lightbox';
+    box.hidden = true;
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-modal', 'true');
+    box.setAttribute('aria-label', 'Просмотр изображения');
+    box.innerHTML =
+      '<button class="lightbox__close" type="button" aria-label="Закрыть">×</button>' +
+      '<figure class="lightbox__figure">' +
+      '<img class="lightbox__img" src="" alt="">' +
+      '<figcaption class="lightbox__caption"></figcaption>' +
+      '</figure>';
+    document.body.appendChild(box);
+
+    var img = box.querySelector('.lightbox__img');
+    var cap = box.querySelector('.lightbox__caption');
+    var closeBtn = box.querySelector('.lightbox__close');
+    var lastFocus = null;
+
+    function open(trigger) {
+      var thumb = trigger.querySelector('img');
+      lastFocus = trigger;
+      img.setAttribute('src', trigger.getAttribute('data-lightbox'));
+      img.setAttribute('alt', (thumb && thumb.getAttribute('alt')) ||
+        trigger.getAttribute('data-lightbox-alt') || '');
+      cap.textContent = trigger.getAttribute('data-lightbox-caption') || '';
+      box.hidden = false;
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+
+    function close() {
+      box.hidden = true;
+      document.body.style.overflow = '';
+      if (lastFocus) lastFocus.focus();
+    }
+
+    triggers.forEach(function (trigger) {
+      trigger.addEventListener('click', function () { open(trigger); });
+    });
+    closeBtn.addEventListener('click', close);
+    box.addEventListener('click', function (e) {
+      if (e.target === box) close();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !box.hidden) close();
+    });
+  }
+
+  /* ---------------------------------------------------------------------
      Инициализация
      --------------------------------------------------------------------- */
   function init() {
@@ -342,6 +398,7 @@
     initHeaderShadow();
     initProjectCarousel();
     initProjectGallery();
+    initLightbox();
     initYear();
     initReveal();
   }

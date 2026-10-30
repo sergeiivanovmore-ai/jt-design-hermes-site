@@ -91,15 +91,24 @@
   color: var(--color-accent);
 }
 
+/* Подпись карточки: фото → заголовок чуть дальше, заголовок → подпись
+   плотнее, чтобы читались как единый блок. Всегда по левому краю. */
 .carousel__info {
   display: grid;
-  gap: 0.15rem;
-  padding: var(--space-sm) 0 0;
+  gap: 0.35rem;
+  padding: 1.15rem 0 0;
+  text-align: left;
 }
 .carousel__title {
+  display: block;
   font-family: var(--font-serif);
   font-size: var(--step-1);
+  line-height: 1.25;
   color: var(--color-text);
+  /* Длинные подписи («2-комнатная / 63 м²») переносятся ровно на 2 строки,
+     без «рваного» края и висячих предлогов. */
+  text-wrap: balance;
+  hyphens: none;
 }
 .carousel__card:hover .carousel__title {
   color: var(--color-accent-strong);
@@ -108,10 +117,13 @@
   text-underline-offset: 0.22em;
 }
 .carousel__meta {
+  display: block;
   font-size: var(--step--1);
+  line-height: 1.35;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-text-muted);
+  text-wrap: pretty;
 }
 
 .carousel__controls {
@@ -424,6 +436,14 @@
 .card--service .card__media { margin-bottom: var(--space-sm); }
 .card--service .card__list { margin-bottom: var(--space-sm); }
 .card--service .link-arrow { margin-top: auto; }
+/* Текстовая ссылка в карточке услуги: прижата к низу карточки (flex-колонка),
+   оформлена как остальные текстовые ссылки сайта — тёмный текст (#535d69,
+   AA 6.7:1) с подчёркиванием акцентным #85a3b1. */
+.card--service .card__link {
+  margin-top: auto;
+  align-self: flex-start;
+  padding-top: var(--s-1);
+}
 
 /* --- 4. Карточки тарифов ------------------------------------------------ */
 .card--tariff .card__price {
@@ -502,6 +522,10 @@
   .stage:nth-child(even) .stage__text { order: 2; }
   .stage:nth-child(even) .stage__media { order: 1; }
 }
+
+/* подзаголовки страницы проекта: надзаголовки «Задача»/«Решение» убраны,
+   поэтому второму заголовку нужен воздух сверху */
+.project-body__subtitle { margin-top: var(--space-lg); }
 
 /* --- 7. «Что я сделала» на странице проекта ----------------------------- */
 .project-list {
@@ -876,13 +900,13 @@
   gap: var(--s-3);
   list-style: none;
   margin: 0;
-  padding: 0 0 0 var(--s-4);
+  padding: 0 0 0 calc(var(--s-4) + 0.5rem);   /* место под кружок-якорь */
 }
 .steps::before,
 .stages::before {
   content: "";
   position: absolute;
-  left: 1.05rem;
+  left: 1.55rem;
   top: 0.6rem;
   bottom: 0.6rem;
   width: 2px;
@@ -907,25 +931,25 @@
 .steps__num,
 .stage__num {
   position: absolute;
-  left: calc(-1 * var(--s-4) + 0.05rem);
+  left: calc(-1 * var(--s-4) - 0.45rem);   /* кружок держим по центру линии таймлайна */
   top: 0;
-  width: 2.1rem;
-  height: 2.1rem;
+  width: 3rem;
+  height: 3rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: var(--color-accent-soft);   /* #85a3b1 */
-  color: var(--color-bg);
+  background-color: var(--color-accent-soft);   /* #85a3b1 — заливка-якорь */
+  color: var(--color-text);                     /* #535d69 — цифра */
   font-family: var(--font-serif);
-  font-size: var(--step-0);
+  font-size: var(--step-2);
+  font-weight: 600;
   line-height: 1;
   margin: 0;
   padding: 0;
   text-transform: none;
   letter-spacing: 0;
 }
-.stages .stage:nth-child(even) .stage__num { background-color: var(--color-warm); color: var(--color-ink); }
 .stage { display: grid; gap: var(--s-2); padding-bottom: var(--s-3); }
 @media (min-width: 900px) {
   .stage { grid-template-columns: 1.05fr 1fr; gap: var(--s-4); }
@@ -1051,3 +1075,449 @@
    -------------------------------------------------------------------------- */
 h1, h2, h3, h4 { color: var(--color-ink); }
 ::selection { background: var(--color-surface); color: var(--color-ink); }
+
+/* ==========================================================================
+   Правки владельца (29.10.2026)
+   ========================================================================== */
+
+/* Кнопка «Обсудить проект» в блоке «Обо мне»: пыльно-голубая заливка, белый
+   текст, скругление 10px; при наведении — тёмно-серый (#535d69). */
+.btn--blue {
+  background-color: var(--color-accent-soft);   /* #85a3b1 */
+  border-color: var(--color-accent-soft);
+  color: #fff;
+  border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+.btn--blue:hover {
+  background-color: var(--color-text);          /* #535d69 */
+  border-color: var(--color-text);
+  color: var(--color-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -12px rgba(83, 93, 105, .8);
+}
+
+/* Тарифы: название — главный акцент плашки (нумерация убрана). */
+.card--tariff .card__title {
+  font-weight: 600;
+  color: var(--color-text);
+}
+.card--tariff .card__price { margin-top: var(--s-2); }
+
+/* Текст после «PS.» — курсивом и отдельной строкой. */
+.card__note--ps {
+  margin-top: var(--s-2);
+  color: var(--color-text-muted);
+}
+
+/* Список внутри плашки тарифа использует общий стиль сайта (.card__list) —
+   «—» в начале строки, как в карточках услуг. */
+
+/* Блок «Образование» в «Обо мне». */
+.edu {
+  margin-top: var(--s-4);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--color-surface);
+}
+.edu__title { margin: 0 0 var(--s-2); font-size: var(--step-1); }
+.edu__text { margin: 0 0 var(--s-3); }
+.edu__thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.edu__thumb {
+  display: block;
+  padding: 0;
+  border: 1px solid var(--color-surface);
+  border-radius: var(--radius-btn);
+  background: #fff;
+  cursor: zoom-in;
+  overflow: hidden;
+  transition: border-color var(--transition), transform var(--transition);
+}
+.edu__thumb img { display: block; width: 100%; height: auto; }
+.edu__thumb:hover { border-color: var(--color-accent-soft); transform: translateY(-2px); }
+
+/* Лайтбокс для дипломов. */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: var(--s-4);
+  background: rgba(35, 42, 49, .9);
+}
+.lightbox[hidden] { display: none; }
+.lightbox__figure { margin: 0; max-width: min(1100px, 92vw); text-align: center; }
+.lightbox__img {
+  display: block;
+  max-width: 100%;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  border-radius: var(--radius-btn);
+  background: #fff;
+}
+.lightbox__caption { margin-top: var(--s-2); color: #e4e1eb; font-size: var(--step--1); }
+.lightbox__close {
+  position: absolute;
+  top: var(--s-3);
+  right: var(--s-3);
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .92);
+  color: var(--color-text);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.lightbox__close:hover { background: #fff; }
+
+/* «Обо мне»: фото держит натуральную пропорцию кадра (4:5), без растяжения и
+   обрезки; пустоту под фото закрывает лёгкая подложка-цитата .about__note.
+   На мобильных фото остаётся первым (порядок в разметке), текст — под ним. */
+.about__text > .btn { margin-top: var(--s-3); }
+.about__note {
+  margin: var(--s-2) 0 0;
+  padding: var(--s-2);
+  border-radius: var(--radius);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--step--1);
+}
+
+@media (min-width: 768px) {
+  .about { align-items: start; }
+  .about__photo { display: block; }
+  .about__photo .media { aspect-ratio: 4 / 5; }
+  .about__photo .media img { height: 100%; object-fit: cover; object-position: 50% 20%; }
+}
+
+/* Этап 6: таблица показывается после текста этапа и строки «Результат — …».
+   :nth-child(n) поднимает специфичность выше правила «зигзага» для чётных этапов,
+   из-за которого картинка вставала перед текстом. */
+.stages .stage--doc { grid-template-columns: 1fr; }
+.stages .stage--doc:nth-child(n) .stage__text { order: 0; }
+.stages .stage--doc:nth-child(n) .stage__media { order: 0; grid-column: 1 / -1; }
+.stages .stage--doc .media { aspect-ratio: auto; }
+.stages .stage--doc .media img { width: 100%; height: auto; object-fit: contain; }
+
+/* Блок-призыв: заголовок, текст и кнопки на равных отступах
+   (у <p> был собственный margin-bottom, из-за него текст отходил от кнопок). */
+.section.cta .cta__text { margin-bottom: 0; }
+
+/* «Этапы дизайн-проекта»: меньше воздуха до первого этапа. */
+.section--tight { padding-block: var(--s-4) var(--s-5); }
+.section--tight .stages { margin-top: var(--s-2); }
+
+/* Цитата в блоке контактов. */
+.section__quote {
+  margin: var(--s-3) 0 0;
+  padding-left: var(--s-3);
+  border-left: 3px solid var(--color-warm);
+  font-style: italic;
+}
+
+/* ==========================================================================
+   Правки владельца (29.10.2026, круг 2): меню и иконки соцсетей
+   ========================================================================== */
+
+/* «Проекты» в меню больше не выделяется плашкой — по просьбе владельца
+   все пункты меню одного цвета (29.10.2026). */
+
+/* Ряд иконок мессенджеров в подвале — вместо списка текстовых ссылок. */
+.social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.social__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+.social__icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--color-accent-soft);   /* #85a3b1, белый логотип внутри */
+  color: #fff;
+  transition: background-color var(--transition), transform var(--transition);
+}
+.social__icon svg { width: 22px; height: 22px; }
+/* Значок MAX — форма из фирменного логотипа, но одноцветная: красится
+   в currentColor через маску, поэтому в подвале он белый на голубом круге,
+   как остальные иконки, а в кнопке — тёмный (цвет текста). */
+.max-mark {
+  display: block;
+  background-color: currentColor;
+  /* маска встроена data-URI: внешний файл не грузится по file:// (CORS) */
+  --max-mark-src: url("data:image/webp;base64,UklGRsARAABXRUJQVlA4WAoAAAAQAAAAvwAAvwAAQUxQSDIRAAANd6E2tm1opLtQObuKd9rQh8yPyHUQEbmuE4k/OFp2ESdGH5xvBQmHkaSGzfz8AwKH/gsGyykhov8TgMmMwPP4U9191pFsrO5e7m8kuU13TYBf4IolP0FSCsmNZhEiAEhHmTnINnqEOwCcK5IekgQAx/qKpBS1FKflCxURw0aZvdHNAMSi/Ial68qXXHjrNvSQVNmNLZ0k2efCjARgPaouJlBmNpqMINFbZZoZWeqBC8scVJNjJ0lf9hf+i1cWsQm/l9P1sBURVa1GbwwGbdsIivnD3nb/ECJiAlqtQa9IFeGid44fDS4uo9NcwoN9CX385CqjzR8t/fW/J0/vh4ofNJ8cFtlo2vLYdEWhfVg+o7/yCU17maG3mWj3JNu2LEmSJO19P4qCDqK0+c+vZPpvN5CkwIePsB0RE+BHsm3Vtm3bSimX2ufaB+MfxCMzjFZLFgbuuUGOiAn4B+9rAVKoM7b3WvOnV7rd/1konwb7P//VM77+FCv0PnYyBRBIflo3gJWqpHcp3H/nbhzly3r+dczuvlSUsCEVEOiQPwwpqCPqgWcXqM+zvgr1S6Av982KSq4XhW0BJflBBQHVl7EUtutmoQIB+aJAhaYAqkMIlFvRIkD+DEKaCJmE9vJURCjznBz5rnUfuQAW45mAvYDCAtDOJx86CVbgcnsfegar+mrkB3evSwGCHE/cGojZtnBipMMVg+EMWZbn6cXtPbzkfTryowuWLw4UPIyUG4CzYk5mRDwJmMvt8+yVCoa8E/nZgv0SddPxl2QLaTUQnsoiJRlL5c19d5ORVfDplfJVgdbi8kzQYWK7MID1SKAkTMP9WjF2L3GsbOlXPgyFtuSchL0wrFZOnRGXXn7dXTNQFCF3+K4Asts1OcMuJu2iSqdRpYm3b/XyNf1NnuUvUxqAbS2JLfHsbpuk5iiCGdm2PLtEu1Cq/QsBASpAayln2HtLBgzPIYGc0+eNttzJiMgBrYClZYbtdcXw3CkENA77/7dOJ6ocUj60GNqKxelehUcQQmir7GrGANMhPraSlnZitaz7XtoJsNjovvECHJTjynMlY4A+d6UcsRbpvm/mGjm2kEpGu5dP7a2sxC2FtdaaefJQgCAx3WVUKu9dTbR3KeJ5jIMLEtrNzAAG2JsIG8+4+1ahlDi+AGsmCkXet9pmJr13SUh+QmmFECr2Pq5NKwgF+UFFK9UCEvkGH+9dE1V+UKutYMExFrRb4sK6f615/Cb4gyCEQApu2Rv3khqC1rodkZ9WDNBA71ZtpzDEKEL5uY/ZZzczsm+CRAIB8hO7RFJ3Vx8P3McIyQSSn9oCWWp8DICbgCzkW+PHTmBLZ3RIbBuEfocfviU50g2xqfFsgPz8kpfZX3cA+TKBoxWS+ATN0XtbivQqwTaC8ilqoEvB1l6EXAq9SOgjwEr5cBOvtat7l7mmkE+BSlmqSK+AYLu7o/EpFixs9zrF9NdZm5nu05A+BSy4fd6YE+RfZjUmbu8d8lm2T3EWrxRnVLq9izevX7P3coWisr6C/hohMXVmrXh7+aZ/WWBJJt27a/0hJSFQepv8SKF+Jl/1L8OI82Lf2hbwBywkqCW+jfWDQoUKAkE/sn8ZgJ6wj9uifF/K+0uEcL8AQT7cXrcGqAmHT4ACvgFKuwiq3xLKLT5GwNg9AYJagT59lAoBf3H6TgR5735YumBG+UHT3u31zf5N36zFBgRuivI+w1moMEk+yv0obJ0xLfgNMfauQm9AELC+totRJ0k/sLC0xXFOAJE3rLTOScu3jebE3jtk/6gSuBeReb1+TSRAbfe5i0heA1QZ3U0oyUl7N9qvCLWeQMX2GevBTmsUkzm/fk34uPe5C6hiu2GGD90JQSP7EJSv2y2+dLF9AvfCfe3hdZIAJjn4QXm6TbR0Lzd9eXTBuhMCQx8wU/ALgrvtyeRmEkn2xfCa17FgLygfl5Kg7r3P2nDGLlT2FttrJsiXxUh34bLNEgnOdJhkVLs8y1eLw1jauxBcQrsU3QlZzGj5ssHMdG9B3lGdkxWxAO5uvwIhVWCjci/BpcreBk5y70Y/EQLndJecnRIMmDmySO8H779mRRBGDfdW7SZKuI0RJj63TD4RbK1xpLK1kWDOuumy5WdrBVDjsCytMMcW4C5otduSM3yuskuCtpPxuzY8Wax86jdAPlSt1i0yM8MidpbSOiPvBZTE9ZUXuFH4e4Bh7BhgWICBFhC4DbD4mnYBwUIyw7pjZGODJDPE2D1z3OcmthZKZmR3JbV261wSsbFLwCCR2FgC62TosxbPtguChtqiTcXucl0SbfRsgBHmRoCEZthbQOY2INI1gVoU2cVR3MlIM1lIewGCUAiaJNsFaJlJaxEm8ixU2TVJICEmkv0rVBIgM9zDd3BesCu2zgn3StlV4vuEjDetfCoQ0hYIOBN3i7TrJLFz8r2BYW9igQD5PqYdEDWGWituYNoJiglgkrytIUAUg65bgEzBUevWNTNuY8ECSaQcMhGouyzWJCJ1sZe4C5FC8Vwcspq04BbAhoQQXR9F2dac3Jv1zTnLRLbmHmkOdONwuxLbmpnw66vwIKLxArKnzMS9dwh3cbmJsObE9bUAz0H4sIKvE4jv9kIuW9lXCgglpzQsLTEgGwqYwN7lvVObpNl764x0DJrshTlB3ABkQe3uIlF2lbp1ZoZzJu228wrertlAytLoXavDvmIVHTwHJCyTaSW+DmiroQLBPYRW4oSFRzFrpCQ7SwDRtAXobnMmsOSkQWQXZ/YK763sWYlPmXOAjoLCsvq3YYUvC1Edbaq/T7IsGRgOm9ZbX2MUvkoR5yRnK/weQj2DtYKHoVKYDNwNLxfAcyb/lt2KO4AkTqAtxxUgxm7odYjEMy/nvheybcZr1srzAA3JIva0OpTL9bXAdinjBXQk0BTbhpY3HktG3KO9cM01nFp+75bLf/9dr1E2bODe2+t6gGeqrA3jJrK0v1/XyJapbBfXhXYmuNwzF7oHWP7LmWFHwQgIxpnr3bu4HteEW7jh/x3cAhWTqRVHrm6fm9cM2OxACii7aozWshOB7N3yAhgOPbAsDhU3QiXnVuLc2VTQRm0H5LkAZ1UcPJSTKy7OHQxnbwBpToWc3yc5dSZ2tqO3AGU+tZYbHzN+ZtV767keTn5iKVzJ4zHZ52UNsJNrKDyXQB4IpSEgLA5uATSPA9hE4+bs0gBHQs0CnUxNkkObytnDwFrhkRoYyIPpmevJPJGQyLmFM+eir9A8DyB0Lul4RjJl+MDFAyM6sm34OaASMxdsE5g7CR1MhPRC2TQB2VvO7fstGtm3EHdpnjqWOtO71hq2ify/f3Q2+2crqEYiPJLFc2TdMeQWm5W30d3sqxBMjtyLQwHRYa0BZcd12/5fxn1bfJGAMyd7t8QjSQtgg2xY2V3y/w4E8TUfOiP3LUqHCULc3c4MsmGWLmspro1XCxoWGsHDQEzkPnDpFkBz6/zah7VlQ0vLeIFyWCtO2F0c2bK6R/2Hm3X5LcsCM44c+MZIQWRP6ejwj3vZ/h7vqxdy2kDqFhFxD1o9ZGbF1up5QJXdksSe6bZ4RmRfK0eWJod9VsOulWfJsa0Y6ECCJLK3v03C7jo5krkNMNKBwEir7pGAUEfkObcB5jA2KtsOhG2LCmgGsrlHQR272874+2CG7FIhzC4yUJ1E5ETuWw26S4QcXO5WPNQ9dGCtOKcRxrF3FyK7LhYT9VKPU3EDnRP2LrEjWCxIcui+i3331pPRLZnMXuSrhMyZPhfFTlArSCXCYtMq7NY5KkIOYcLXCDKGXWL440Jv0EClFWRj5R03jiQh0orxcsUWkvAnq7SdJbqFWroR7yIpazOkYNmyQNEQ/1ClKLSRFE2ye0sRaB8lGdltNaaluAN0qRPljwrKCqRtkOqc9LnL+3CbBhl1KcS29IyzBdYPv1KNgbvFphYg6IR9+oGxbUrLDHlXcunJbzNugQLW35NNXofu+6anXiIkBoVSlRYs2wrslmSC2LRPPdcIbmA/gH7S1Lx+nadYAa0/ZwHSsW733s11qci+Bbhv63mNICmtzhj4OsJXpVDI6/VrgS6dEn6+qeA43n327uV6yN6yu2yZjKJGxPjW16lQEFot2DKvibvdlBR/ShpM59R99t5bZsatRNpGFEBxImUlWybSxRahunS7mdEF2yL+jESkA1nvLi0WO+edKG4RQKOwYo8x4XYFirTAfXueEzHTdjH1J+yMQllaBbDKxoJJAoXysTK4xusF9IT70KcktC3b/397C+TMsCtqf8A6k7pu7+JrFNlckGRkt/UDFBGalyEyCXD7tnXCfQp93t6AyQDRUX8AdKDp9rLORH5/tx2PLSyfNw1M8zIEdGD9/7c16d5b2rsFAmbmgPZbrnat6AYx/gUod29yQslniiiyoTAROE243LbC4jLKeVyKy281y+7S1TCOxf5KaT0qX69l0A0QEpy1b7ggaJeBVcxYNP2W6/Zerh4OF8j+KoAS1q/RMiNuAJg58rZ7ZSIozwYQK/BblfYBBxXZX203nsjWb/RWr0vwdca32d7VHOVT1wSrRfzFSwVB3tRtZ066lk+rsrtdv11i87LnKLo2Gr7ABET85bUi71qlu54Zu3yqVenqKIivS+ALpqN8V5p4aYe3VWTBg3xZMPKcyKbd2LzzGzBLX1Bdb6MIiJX6FVQmUSSbljVukO8PBy+Zoa39Up0ZbZffWJ7l5wypwoDlywoxtfw9a8n6WnlG8EsggEDz94pLSL5+Lc9E+o33BRzwM3m2Yq0ckR9ZyIQP1UijqPyoPNvJGD+PJIEEpPxogN2cTAE/C4nvk2d/Qia0JBjyWSYkYCDQnwDXGYrkA5V4Nkl+1HIN3MSHmWAJSaT8vCPefKAJxrfFK4T4WM14dcOnmWDfgb7MxM8CSCAzEF8lH2YECCSS9KJPMyhEMcKQD7q6u9tJBFlI7FjBj4Bi357NazQmkh2Vvxst7W4zgYwtrVDdoycPVflQKFQL26IUk2aL5/BIpUIlM+69CyV7dpc5oxsYh65Iq1BfSe/TZM9k95p5AL4mF5UqnqW6fChKxrbElilly8wg+IKk1r3imkvAg0Dp7iYJiOny+5pQMFj5+Qp0n13OjBXwDBWKXe8yMxIkO2FG2+XP3XJ3Yc4QKniCZoGCvWVGJGgndJiypT9nKe7SQW1EAN+tAm1ZJoZWBdlcHdJSfrzQstRfZ+gFsQq+V6UUWqZnfoXbbWN7NQ3Unym6u4uc8/p1uPcC6Jg9uV/fuLQ36Gz0dXyehTcAmtWAP0GBPs/OOX+cA/dut2SucSmQm4VPxdtbZsZyNXTLX2RlrRnE7wgVunvzek3Q7Tu9LsVI3jBpKd12dHj6rLR/GcruNZMAftIPqgUUchK2gFca02Fp4B/xB+oPUHcvaZqruz7c5S8zoNzLmayAHwkUFsn7gfaCFZLkASl0tPoZfqvy9aB26rP6yiA5N4t6j+fumjEu8qGC0O06ybwSLxcLxXll+wBtxzH0I5Hvaq1f6rbZabfnnCFYgcSbaqGenY0V3y200Fs2r3HGa/mwMoHd267GGZb3StBvBA34NRhSoiflriTeWMjgIxkkFLfIbJ7YjBiu/QAC1nZvaMalRZAx0W906XwSsSlOklhqM968SOxtZ04i2D6XmT37B7QNXflqEaCIPsstgD0zo+AnSXuBUwkUhhlpTtrLst5Pq719Jq8JVNi97h7/6Lj3bmn9ClgDY7y9b7VpmviLgPWjwS736JBS6JkUcdjdIu9fhd2QKAvaVkL847rPQvmmRRIP9G5FBD1IQd4LIjs7CAbK8YWlgRbKAbUQidTbIkkcLI/2buX7NjKYTRMVwHKXBQRSh4Qh1kBwU2grlL9oVlA4IGgAAACQCgCdASrAAMAAPhkMhUIhBAkABABhLS3cLtYjaAJ7Xoq4QZBDVUmu20XCDIIaqk122i4QZBDVUmu20XCDIIaqk122i4QZBDVUmu20XCDIIaqk122i4QZBDVUmugAA/v/3RYAAAAAAAA==");
+  -webkit-mask: var(--max-mark-src) center / contain no-repeat;
+  mask: var(--max-mark-src) center / contain no-repeat;
+}
+.social__icon .max-mark { width: 22px; height: 22px; }
+.social__label {
+  font-size: .72rem;
+  line-height: 1.2;
+  color: var(--color-text-muted);
+}
+/* Метка «канал» на второй иконке Telegram, чтобы не путать с личным аккаунтом. */
+.social__badge {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background-color: var(--color-text);
+  color: var(--color-bg);
+  font-size: .625rem;
+  line-height: 1;
+}
+.social__link:hover .social__icon,
+.social__link:focus-visible .social__icon {
+  background-color: var(--color-warm);          /* #d1b9bf при наведении */
+  transform: scale(1.08);
+}
+.social__link:focus-visible .social__icon {
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
+}
+
+/* На телефоне иконки остаются крупными — по ним удобно попадать пальцем. */
+@media (max-width: 560px) {
+  .social { gap: 16px; }
+  .social__icon { width: 48px; height: 48px; }
+  .social__icon svg { width: 24px; height: 24px; }
+  .social__label { font-size: .8125rem; }
+}
+
+
+/* ==========================================================================
+   Контакты (правки владельца, 29.10.2026): фото-акцент, светлая плашка
+   дипломов, крупная кнопка Telegram, порядок блоков на мобильном
+   ========================================================================== */
+
+/* Кнопка Telegram в шапке контактов. Просили #85a3b1 с белым текстом,
+   но это 2.67:1 — ниже AA даже для крупного кегля. Берём ближайший
+   оттенок той же гаммы, который держит белый текст: #57798A (4.66:1). */
+.btn--tg {
+  background-color: #57798A;
+  border-color: #57798A;
+  color: #FFFFFF;
+  font-size: var(--step-0);
+  min-height: 3.5rem;
+  padding: 1rem 2.2rem;
+  letter-spacing: 0.08em;
+}
+.btn--tg:hover,
+.btn--tg:focus-visible {
+  background-color: #4B6876;
+  border-color: #4B6876;
+  color: #FFFFFF;
+}
+/* Вторая кнопка — MAX: прозрачный фон + акцентная обводка #85a3b1,
+   текст тёмный (#535d69, 6.7:1). Текст самой обводки цветом #85a3b1
+   не годится: 2.67:1 на белом — ниже AA. */
+.btn--max {
+  background-color: transparent;
+  border-color: var(--color-accent-soft);
+  border-width: 2px;
+  color: var(--color-text);
+  font-size: var(--step-0);
+  min-height: 3.5rem;
+  padding: 1rem 2.2rem;
+}
+.btn--max:hover,
+.btn--max:focus-visible {
+  background-color: rgba(133, 163, 177, .22);
+  border-color: var(--color-accent);
+  color: var(--color-text);
+}
+.btn__icon { width: 20px; height: 20px; flex: 0 0 auto; }
+
+/* Значок MAX в кнопке — та же маска, 22px, цвет текста кнопки. */
+.btn__logo {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+}
+
+/* Пара кнопок в контактах: стоят рядом, переносятся на узком экране,
+   набраны в нижнем регистре — «@JuliayTara» читается лучше капса. */
+.contact-cta {
+  margin: 0.85rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.contact-cta .btn { text-transform: none; letter-spacing: 0.04em; }
+
+/* Сетка «Контакты»: заголовок и список — левая колонка, фото с дипломами —
+   правая, и она начинается на одном уровне с заголовком «Свяжитесь со мной»
+   (надзаголовок «Контакты» вынесен над сеткой). */
+.contacts-grid {
+  display: grid;
+  gap: var(--space-lg);
+}
+.contacts-head { display: grid; gap: var(--space-sm); }
+.contacts-head > h1 { margin: 0; text-wrap: balance; }
+
+@media (min-width: 768px) {
+  .contacts-grid {
+    /* Левая колонка чуть шире: заголовок «Свяжитесь со мной» должен
+       укладываться в одну строку, фото при этом остаётся крупным. */
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    column-gap: var(--space-xl);
+    row-gap: var(--space-lg);
+    align-items: start;
+  }
+  .contacts-head { grid-column: 1; grid-row: 1; }
+  .contacts-list { grid-column: 1; grid-row: 2; }
+  .contacts-photo { grid-column: 2; grid-row: 1 / span 2; }
+}
+
+/* Правая колонка: фото — главный акцент, выровнено по центру колонки */
+.contacts-photo {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: var(--s-3);
+}
+.contact-photo {
+  width: min(100%, 27rem);
+  max-width: 27rem;
+  margin: 0;
+}
+.contact-photo img { width: 100%; height: auto; }
+
+/* Плашка дипломов: светлая (#e4e1eb 55%), тёмный текст #535d69 (5.8:1).
+   Прежняя тёмная плашка и цитата убраны — цитата дублировала «Обо мне». */
+.diplomas {
+  width: min(100%, 27rem);
+  padding: var(--s-3);
+  border-radius: var(--radius);
+  border: 1px solid rgba(83, 93, 105, .12);
+  background-color: rgba(228, 225, 235, .55);
+  box-shadow: 0 14px 34px -30px rgba(83, 93, 105, .65);
+  color: var(--color-text);
+}
+.diplomas__title {
+  margin: 0 0 0.9rem;
+  font-family: var(--font-serif);
+  font-size: var(--step-1);      /* крупнее, чтобы не сливаться с текстом строк */
+  line-height: 1.2;
+  color: var(--color-text);
+}
+.diplomas__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.9rem;
+}
+.diplomas__item {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  align-items: center;
+  gap: 0.9rem;
+}
+.diplomas__thumb {
+  display: block;
+  width: 100%;
+  padding: 0;                     /* это <button>: убрать браузерные отступы */
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(83, 93, 105, .22);
+  background-color: #FFFFFF;
+  box-shadow: 0 6px 14px -12px rgba(83, 93, 105, .6);
+  cursor: zoom-in;
+}
+.diplomas__thumb img { display: block; width: 100%; height: auto; }
+.diplomas__thumb:focus-visible { outline: 2px solid var(--color-accent-strong); outline-offset: 2px; }
+.diplomas__text {
+  font-size: var(--step--1);
+  line-height: 1.45;
+  color: var(--color-text);
+}
+
+/* Мобильный: фото первым, затем контакты-фото-дипломы; плашка не липнет к краям */
+@media (max-width: 767px) {
+  /* Порядок: заголовок и тексты → фото с дипломами → список контактов */
+  .contacts-head { order: 1; }
+  .contacts-photo { order: 2; }
+  .contacts-list { order: 3; }
+  .contact-photo { width: min(100%, 22rem); max-width: 22rem; }
+  .diplomas { width: 100%; max-width: 27rem; }
+}
+
+
+/* ==========================================================================
+   Этапы дизайн-проекта: картинку можно раскрыть на весь экран (как дипломы),
+   при наведении кадр мягко приближается и появляется лупа
+   ========================================================================== */
+.stage__media img { transition: transform 420ms cubic-bezier(.2, .7, .3, 1); }
+.stage__media:hover img,
+.stage__media:focus-within img { transform: scale(1.03); }
+
+.media__zoom {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  cursor: zoom-in;
+}
+.media__zoom-icon {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;                     /* 44px — комфортная зона нажатия */
+  height: 2.75rem;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, .9);
+  color: var(--color-text);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+.media__zoom-icon svg { width: 22px; height: 22px; }
+.stage__media:hover .media__zoom-icon,
+.stage__media:focus-within .media__zoom-icon { opacity: 1; transform: none; }
+.media__zoom:focus-visible { outline: 2px solid var(--color-accent-strong); outline-offset: -4px; }
+
+/* Тач-устройства: ховера нет — лупу видно всегда */
+@media (hover: none) {
+  .media__zoom-icon { opacity: .92; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage__media img { transition: none; }
+  .stage__media:hover img,
+  .stage__media:focus-within img { transform: none; }
+}

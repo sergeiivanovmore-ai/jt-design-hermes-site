@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap">
   <link rel="stylesheet" href="css/styles.css?v=bf9042cc">
-  <link rel="stylesheet" href="css/carousel.css?v=b8efb33d">
-  <script src="js/main.js?v=0ad0c29b" defer></script>
+  <link rel="stylesheet" href="css/carousel.css?v=2d58fdaa">
+  <script src="js/main.js?v=6dda1926" defer></script>
   <title>Контакты — Юлия Таранникова, дизайн интерьера</title>
   <meta name="description" content="Свяжитесь со мной: Telegram @JuliayTara, канал @homest_jul, канал в Max jt_design, ВКонтакте. Подберу оптимальный пакет услуг под ваш проект. г. Москва.">
   <link rel="canonical" href="https://jt-design.ru/contacts.html">
@@ -19,7 +19,7 @@
   <meta property="og:title" content="Контакты — Юлия Таранникова">
   <meta property="og:description" content="Telegram, канал, Max и ВКонтакте. Подберу оптимальный пакет услуг.">
   <meta property="og:url" content="https://jt-design.ru/contacts.html">
-  <meta property="og:image" content="https://jt-design.ru/assets/img/julia-16x9.webp">
+  <meta property="og:image" content="https://jt-design.ru/assets/img/julia-og.webp?v=81faf6ac">
   <meta property="og:locale" content="ru_RU">
   <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -42,7 +42,6 @@
           <li><a class="site-nav__link" href="index.html">Главная</a></li>
           <li><a class="site-nav__link" href="portfolio.html">Проекты</a></li>
           <li><a class="site-nav__link" href="services.html">Услуги</a></li>
-          <li><a class="site-nav__link" href="blog.html">Советы</a></li>
           <li><a class="site-nav__link" href="contacts.html" aria-current="page">Контакты</a></li>
         </ul>
       </nav>
@@ -60,22 +59,29 @@
   <main id="main">
     <section class="section">
       <div class="container">
-        <div class="section__head">
-          <span class="section__eyebrow">Контакты</span>
-          <h1>Свяжитесь со мной</h1>
-          <p class="section__lead">
-            Подберу оптимальный пакет услуг под ваш проект. Быстрее всего отвечаю в Telegram.
-          </p>
-          <p class="hero__slogan">Ваше время — ваши деньги. Я экономлю и то, и другое. Напишите — и я помогу пройти ремонт с минимальными затратами во времени и силах.</p>
-        </div>
+        <span class="section__eyebrow">Контакты</span>
 
-        <div class="contact-layout">
-          <div>
+        <div class="contacts-grid">
+          <div class="contacts-head">
+            <h1>Свяжитесь со мной</h1>
+            <p class="section__lead">
+              Подберу оптимальный пакет услуг под ваш проект.
+            </p>
+            <p class="contact-cta">
+              <a class="btn btn--tg btn--lg" href="https://t.me/JuliayTara" rel="noopener">
+              <svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M21.5 4.3 18.6 19c-.2 1-.8 1.2-1.6.8l-4.4-3.3-2.1 2c-.2.2-.4.4-.9.4l.3-4.4 8.1-7.3c.3-.3 0-.5-.5-.2l-10 6.3-4.3-1.4c-.9-.3-.9-.9.2-1.3l16.8-6.5c.8-.3 1.5.2 1.3 1Z"/></svg>
+                Написать в Telegram
+              </a>
+              <a class="btn btn--max btn--lg" href="https://max.ru/u/f9LHodD0cOKfhZ-4CxuLJGO10TM4eyoZXmt1RTWYaGpOwDhdNoSZGGR1Uvk" rel="noopener">
+                <span class="btn__logo max-mark"></span>
+                Написать в MAX
+              </a>
+            </p>
+            <p class="hero__slogan">Ваше время — ваши деньги. Я экономлю и то, и другое. Напишите — и я помогу пройти ремонт с минимальными затратами во времени и силах.</p>
+          </div>
+
+          <div class="contacts-list">
             <ul class="contact-list">
-              <li>
-                <span class="contact-list__label">Telegram</span>
-                <span class="contact-list__value"><a href="https://t.me/JuliayTara" rel="noopener">@JuliayTara</a></span>
-              </li>
               <li>
                 <span class="contact-list__label">Канал</span>
                 <span class="contact-list__value"><a href="https://t.me/homest_jul" rel="noopener">@homest_jul</a></span>
@@ -97,21 +103,42 @@
             </ul>
           </div>
 
-          <div>
+          <div class="contacts-photo">
             <figure class="media media--4x5 contact-photo">
-              <img src="assets/img/julia-1.webp"
-                   srcset="assets/img/julia-1-800.webp 800w, assets/img/julia-1.webp 1200w"
+              <img src="assets/img/julia-1.webp?v=11da923c"
+                   srcset="assets/img/julia-1-400.webp?v=3ea72b1e 400w, assets/img/julia-1.webp?v=11da923c 654w"
                    sizes="(min-width: 768px) 45vw, 100vw"
-                   width="1200" height="1500"
+                   width="654" height="818"
                    alt="Юлия Таранникова — дизайнер интерьера"
                    loading="lazy" decoding="async">
             </figure>
-            <p class="section__note">
-              Прошла обучение в школе «Хоумстейджинг с любовью» —
-              <a href="https://t.me/hswithlove" rel="noopener">hswithlove</a>.
-              По промокоду <strong>JTARA</strong> — скидка 5% на мебель Divan.ru
-              и 2% на мебель «Вереск».
-            </p>
+            <div class="diplomas">
+              <h2 class="diplomas__title">Дипломы</h2>
+              <ul class="diplomas__list">
+                <li class="diplomas__item">
+                  <button class="diplomas__thumb" type="button"
+                          data-lightbox="assets/img/diploma-designer.webp?v=67d0d015"
+                          data-lightbox-caption="Диплом о профессиональной переподготовке «Дизайнер интерьера», ООО «ДИСКИЛЛ», 2026">
+                    <img src="assets/img/diploma-designer-600.webp?v=413bcf58" width="600" height="444"
+                         alt="Скан диплома «Дизайнер интерьера», ООО «ДИСКИЛЛ», 2026"
+                         loading="lazy" decoding="async">
+                  </button>
+                  <span class="diplomas__text">Диплом «Дизайнер интерьера»
+                    (ООО «ДИСКИЛЛ», 2026 г.)</span>
+                </li>
+                <li class="diplomas__item">
+                  <button class="diplomas__thumb" type="button"
+                          data-lightbox="assets/img/diploma-homestaging.webp?v=3f2096dd"
+                          data-lightbox-caption="Диплом о профессиональном курсе «Хоумстейджинг: от хобби до модной профессии», 2024">
+                    <img src="assets/img/diploma-homestaging-600.webp?v=aebf2e88" width="600" height="428"
+                         alt="Скан диплома о курсе «Хоумстейджинг: от хобби до модной профессии», 2024"
+                         loading="lazy" decoding="async">
+                  </button>
+                  <span class="diplomas__text">Специалист по хоумстейджингу
+                    (Школа «Хоумстейджинг с любовью», 2024 г.)</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -123,7 +150,10 @@
         <p class="cta__text">
           Расскажите о квартире: площадь, город, кто будет жить, что важно учесть.
         </p>
-        <a class="btn btn--accent" href="https://t.me/JuliayTara" rel="noopener">Написать в Telegram</a>
+        <div class="cta__actions">
+          <a class="btn btn--accent btn--lg" href="https://t.me/JuliayTara" rel="noopener">Написать в Telegram</a>
+          <a class="btn btn--ghost btn--lg" href="https://max.ru/u/f9LHodD0cOKfhZ-4CxuLJGO10TM4eyoZXmt1RTWYaGpOwDhdNoSZGGR1Uvk" rel="noopener">Написать в Макс</a>
+        </div>
       </div>
     </section>
   </main>
@@ -132,7 +162,7 @@
     <div class="container site-footer__grid">
       <div>
         <p class="site-footer__title">Юлия Таранникова</p>
-        <p class="text-muted">Дизайн интерьера с инженерно-экономическим образованием.
+        <p class="text-muted">Дизайнер интерьера с инженерно-экономическим образованием.
         Планировка, законная перепланировка, комплектация. Москва и онлайн по России.</p>
       </div>
 
@@ -142,18 +172,37 @@
           <li><a href="index.html">Главная</a></li>
           <li><a href="portfolio.html">Проекты</a></li>
           <li><a href="services.html">Услуги</a></li>
-          <li><a href="blog.html">Советы</a></li>
           <li><a href="contacts.html">Контакты</a></li>
         </ul>
       </nav>
 
       <div>
         <p class="site-footer__title">Связь</p>
-        <ul>
-          <li><a href="https://t.me/JuliayTara" rel="noopener">Telegram — @JuliayTara</a></li>
-          <li><a href="https://t.me/homest_jul" rel="noopener">Канал — @homest_jul</a></li>
-          <li><a href="https://max.ru/channel_jt_design" rel="noopener">Канал в Max — jt_design</a></li>
-          <li><a href="https://vk.ru/wall517179030_3" rel="noopener">ВКонтакте</a></li>
+        <ul class="social">
+            <li>
+              <a class="social__link" href="https://t.me/JuliayTara" target="_blank" rel="noopener" title="Telegram — личный аккаунт @JuliayTara">
+                <span class="social__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 19 19.1c-.2 1-.8 1.3-1.7.8l-4.4-3.3-2.1 2c-.2.2-.4.4-.9.4l.3-4.6 8.3-7.5c.4-.3 0-.5-.5-.2L6.9 12.3l-4.4-1.4c-1-.3-1-1 .2-1.4l17-6.6c.8-.3 1.5.2 1.4 1.4z"/></svg></span>
+                <span class="social__label">Telegram</span>
+              </a>
+            </li>
+            <li>
+              <a class="social__link" href="https://t.me/homest_jul" target="_blank" rel="noopener" title="Телеграм-канал — @homest_jul">
+                <span class="social__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 19 19.1c-.2 1-.8 1.3-1.7.8l-4.4-3.3-2.1 2c-.2.2-.4.4-.9.4l.3-4.6 8.3-7.5c.4-.3 0-.5-.5-.2L6.9 12.3l-4.4-1.4c-1-.3-1-1 .2-1.4l17-6.6c.8-.3 1.5.2 1.4 1.4z"/></svg><span class="social__badge">к</span></span>
+                <span class="social__label">Канал</span>
+              </a>
+            </li>
+            <li>
+              <a class="social__link" href="https://max.ru/channel_jt_design" target="_blank" rel="noopener" title="МАКС — канал jt_design">
+                <span class="social__icon" aria-hidden="true"><span class="max-mark"></span></span>
+                <span class="social__label">МАКС</span>
+              </a>
+            </li>
+            <li>
+              <a class="social__link" href="https://vk.ru/wall517179030_3" target="_blank" rel="noopener" title="ВКонтакте — страница автора">
+                <span class="social__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.8 17.3c-5 0-7.9-3.4-8-9.1h2.5c.1 4.2 1.9 6 3.4 6.3V8.2h2.4v3.6c1.4-.2 2.9-1.8 3.4-3.6h2.4c-.4 2.2-1.9 3.8-3 4.5 1.1.5 2.8 2 3.4 4.6h-2.6c-.5-1.6-1.8-2.8-3.6-3v3h-.3z"/></svg></span>
+                <span class="social__label">VK</span>
+              </a>
+            </li>
         </ul>
       </div>
     </div>
