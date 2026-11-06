@@ -1025,3 +1025,50 @@ textarea.form__control { min-height: 9rem; resize: vertical; }
   .site-header, .site-footer, .nav-toggle, .filter { display: none; }
   body { background: #fff; color: #000; }
 }
+
+/* --------------------------------------------------------------------------
+   18. Баннер согласия на cookie (152-ФЗ)
+   Скрипт Метрики подключается только после нажатия «Принять» (js/main.js).
+   -------------------------------------------------------------------------- */
+.cookie-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1200;
+  background-color: var(--color-bg);
+  border-top: 1px solid rgba(83, 93, 105, .14);
+  box-shadow: 0 -10px 30px -18px rgba(83, 93, 105, .45);
+  transform: translateY(110%);
+  transition: transform .35s ease;
+}
+.cookie-banner[hidden] { display: none; }
+.cookie-banner--visible { transform: translateY(0); }
+.cookie-banner__inner {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+.cookie-banner__text {
+  margin: 0;
+  max-width: 56ch;
+  font-size: var(--step--1);
+  color: var(--color-text);
+}
+.cookie-banner__text a {
+  color: var(--color-accent-soft);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.cookie-banner__actions { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
+.cookie-banner__actions .btn { min-height: 2.75rem; padding: 0.6rem 1.5rem; }
+
+@media (max-width: 640px) {
+  .cookie-banner__inner { flex-direction: column; align-items: stretch; gap: var(--space-sm); }
+  .cookie-banner__actions .btn { flex: 1 1 auto; }
+}

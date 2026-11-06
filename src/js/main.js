@@ -409,3 +409,98 @@
     init();
   }
 })();
+
+/* ------------------------------------------------------------------------
+   Согласие на cookie и Яндекс.Метрика (152-ФЗ).
+   Счётчик НЕ загружается при входе на сайт: он подключается только после
+   нажатия «Принять». «Отказаться» сохраняет отказ, и счётчик не грузится.
+   Выбор хранится в localStorage 1 год, после чего баннер показывается снова.
+   ------------------------------------------------------------------------ */
+(function () {
+  var STORAGE_KEY = 'jt_cookie_consent_v1';
+  var MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000;
+  var COUNTER_ID = 109498587;
+  var loaded = false;
+
+  function readChoice() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return null;
+      var data = JSON.parse(raw);
+      if (!data || !data.choice || !data.ts) return null;
+      if (Date.now() - data.ts > MAX_AGE_MS) {
+        localStorage.removeItem(STORAGE_KEY);
+        return null;
+      }
+      return data.choice;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function saveChoice(choice) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ choice: choice, ts: Date.now() }));
+    } catch (e) { /* приватный режим: выбор не сохранится, баннер покажется снова */ }
+  }
+
+  function loadMetrica() {
+    if (loaded || window.ym) return;
+    loaded = true;
+    (function (m, e, t, r, i, k, a) {
+      m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
+      m[i].l = 1 * new Date();
+      for (var j = 0; j < document.scripts.length; j++) {
+        if (document.scripts[j].src === r) { return; }
+      }
+      k = e.createElement(t); a = e.getElementsByTagName(t)[0];
+      k.async = 1; k.src = r; a.parentNode.insertBefore(k, a);
+    })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=' + COUNTER_ID, 'ym');
+    window.ym(COUNTER_ID, 'init', {
+      ssr: true, webvisor: true, clickmap: true, ecommerce: 'dataLayer',
+      referrer: document.referrer, url: location.href,
+      accurateTrackBounce: true, trackLinks: true
+    });
+  }
+
+  function initConsent() {
+    var choice = readChoice();
+    if (choice === 'accepted') { loadMetrica(); return; }
+    if (choice === 'declined') { return; }
+
+    var banner = document.querySelector('[data-cookie-banner]');
+    if (!banner) return;
+    banner.hidden = false;
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { banner.classList.add('cookie-banner--visible'); });
+    });
+
+    var accept = banner.querySelector('[data-cookie-accept]');
+    var decline = banner.querySelector('[data-cookie-decline]');
+
+    if (accept) {
+      accept.addEventListener('click', function () {
+        saveChoice('accepted');
+        loadMetrica();
+        hideBanner();
+      });
+    }
+    if (decline) {
+      decline.addEventListener('click', function () {
+        saveChoice('declined');
+        hideBanner();
+      });
+    }
+
+    function hideBanner() {
+      banner.classList.remove('cookie-banner--visible');
+      banner.hidden = true;
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initConsent);
+  } else {
+    initConsent();
+  }
+})();
